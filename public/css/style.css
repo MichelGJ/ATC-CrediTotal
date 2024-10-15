@@ -1,0 +1,217 @@
+html,
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #2798c5;
+    color: white;
+    margin:0;
+}
+
+.top-bar {
+    width: 100%;
+    background-color: #fafafa;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 2px -2px gray;
+    height: 80px;
+}
+
+#top-bar-new-ticket{
+    margin-bottom: 100px;
+}
+
+.body-index{
+    background-color: #2798c5;
+}
+
+
+
+.logo {
+    height: 100%;  /* Adjust the height to fit your design */
+    width: auto;   /* Keep the aspect ratio intact */
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.ticket-current {
+    background-color: #2798c5;
+}
+
+.ticket-current-desk {
+    font-size: 80px;
+}
+
+
+.cedula-current-number{
+    font-size: 50px;
+}
+
+
+.ticket-current-number {
+    font-size: 50px;
+}
+
+.ticket-secondary-desk{
+    font-size: 30px;
+}
+
+.cedula-secondary{
+    font-size: 20px;
+}
+
+.ticket-secondary {
+    font-size: 15px;
+}
+
+#lbl-new-ticket {
+    font-size: auto;
+    color: #2798c5;
+}
+#lbl-new-cedula{
+    font-size: auto;
+    color: #2798c5;
+}
+
+#lbl-new-ticket-title{
+    color: #2798c5;
+    font-family: 'Pacifico'; /* Fun font */
+    font-size: 200%; 
+    /* Bigger text */
+}
+
+.cedula-input {
+    max-width: 300px; /* Set the maximum width of the input */
+    margin: 0 auto; /* Center the input horizontally */
+    margin-top: 90px;
+    width: 100%;
+    margin-top: 10%;
+}
+
+#new-ticket-container{
+    border: 1px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    height: 350px;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+#result-ticket{
+    border: 1px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    height: 200px;
+    text-align: center;
+    background-color: #fafafa;
+    margin-left: 180px;
+}
+
+.generarButton{
+    margin-top: 40px;
+    margin-bottom: 50px;
+    background-color: #1ea51e;
+    width: 100%;
+}
+
+#btn-draw{
+    background-color: #1ea51e;
+}
+
+#btn-done{
+    background-color: #a51e1e;
+}
+
+#crearTicketButton{
+    margin-left: 25px;
+    background-color: #1ea51e;
+}
+
+.ticket-current-number,
+.ticket-current-desk,
+.cedula-current-number {
+    position: relative; /* Set relative positioning */
+    top: -90px; /* Adjust this value to raise the spans */
+}
+
+.ticket-secondary,
+.ticket-secondary-desk,
+.cedula-secondary {
+    position: relative; /* Set relative positioning */
+    top: -35px; /* Adjust this value to raise the spans */
+}
+
+.secondary-table{
+    background-color: #504e4d;;
+}
+
+.body-login {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2798c5;
+    margin: 0;
+}
+
+.login-container {
+    border: 1px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: 500px;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+.logo-box-login {
+    text-align: center;
+    margin-bottom: 5%;
+    font-weight: bold;
+}
+
+.logo-login {
+    margin-top: 5%;
+    max-width: 100%; /* Ensures the logo fits within the container */
+    height: auto;    /* Maintains the aspect ratio */
+    max-height: 100px; /* Set a maximum height to avoid it being too large */
+}
+
+.form-control {
+    margin-bottom: 5%;
+    border-radius: 5px;
+}
+
+.btn-login {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-top: 5%;
+}
+
+.extra-links {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.extra-links a {
+    margin-top: 15%;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.extra-links a:hover {
+    text-decoration: underline;
+}
+
