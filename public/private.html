@@ -16,33 +16,32 @@
     <!-- Top bar with logo -->
     <div class="top-bar" id="top-bar-new-ticket">
         <img src="images/banner.png" alt="Company Logo" class="logo">
+        <a href="public.html" class="top-bar-link-report">
+            <img src="images/report.png" alt="Icon" class="icon-small"> <!-- Small icon next to the text -->
+            Reportar
+        </a> <!-- This is the clickable text -->
     </div>
 
     <div id="new-ticket-container" class="container text-center mt-5">
-        <form>
+        <form action="desk.html">
         <!-- Input and Button Stacked on Top of Each Other -->
-        <span id="lbl-new-ticket-title" class="display-4">
-            Ingrese su cédula de identidad
+        <span id="lbl-new-desk-title" class="display-4">
+            Ingrese Número de Mesa
         </span>
          <div class="mb-3 cedula-input">
-            <input type="text" id="userId" class="form-control" placeholder="Cédula" autofocus required>
+            <input name="mesa" 
+            type="text" 
+            class="form-control" 
+            placeholder="Mesa" 
+            autofocus 
+            required>
             <button id="generateTicketBtn" class="generarButton btn btn-secondary btn-lg w-40">
-                Generar nuevo ticket
+                Ingresar
             </button>
         </div>
         </form>
-        <br>
-        <div id="result-ticket" style="display:none">
-            <span id="lbl-new-ticket" class="display-4">
-            </span>
-            <br>
-            <span id="lbl-new-cedula" class="display-4">
-            </span>
-        </div>
     </div>
    
-
-    <script src="./js/new-ticket.js"></script> <!-- Link to the external JS file -->
 
 </body>
 

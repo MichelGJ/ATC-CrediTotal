@@ -3,7 +3,7 @@ html,
 body {
     height: 100%;
     width: 100%;
-    background-color: #2798c5;
+    background-color: #3aadca;
     color: white;
     margin:0;
 }
@@ -14,20 +14,42 @@ body {
     padding: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     box-shadow: 0 4px 2px -2px gray;
     height: 80px;
 }
+
 
 #top-bar-new-ticket{
     margin-bottom: 100px;
 }
 
-.body-index{
-    background-color: #2798c5;
+#top-bar-desk{
+    margin-bottom: 30px;
+}
+
+.icon-small {
+    height: 20px;          /* Adjust the size of the icon */
+    width: auto;           /* Keep the aspect ratio intact */
+    margin-right: 5px;     /* Space between the icon and the text */
 }
 
 
+.top-bar-link-report {
+    font-size: 20px;
+    color: #000000;     /* Bootstrap primary color */
+    text-decoration: none;
+    padding: 5px;
+    margin-left: 3%;
+}
+
+.top-bar-link-report:hover {
+    color: #000000;     /* Darker shade on hover */
+    text-decoration: underline;
+}
+
+.body-index{
+    background-color: #3aadca;
+}
 
 .logo {
     height: 100%;  /* Adjust the height to fit your design */
@@ -41,7 +63,7 @@ table {
 }
 
 .ticket-current {
-    background-color: #2798c5;
+    background-color: #f5a302;
 }
 
 .ticket-current-desk {
@@ -72,15 +94,15 @@ table {
 
 #lbl-new-ticket {
     font-size: auto;
-    color: #2798c5;
+    color: #3aadca;
 }
 #lbl-new-cedula{
     font-size: auto;
-    color: #2798c5;
+    color: #3aadca;
 }
 
 #lbl-new-ticket-title{
-    color: #2798c5;
+    color: #3aadca;
     font-family: 'Pacifico'; /* Fun font */
     font-size: 200%; 
     /* Bigger text */
@@ -110,11 +132,12 @@ table {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 600px;
     height: 200px;
     text-align: center;
     background-color: #fafafa;
-    margin-left: 180px;
+    max-width: 600px; /* Set the maximum width of the input *//* Center the input horizontally */
+    width: 100%;
+
 }
 
 .generarButton{
@@ -131,6 +154,55 @@ table {
 #btn-done{
     background-color: #a51e1e;
 }
+
+#separador,
+#cola,
+#ticket,
+#cedula,
+#cedulaCliente,
+#ticketNumber,
+#mesa,
+#lbl-pending,
+#mesaNumber{
+    color: #3aadca;
+}
+
+#desk-container{
+    border: 1px solid #ccc;
+    padding: 30px;
+    padding-top: 0px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    height: 350px;
+    background-color: #fafafa;
+}
+
+#person-info{
+    border: 1px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    height: 200px;
+    text-align: center;
+    background-color: #fafafa;
+    max-width: 800px; /* Set the maximum width of the input *//* Center the input horizontally */
+    width: 100%;
+    margin-top: 80px;
+}
+
+#atc{
+    color: #3aadca;
+}
+
+#lbl-new-desk-title{
+    color: #3aadca;
+    font-family: 'Pacifico'; /* Fun font */
+    font-size: 250%; 
+    /* Bigger text */
+}
+
 
 #crearTicketButton{
     margin-left: 25px;
@@ -152,15 +224,15 @@ table {
 }
 
 .secondary-table{
-    background-color: #504e4d;;
+    background-color: #3aadca;;
 }
 
 .body-login {
-    height: 100vh;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2798c5;
+    background-color: #3aadca;
     margin: 0;
 }
 
@@ -174,6 +246,7 @@ table {
     text-align: center;
     background-color: #fafafa;
 }
+
 
 .logo-box-login {
     text-align: center;
@@ -196,7 +269,23 @@ table {
 .btn-login {
     width: 100%;
     margin-bottom: 15px;
-    margin-top: 5%;
+}
+
+.btn-public {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-top: 10%;
+    background-color: #f5a302;
+    border-color: #f5a302;
+}
+
+.btn-new-ticket {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-top: 10%;
+    margin-left: 10%;
+    background-color: #3aadca;
+    border-color: #3aadca;
 }
 
 .extra-links {
@@ -206,7 +295,7 @@ table {
 }
 
 .extra-links a {
-    margin-top: 15%;
+    margin-top: 0%;
     color: #007bff;
     text-decoration: none;
 }

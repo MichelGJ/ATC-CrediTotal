@@ -15,7 +15,7 @@ export class ValidateMiddleware {
             const cedulaRegex = /^[0-9]{8}$/;
 
             if (!cedulaRegex.test(cedula)) {
-                return res.status(400).json({ error: 'Máximo 8 caracteres' });
+                return res.status(400).json({ error: 'Debe contener 8 digitos numéricos' });
             }
 
             // If cedula is valid, proceed to the next middleware or route handler
