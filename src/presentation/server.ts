@@ -39,7 +39,7 @@ export class Server {
     this.app.use(express.static(path.join('public')));
 
     // Route to inject environment variables into the frontend
-    this.app.get('/env.js', (req, res) => {
+    this.app.get('/config.js', (req, res) => {
       res.setHeader('Content-Type', 'application/javascript');
       res.send(`window.env = {
         API_URL: "${process.env.API_URL}",

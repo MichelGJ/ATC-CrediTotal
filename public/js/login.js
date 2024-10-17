@@ -49,6 +49,7 @@ function isLoggedIn() {
 }
 
  function redirect(){
+    console.log(window.env)
     if (isLoggedIn()) {
         window.location.href = '/main-menu.html';
     }
