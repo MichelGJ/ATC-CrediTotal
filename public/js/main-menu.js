@@ -6,7 +6,6 @@ const enableOptionButton = () => {
     if (token) {
         const decodedToken = jwt_decode(token); // Decode the token
         const userRole = decodedToken.role; // Adjust this if your role is in a different key
-        console.log(userRole);
         // Show or hide the Usuarios button based on the user role
         if (!userRole.includes('ADMIN')) {
             usuariosButton.style.display = 'none'; // Hide button if not admin

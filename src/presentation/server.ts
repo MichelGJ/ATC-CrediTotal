@@ -32,26 +32,9 @@ export class Server {
       origin: '*', // Allow requests from your frontend
       optionsSuccessStatus: 200,       // Some legacy browsers choke on 204
     };
-
+    
 
     //* Middlewares
-    // Serve static files from the "public" directory
-    this.app.use(express.static(path.join('public')));
-
-    // Route to inject environment variables into the frontend
-    this.app.get('/config.js', (req, res) => {
-      res.setHeader('Content-Type', 'application/javascript');
-      res.send(`window.env = {
-        API_URL: "${process.env.API_URL}",
-        WS_URL: "${process.env.WS_URL}"
-    };`);
-    });
-
-    // Serve index.html for the root route
-    this.app.get('/', (req, res) => {
-      res.sendFile(path.join('public', 'index.html'));
-    });
-
     this.app.use(cors(corsOptions));
     this.app.use(express.json()); // raw
     this.app.use(express.urlencoded({ extended: true })); // x-www-form-urlencoded

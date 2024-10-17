@@ -15,7 +15,7 @@ async function handleLoginFormSubmit(event) {
 // Function to send the login request to the API
 async function loginUser(email, password) {
     // Your API URL
-    const apiUrl = `${window.env.API_URL}/auth/login`;
+    const apiUrl = `api/auth/login`;
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
@@ -49,7 +49,6 @@ function isLoggedIn() {
 }
 
  function redirect(){
-    console.log(window.env)
     if (isLoggedIn()) {
         window.location.href = '/main-menu.html';
     }
