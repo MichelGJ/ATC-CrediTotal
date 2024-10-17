@@ -1,7 +1,7 @@
 const nameField = document.getElementById('fullName')
 const emailField = document.getElementById('email');
-const password = document.getElementById('password');
-const confirmPassword = document.getElementById('confirmPassword');
+const passwordField = document.getElementById('password');
+const confirmPasswordField = document.getElementById('confirmPassword');
 const passwordHelp = document.getElementById('passwordHelp');
 const registerForm = document.querySelector('#register-form');
 const registerButton = document.querySelector('.btn-register'); // The submit button
@@ -28,12 +28,12 @@ function isDomainAllowed(email) {
 function validateForm() {
     const fullName = nameField.value.trim();
     const email = emailField.value.trim();
-    const passwordValue = password.value.trim();
-    const confirmPasswordValue = confirmPassword.value.trim();
+    const password = passwordField.value.trim();
+    const confirmPassword = confirmPasswordField.value.trim();
 
-   
+
     // Check if all fields are filled and passwords match
-    if (fullName && email && isEmailValid(email) && passwordValue && confirmPasswordValue && passwordValue === confirmPasswordValue) {
+    if (fullName && email && isEmailValid(email) && password && confirmPassword && password === confirmPassword) {
         registerButton.disabled = false; // Enable button
     } else {
         registerButton.disabled = true; // Disable button
@@ -42,28 +42,28 @@ function validateForm() {
 
 // Function to check if the password and confirmation match
 function checkPasswordMatch() {
-    if (confirmPassword.value.length > 0) {
+    if (confirmPasswordField.value.length > 0) {
         if (password.value === confirmPassword.value) {
-            confirmPassword.classList.remove('is-invalid');
-            confirmPassword.classList.add('is-valid');
+            confirmPasswordField.classList.remove('is-invalid');
+            confirmPasswordField.classList.add('is-valid');
             passwordHelp.textContent = 'Las contraseñas coinciden';
             passwordHelp.style.color = 'green';
         } else {
-            confirmPassword.classList.remove('is-valid');
-            confirmPassword.classList.add('is-invalid');
+            confirmPasswordField.classList.remove('is-valid');
+            confirmPasswordField.classList.add('is-invalid');
             passwordHelp.textContent = 'Las contraseñas no coinciden';
             passwordHelp.style.color = 'red';
         }
     } else {
-        confirmPassword.classList.remove('is-valid', 'is-invalid');
+        confirmPasswordField.classList.remove('is-valid', 'is-invalid');
         passwordHelp.textContent = '';
     }
 }
 
 function checkEmail() {
     const email = emailField.value.trim();
-     // Email validation check
-     if (email.length === 0) {
+    // Email validation check
+    if (email.length === 0) {
         // Clear the message and validation when the email field is empty
         emailField.classList.remove('is-valid', 'is-invalid');
         emailHelp.textContent = '';
@@ -74,8 +74,8 @@ function checkEmail() {
     } else {
         emailField.classList.remove('is-valid');
         emailField.classList.add('is-invalid');
-        emailHelp.textContent = email.length > 0 
-            ? 'Formato de correo electrónico no válido o dominio no permitido' 
+        emailHelp.textContent = email.length > 0
+            ? 'Formato de correo electrónico no válido o dominio no permitido'
             : ''; // Show alert if format is invalid or domain is not allowed
         emailHelp.style.color = 'red';
     }
@@ -84,23 +84,22 @@ function checkEmail() {
 
 // Registration submission
 async function registerUser(event) {
-    console.log("HOLA")
     event.preventDefault(); // Prevent the default form submission behavior
 
     const fullName = nameField.value.trim();
     const email = emailField.value.trim();
-    const passwordValue = password.value.trim();
+    const password = passwordField.value.trim();
 
     // Prepare user data to be sent
     const userData = {
         name: fullName,
         email: email,
-        password: passwordValue
+        password: password
     };
 
     try {
         // Send a POST request to your registration API
-        const response = await fetch('/api/auth/register', {
+        const response = await fetch(`${window.env.API_URL}/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -113,30 +112,46 @@ async function registerUser(event) {
 
         if (response.ok) {
             // Registration successful, redirect user or show success message
+            nameField.value = '';
+            emailField.value = '';
+            passwordField.value = '';
+            confirmPasswordField.value = '';
+            passwordHelp.innerText = '';
+            emailField.classList.remove('is-valid', 'is-invalid');
+            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
             alert('Registro exitoso!');
         } else {
             // Handle server-side validation errors
             alert(`Error en el registro: ${result.error || 'Error desconocido'}`);
+            passwordField.value = '';
+            confirmPasswordField.value = '';
+            passwordHelp.innerText = '';
+            emailField.classList.remove('is-valid', 'is-invalid');
+            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
         }
     } catch (error) {
         // Handle network or other errors\
         console.error('Error en el registro:', error);
         alert('Hubo un error en el registro. Intente nuevamente más tarde.');
+        passwordField.value = '';
+        confirmPasswordField.value = '';
+        passwordHelp.innerText = '';
+        emailField.classList.remove('is-valid', 'is-invalid');            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
     }
 }
 
-password.addEventListener('input', function() {
+password.addEventListener('input', function () {
     checkPasswordMatch();
-    validateForm(); 
+    validateForm();
 });
-confirmPassword.addEventListener('input', function() {
+confirmPassword.addEventListener('input', function () {
     checkPasswordMatch();
-    validateForm(); 
+    validateForm();
 });
 nameField.addEventListener('input', validateForm);
-emailField.addEventListener('input', function(){
+emailField.addEventListener('input', function () {
     checkEmail();
-    validateForm(); 
+    validateForm();
 });
 
 registerForm.addEventListener('submit', registerUser);

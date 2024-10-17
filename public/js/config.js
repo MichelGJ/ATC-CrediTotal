@@ -1,0 +1,4 @@
+window.env = {
+    API_URL: "http://localhost:3000/api",
+    WS_URL: "ws://localhost:3000/ws"
+};

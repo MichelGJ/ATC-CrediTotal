@@ -45,9 +45,9 @@ export class WssService {
 
     this.wss.on('connection', (ws: WebSocket ) => {
 
-      console.log('Client connected');
+      // console.log('Client connected');
 
-      ws.on('close', () => console.log('Client disconnected') )
+      // ws.on('close', () => console.log('Client disconnected') )
 
     });
 

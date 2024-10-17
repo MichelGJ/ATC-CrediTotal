@@ -15,7 +15,7 @@ async function handleLoginFormSubmit(event) {
 // Function to send the login request to the API
 async function loginUser(email, password) {
     // Your API URL
-    const apiUrl = 'http://localhost:3000/api/auth/login';
+    const apiUrl = `${window.env.API_URL}/auth/login`;
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',

@@ -36,7 +36,6 @@ function injectLogoutButton(){
 
         // Append the logout button to each top bar element
         Array.from(topBars).forEach(topBar => {
-            console.log('Appending logout button to:', topBar); // Debugging log to verify append
             topBar.appendChild(logoutButton);
         });
 
