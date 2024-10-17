@@ -50,7 +50,7 @@ function injectLogoutButton(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    Auth.protectPage(); // Call protectPage to log out users with expired tokens
+    // Auth.protectPage(); // Call protectPage to log out users with expired tokens
     injectLogoutButton(); // Inject the logout button into the top bar
 });
 
