@@ -68,7 +68,11 @@ async function finishTicket() {
 
 function connectToWebSockets() {
 
-    const socket = new WebSocket(`${window.env.WS_URL}`);
+    const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    const host = window.location.host; // This gives you 'localhost:3000' for local or your production domain.
+    const wsUrl = `${protocol}${host}/ws`;
+
+    const socket = new WebSocket(wsUrl);
 
     socket.onmessage = (event) => {
         console.log(event.data);
