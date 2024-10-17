@@ -1,3 +1,5 @@
+const invalidLoginHelp = document.getElementById('invalidLoginHelp');
+
 // Function to handle the form submission
 async function handleLoginFormSubmit(event) {
     event.preventDefault(); // Prevent form from submitting the traditional way
@@ -13,43 +15,45 @@ async function handleLoginFormSubmit(event) {
 // Function to send the login request to the API
 async function loginUser(email, password) {
     // Your API URL
-    const apiUrl = 'https://localhost:3000/api/auth/login'; // Replace with your API endpoint
-
+    const apiUrl = 'http://localhost:3000/api/auth/login';
     try {
-        // Make the POST request to your authentication API
-        // const response = await fetch(apiUrl, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         email: email,
-        //         password: password
-        //     })
-        // });
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        });
 
-        // // Parse the JSON response
-        // const data = await response.json();
+        const data = await response.json();
 
-        // // Check if the authentication was successful
-        // if (response.ok) {
-        //     // Handle successful login (e.g., store token, redirect user)
-        //     console.log('Login successful:', data);
-        //     alert('Login successful! Redirecting...');
-        //     // Redirect to a dashboard page or wherever you want
-        //     window.location.href = '/private.html';
-        // } else {
-        //     // Handle authentication errors
-        //     console.error('Login failed:', data.message);
-        //     alert('Login failed: ' + data.message);
-        // }
+        if (response.ok) {
+            localStorage.setItem('token', data.token);
+            window.location.href = '/main-menu.html';
+        } else {
+            invalidLoginHelp.textContent = 'Usuario o contraseña errada';
+            invalidLoginHelp.style.color = 'red';
+        }
     } catch (error) {
-        // Handle network or other unexpected errors
-        console.error('Error during login:', error);
-        alert('Error during login: ' + error.message);
+        invalidLoginHelp.textContent = 'Error de comunicacion';
+        invalidLoginHelp.style.color = 'red';
     }
-    window.location.href = '/private.html';
 }
 
+function isLoggedIn() {
+    const token = localStorage.getItem('token'); 
+    return !!token; 
+}
+
+ function redirect(){
+    if (isLoggedIn()) {
+        window.location.href = '/main-menu.html';
+    }
+ }
+
+document.addEventListener('DOMContentLoaded', redirect());
 // Add the event listener to the form
 document.getElementById('loginForm').addEventListener('submit', handleLoginFormSubmit);

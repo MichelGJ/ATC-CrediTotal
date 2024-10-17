@@ -92,7 +92,6 @@ function connectToWebSockets() {
 
 }
 
-
 btnDraw.addEventListener('click', getTicket);
 btnDone.addEventListener('click', finishTicket);
 

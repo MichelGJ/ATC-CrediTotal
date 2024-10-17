@@ -82,6 +82,49 @@ function checkEmail() {
 }
 
 
+// Registration submission
+async function registerUser(event) {
+    console.log("HOLA")
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    const fullName = nameField.value.trim();
+    const email = emailField.value.trim();
+    const passwordValue = password.value.trim();
+
+    // Prepare user data to be sent
+    const userData = {
+        name: fullName,
+        email: email,
+        password: passwordValue
+    };
+
+    try {
+        // Send a POST request to your registration API
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData), // Convert user data to JSON string
+        });
+
+        // Parse the response from the server
+        const result = await response.json();
+
+        if (response.ok) {
+            // Registration successful, redirect user or show success message
+            alert('Registro exitoso!');
+        } else {
+            // Handle server-side validation errors
+            alert(`Error en el registro: ${result.error || 'Error desconocido'}`);
+        }
+    } catch (error) {
+        // Handle network or other errors\
+        console.error('Error en el registro:', error);
+        alert('Hubo un error en el registro. Intente nuevamente más tarde.');
+    }
+}
+
 password.addEventListener('input', function() {
     checkPasswordMatch();
     validateForm(); 
@@ -95,5 +138,8 @@ emailField.addEventListener('input', function(){
     checkEmail();
     validateForm(); 
 });
+
+registerForm.addEventListener('submit', registerUser);
+
 
 registerButton.disabled = true;

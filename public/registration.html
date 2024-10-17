@@ -7,17 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Registro de Usuario</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css"> <!-- Add your custom CSS for the top bar -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"> <!-- Add your custom CSS -->
 </head>
 
-<body class="body-login">
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar" id="top-bar-register">
+        <img src="images/banner.png" alt="Company Logo" class="logo">
+    </div>
 
-    <div class="registration-container">
-        <div class="logo-box-login">
-            <img src="images/banner.png" alt="Company Logo" class="logo-login">
-        </div>
+    <!-- Registration Form Container -->
+    <div class="registration-container"> <!-- Same box as before, without logo inside -->
         <form id="register-form">
+            <h3 class="mb-4 text-center">Registro de Usuario</h3> <!-- Page title -->
             <div class="mb-3">
                 <input type="text" class="form-control" id="fullName" placeholder="Nombre completo" required>
             </div>
@@ -30,16 +33,14 @@
             </div>
             <div class="mb-3">
                 <input type="password" class="form-control" id="confirmPassword" placeholder="Confirmar contraseña" required>
-                <!-- Message that will show whether passwords match or not -->
-                <small id="passwordHelp" class="form-text"></small>
+                <small id="passwordHelp" class="form-text"></small> <!-- Message for password validation -->
             </div>
-            <button type="submit" class="btn btn-primary btn-register">Registrarse</button>
-            <div class="extra-links mt-3">
-                <a href=".html">¿Ya tienes cuenta? Inicia sesión</a>
-            </div>
+            <button type="submit" class="btn btn-primary btn-register w-100">Registrar</button> <!-- Full width button -->
         </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/registration.js"></script> <!-- Link to your JS file -->
 </body>
 

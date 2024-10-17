@@ -55,6 +55,8 @@ async function createTicket() {
     }
 }
 
+
+
 // createTicketBtn.addEventListener('click', createTicket);
 createTicketBtn.addEventListener('click', function (event) {
     event.preventDefault(); // Prevent form from submitting

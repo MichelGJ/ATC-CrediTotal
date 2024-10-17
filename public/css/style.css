@@ -18,7 +18,7 @@ body {
     height: 80px;
 }
 
-
+#top-bar-register,
 #top-bar-new-ticket{
     margin-bottom: 100px;
 }
@@ -34,15 +34,15 @@ body {
 }
 
 
-.top-bar-link-report {
-    font-size: 20px;
-    color: #000000;     /* Bootstrap primary color */
+.top-bar-link-add-user {
+    font-size: 17px;
+    color: #7e7b74;     /* Bootstrap primary color */
     text-decoration: none;
     padding: 5px;
     margin-left: 3%;
 }
 
-.top-bar-link-report:hover {
+.top-bar-link-add-user:hover {
     color: #000000;     /* Darker shade on hover */
     text-decoration: underline;
 }
@@ -245,7 +245,7 @@ table {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 500px;
-    height: 500px;
+    height: 550px;
     text-align: center;
     background-color: #fafafa;
 }
@@ -275,6 +275,11 @@ table {
     margin-bottom: 15px;
 }
 
+.btn-register{
+    margin-top: 20px;
+    width: 100%;
+}
+
 .btn-public {
     width: 100%;
     margin-bottom: 15px;
@@ -294,7 +299,7 @@ table {
 
 .extra-links {
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     font-size: 0.9rem;
 }
 
@@ -308,15 +313,15 @@ table {
     text-decoration: underline;
 }
 
-/* Registration form container styling */
 .registration-container {
     max-width: 600px;
     width: 100%;
-    margin: 0 auto;
-    padding: 40px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin: 50px auto; /* Center the box */
+    padding: 20px;
+    background-color: #fafafa; /* Light background color */
+    border: 1px solid #fafafa; /* Border around the box */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 /* Input field spacing and styling */
@@ -324,4 +329,96 @@ table {
     margin-bottom: 20px;
     padding: 10px;
     font-size: 16px;
+}
+
+/* Aligning the form title */
+.registration-container h3 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #3aadca;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+.option-button {
+    max-width: 500px; /* Set a max-width */
+    width: 100%; /* Allow it to grow to fill space */
+    height: 200px; /* Fixed height for all buttons */
+    position: relative; /* Necessary for positioning the text overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid #000;
+    margin: 20px; /* Margin for spacing */
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    background-color: #fafafa;
+    overflow: hidden; /* Ensure content stays inside */
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.option-button:hover {
+    transform: scale(1.2); /* Slightly enlarge on hover */
+}
+
+
+
+.atp-logo {
+    margin-bottom: 30px;
+    height: 90%;  /* Adjust the height to fit your design */
+    width: 99%;   /* Keep the aspect ratio intact */
+}
+
+.usuarios-logo {
+    margin-bottom: 30px;
+    height: 80%;  /* Adjust the height to fit your design */
+    width: 80%;   /* Keep the aspect ratio intact */
+}
+
+.reportar-logo {
+    margin-bottom: 30px;
+    height: 80%;  /* Adjust the height to fit your design */
+    width: 40%;   /* Keep the aspect ratio intact */
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.text-overlay {
+    margin-top: 32%;
+    position: absolute;
+    color: #000000; /* Text color */
+    width: 100%; /* Ensure it takes the full width of the button */
+    height: 100%; /* Ensure it takes the full height of the button */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1; /* Ensure text is on top */
+}
+
+.logout-btn {
+    background-color: #f44336; /* Red color for logout */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    position: absolute;
+    right: 20px; /* Align to the right */
+    top: 20px;
+    border-radius: 5px;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f; /* Darker red on hover */
 }

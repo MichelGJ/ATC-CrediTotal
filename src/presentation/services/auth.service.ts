@@ -17,11 +17,14 @@ export class AuthService {
 
   public async registerUser(registerUserDto: RegisterUserDto) {
 
-    const existUser = await UserModel.findOne({ email: registerUserDto.email });
-    if (existUser) throw CustomError.badRequest('Email already exist');
+   
 
     try {
+      const existUser = await UserModel.findOne({ email: registerUserDto.email });
+      
+      if (existUser) throw CustomError.badRequest('Email already exist');
       const user = new UserModel(registerUserDto);
+      
 
       // Encriptar la contraseña
       user.password = bcryptAdapter.hash(registerUserDto.password);
@@ -29,8 +32,8 @@ export class AuthService {
       await user.save();
       // JWT <---- para mantener la autenticación del usuario
 
-      // Email de confirmación
-      await this.sendEmailValidationLink(user.email);
+      // // Email de confirmación
+      // await this.sendEmailValidationLink(user.email);
 
       const { password, ...userEntity } = UserEntity.fromObject(user);
 
@@ -62,7 +65,7 @@ export class AuthService {
 
     const { password, ...userEntity } = UserEntity.fromObject(user);
 
-    const token = await JwtAdapter.generateToken({ id: user.id });
+    const token = await JwtAdapter.generateToken({ id: user.id, name: user.name, role: user.role  });
     if (!token) throw CustomError.internalServer('Error while creating JWT');
 
     return {

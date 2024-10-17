@@ -20,11 +20,13 @@
         </div>
 
         <form id="loginForm">
-            <input type="email" id="email" class="form-control" placeholder="Correo electrónico" required>
-            <input type="password" id="password" class="form-control" placeholder="Contraseña" required>
+            <div class="mb-3">
+                <input type="email" id="email" class="form-control" placeholder="Correo electrónico" required>
+                <input type="password" id="password" class="form-control" placeholder="Contraseña" required>
+            <small id="invalidLoginHelp" class="form-text"></small>
+            </div>
             <button type="submit" class="btn btn-primary btn-login">Acceder</button>
             <div class="extra-links">
-                <a href="registration.html">Registrarse</a>
                 <a href="#">Olvide contraseña</a>
             </div>
             <div class="d-flex justify-content-between mt-3">
