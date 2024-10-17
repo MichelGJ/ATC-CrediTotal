@@ -41,10 +41,8 @@ function injectLogoutButton(){
             topBar.appendChild(logoutButton);
         });
 
-        // Add event listener for the logout button
-        logoutButton.addEventListener('click', () => {
-            this.logout();
-        });
+    
+       
     } else {
         console.error('No top bars found with the class "top-bar"'); // Error log if no top bars are found
     }
@@ -53,4 +51,8 @@ function injectLogoutButton(){
 document.addEventListener('DOMContentLoaded', () => {
     Auth.protectPage(); // Call protectPage to log out users with expired tokens
     injectLogoutButton(); // Inject the logout button into the top bar
+});
+
+logoutButton.addEventListener('click', () => {
+    Auth.logout();
 });
