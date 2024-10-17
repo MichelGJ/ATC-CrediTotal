@@ -28,9 +28,14 @@ export class Server {
   private configure() {
 
 
+    const corsOptions = {
+      origin: '*', // Allow requests from your frontend
+      optionsSuccessStatus: 200,       // Some legacy browsers choke on 204
+    };
     
+
     //* Middlewares
-    this.app.use(cors());
+    this.app.use(cors(corsOptions));
     this.app.use(express.json()); // raw
     this.app.use(express.urlencoded({ extended: true })); // x-www-form-urlencoded
 
