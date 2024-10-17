@@ -27,7 +27,6 @@ const Auth = {
 // Inject the logout button dynamically into the top bar
 function injectLogoutButton(){
     const topBars = document.getElementsByClassName('top-bar');
-    console.log('Top Bars Found:', topBars); // Debugging log to check if top bars are found
 
     if (topBars.length > 0) {
         const logoutButton = document.createElement('button');
@@ -42,7 +41,10 @@ function injectLogoutButton(){
         });
 
     
-       
+        logoutButton.addEventListener('click', () => {
+            Auth.logout();
+        });
+        
     } else {
         console.error('No top bars found with the class "top-bar"'); // Error log if no top bars are found
     }
@@ -53,6 +55,3 @@ document.addEventListener('DOMContentLoaded', () => {
     injectLogoutButton(); // Inject the logout button into the top bar
 });
 
-logoutButton.addEventListener('click', () => {
-    Auth.logout();
-});
