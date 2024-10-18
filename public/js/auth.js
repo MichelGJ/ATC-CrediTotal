@@ -32,7 +32,7 @@ function injectLogoutButton(){
         const logoutButton = document.createElement('button');
         logoutButton.id = 'logout-button';
         logoutButton.classList.add('logout-btn');
-        logoutButton.innerText = 'Logout';
+        logoutButton.innerText = 'Cerrar Sesión';
 
         // Append the logout button to each top bar element
         Array.from(topBars).forEach(topBar => {
@@ -58,7 +58,7 @@ function injectLogoutButton(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Auth.protectPage(); // Call protectPage to log out users with expired tokens
+    Auth.protectPage(); // Call protectPage to log out users with expired tokens
     injectLogoutButton(); // Inject the logout button into the top bar
 });
 
