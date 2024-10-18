@@ -408,7 +408,7 @@ table {
 }
 
 .text-overlay {
-    margin-top: 32%;
+    margin-top: 160px;
     position: absolute;
     color: #000000; /* Text color */
     width: 100%; /* Ensure it takes the full width of the button */
