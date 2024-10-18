@@ -42,5 +42,5 @@ userSchema.set('toJSON', {
 })
 
 
-export const UserModel = mongoose.model('ATP_User', userSchema);
+export const UserModel = mongoose.model('User', userSchema);
 
