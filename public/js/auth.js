@@ -37,6 +37,14 @@ function injectLogoutButton(){
         // Append the logout button to each top bar element
         Array.from(topBars).forEach(topBar => {
             topBar.appendChild(logoutButton);
+            const logo = topBar.querySelector('.logo');
+            if (logo) {
+                const logoLink = document.createElement('a');
+                logoLink.href = 'main-menu.html'; // Redirect to main menu
+                logoLink.classList.add('logo-link'); // Add a class to style the anchor-wrapped logo
+                logoLink.appendChild(logo.cloneNode(true));
+                logo.replaceWith(logoLink);
+            }
         });
 
     
