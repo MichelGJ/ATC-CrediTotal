@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { CustomError } from '../errors/custom.error';
 
 
@@ -9,7 +10,7 @@ export class UserEntity {
     public cedula: string,
     public email: string,
     public password: string,
-    public role: string[],
+    public role: Types.ObjectId,
   ) { }
 
   static fromObject(object: { [key: string]: any; }) {

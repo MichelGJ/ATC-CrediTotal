@@ -4,19 +4,36 @@ const token = localStorage.getItem('token');
 
 const enableOptionButton = () => {
     if (token) {
-        const decodedToken = jwt_decode(token); // Decode the token
-        const userRole = decodedToken.role; // Adjust this if your role is in a different key
-        // Show or hide the Usuarios button based on the user role
-        if (!userRole.includes('ADMIN')) {
-            usuariosButton.style.display = 'none'; // Hide button if not admin
-        }
+        const decodedToken = jwt_decode(token);
+        const userPermisos = decodedToken.permisos || [];
+
+        const buttonsContainer = document.querySelector(".buttons-container");
+        // buttonsContainer.innerHTML = '';
+
+        userPermisos.forEach(permission => {
+            const button = document.getElementById(`${permission.valueOf()}-button`);
+
+            if (!button) {
+                console.error(`Button with id '${permission}' not found`);
+                return;
+            }
+    
+            if (userPermisos.includes(permission)) {
+                buttonsContainer.insertBefore(button, buttonsContainer.firstChild); 
+                button.style.visibility = "visible"; 
+            } else {
+                button.style.display = "hidden";
+            }
+
+        });
     } else {
-        usuariosButton.style.display = 'none'; // Hide button if no token
+        console.error('Token is missing');
     }
-}
+};
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    enableOptionButton();  // Enable option buttons based on user role
+    enableOptionButton();
 });
 
 atpButton.addEventListener('click', () => {

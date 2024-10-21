@@ -18,14 +18,24 @@ export class AuthService {
 
   public async registerUser(registerUserDto: RegisterUserDto) {
 
-   
-
     try {
-      const existUser = await UserModel.findOne({ email: registerUserDto.email });
-      
-      if (existUser) throw CustomError.badRequest('Email already exist');
+      const existUser = await UserModel.findOne({
+        $or: [
+          { email: registerUserDto.email },
+          { cedula: registerUserDto.cedula }
+        ]
+      });
+
+      if (existUser) {
+        if (existUser.email === registerUserDto.email) {
+          throw CustomError.badRequest('Email ya existe');
+        }
+        if (existUser.cedula === registerUserDto.cedula) {
+          throw CustomError.badRequest('Cédula ya existe');
+        }
+      }
       const user = new UserModel(registerUserDto);
-      
+
 
       // Encriptar la contraseña
       user.password = bcryptAdapter.hash(registerUserDto.password);
@@ -56,17 +66,33 @@ export class AuthService {
 
 
   public async loginUser(loginUserDto: LoginUserDto) {
+    const email = loginUserDto.email;
+    const userWithRole = await UserModel.aggregate([
+      {
+        $match: { email }
+      },
+      {
+        $lookup: {
+          from: 'roles',        
+          localField: 'role',    
+          foreignField: '_id',   
+          as: 'roleDetails'      
+        }
+      },
+      { $unwind: '$roleDetails' }
+    ]);
 
-    const user = await UserModel.findOne({ email: loginUserDto.email });
-    if (!user) throw CustomError.badRequest('Email not exist');
+    if (!userWithRole || userWithRole.length === 0) throw CustomError.badRequest('Correo inválido');
+
+    const user = userWithRole[0];
 
     const isMatching = bcryptAdapter.compare(loginUserDto.password, user.password);
-    if (!isMatching) throw CustomError.badRequest('Password is not valid');
+    if (!isMatching) throw CustomError.badRequest('Contraseña invalida');
 
 
     const { password, ...userEntity } = UserEntity.fromObject(user);
 
-    const token = await JwtAdapter.generateToken({ id: user.id, name: user.name, role: user.role  });
+    const token = await JwtAdapter.generateToken({ id: user.id, name: user.name, role: user.roleDetails.nombre, permisos: user.roleDetails.permisos });
     if (!token) throw CustomError.internalServer('Error while creating JWT');
 
     return {
@@ -75,7 +101,7 @@ export class AuthService {
     }
   }
 
-  public async getRoles(){
+  public async getRoles() {
     const roles = await this.roleRepository.getRoles();
     return roles;
   }

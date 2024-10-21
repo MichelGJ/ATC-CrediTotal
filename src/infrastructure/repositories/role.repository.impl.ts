@@ -9,5 +9,4 @@ export class RoleRepositoryImpl implements RoleRepository {
     async getRoles(): Promise<RoleEntity[]> {
         return this.roleDatasource.getRoles();
     }
-
 }

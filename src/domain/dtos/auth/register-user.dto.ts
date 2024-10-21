@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongoose';
 import { regularExps } from '../../../config';
 
 
@@ -10,19 +11,21 @@ export class RegisterUserDto {
     public cedula: string,
     public email: string,
     public password: string,
+    public role: ObjectId,
   ) {}
 
   static create( object: { [key:string]:any } ): [string?, RegisterUserDto?] {
-    const { name, cedula, email, password } = object;
-
+    const { name, cedula, email, password, role } = object;
+    console.log({role})
     if ( !name ) return ['Missing name'];
     if ( !cedula ) return ['Missing cedula'];
     if ( !email ) return ['Missing email'];
     if ( !regularExps.email.test( email ) ) return ['Email is not valid'];
     if ( !password ) return ['Missing password'];
     if ( password.length < 6 ) return ['Password too short'];
+    if ( !role ) return ['Missing role'];
 
-    return [undefined, new RegisterUserDto(name, cedula, email, password)];
+    return [undefined, new RegisterUserDto(name, cedula, email, password, role)];
 
   }
 

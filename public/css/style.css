@@ -475,3 +475,7 @@ table {
     width: 30px;
     height: 100%;
 }
+
+.hidden {
+    visibility: hidden;
+}

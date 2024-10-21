@@ -10,7 +10,7 @@ const roleSchema = new mongoose.Schema( {
   permisos: {
     type: [String],
     required: [ true, 'Permisos is required' ],
-    enum: ['users','atp','incidencias']
+    enum: ['usuarios','atp','incidencias']
   }
 
 } );

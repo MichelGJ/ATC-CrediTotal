@@ -1,5 +1,6 @@
-const nameField = document.getElementById('fullName')
-const cedulaField = document.getElementById('cedulaUsuario')
+const nameField = document.getElementById('fullName');
+const cedulaField = document.getElementById('cedulaUsuario');
+const rolField = document.getElementById('dynamic-dropdown')
 const emailField = document.getElementById('email');
 const passwordField = document.getElementById('password');
 const confirmPasswordField = document.getElementById('confirmPassword');
@@ -29,13 +30,14 @@ function isDomainAllowed(email) {
 function validateForm() {
     const fullName = nameField.value.trim();
     const cedula = cedulaField.value.trim();
+    const rol = rolField.value;
     const email = emailField.value.trim();
     const password = passwordField.value.trim();
     const confirmPassword = confirmPasswordField.value.trim();
 
 
     // Check if all fields are filled and passwords match
-    if (fullName && cedula && email && isEmailValid(email) && password && confirmPassword && password === confirmPassword) {
+    if (fullName && cedula && rol !== "" && email && isEmailValid(email) && password && confirmPassword && password === confirmPassword) {
         registerButton.disabled = false; // Enable button
     } else {
         registerButton.disabled = true; // Disable button
@@ -92,6 +94,7 @@ async function registerUser(event) {
     const email = emailField.value.trim();
     const password = passwordField.value.trim();
     const cedula  = cedulaField.value.trim();
+    const role = rolField.value;
 
     // Prepare user data to be sent
     const userData = {
@@ -99,6 +102,7 @@ async function registerUser(event) {
         cedula: cedula,
         email: email,
         password: password,
+        role: role,
     };
 
     try {
@@ -121,6 +125,8 @@ async function registerUser(event) {
             passwordField.value = '';
             confirmPasswordField.value = '';
             passwordHelp.innerText = '';
+            cedulaField.value = '';
+            rolField.value='';
             emailField.classList.remove('is-valid', 'is-invalid');
             confirmPasswordField.classList.remove('is-valid', 'is-invalid');
             alert('Registro exitoso!');
@@ -159,7 +165,6 @@ async function populateDropdown() {
         const newOption = document.createElement('option');
         newOption.value = item.id;
         newOption.textContent = item.nombre;
-        
         // Add the option to the dropdown
         dropdown.appendChild(newOption);
     });
@@ -177,6 +182,7 @@ confirmPassword.addEventListener('input', function () {
 });
 nameField.addEventListener('input', validateForm);
 cedulaField.addEventListener('input', validateForm);
+rolField.addEventListener('change', validateForm)
 emailField.addEventListener('input', function () {
     checkEmail();
     validateForm();
