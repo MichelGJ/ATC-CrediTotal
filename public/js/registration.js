@@ -1,4 +1,5 @@
 const nameField = document.getElementById('fullName')
+const cedulaField = document.getElementById('cedulaUsuario')
 const emailField = document.getElementById('email');
 const passwordField = document.getElementById('password');
 const confirmPasswordField = document.getElementById('confirmPassword');
@@ -27,13 +28,14 @@ function isDomainAllowed(email) {
 // Function to check if the form is valid
 function validateForm() {
     const fullName = nameField.value.trim();
+    const cedula = cedulaField.value.trim();
     const email = emailField.value.trim();
     const password = passwordField.value.trim();
     const confirmPassword = confirmPasswordField.value.trim();
 
 
     // Check if all fields are filled and passwords match
-    if (fullName && email && isEmailValid(email) && password && confirmPassword && password === confirmPassword) {
+    if (fullName && cedula && email && isEmailValid(email) && password && confirmPassword && password === confirmPassword) {
         registerButton.disabled = false; // Enable button
     } else {
         registerButton.disabled = true; // Disable button
@@ -89,12 +91,14 @@ async function registerUser(event) {
     const fullName = nameField.value.trim();
     const email = emailField.value.trim();
     const password = passwordField.value.trim();
+    const cedula  = cedulaField.value.trim();
 
     // Prepare user data to be sent
     const userData = {
         name: fullName,
+        cedula: cedula,
         email: email,
-        password: password
+        password: password,
     };
 
     try {
@@ -140,6 +144,29 @@ async function registerUser(event) {
     }
 }
 
+async function fetchData() {
+    const response = await fetch('api/auth/getRoles');
+    const data = await response.json();
+    return data;
+}
+
+async function populateDropdown() {
+    const dropdown = document.getElementById('dynamic-dropdown');
+    const data = await fetchData();
+    console.log({data});
+    data.forEach(item => {
+        // Create a new option element
+        const newOption = document.createElement('option');
+        newOption.value = item.id;
+        newOption.textContent = item.nombre;
+        
+        // Add the option to the dropdown
+        dropdown.appendChild(newOption);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', populateDropdown);
+
 password.addEventListener('input', function () {
     checkPasswordMatch();
     validateForm();
@@ -149,6 +176,7 @@ confirmPassword.addEventListener('input', function () {
     validateForm();
 });
 nameField.addEventListener('input', validateForm);
+cedulaField.addEventListener('input', validateForm);
 emailField.addEventListener('input', function () {
     checkEmail();
     validateForm();

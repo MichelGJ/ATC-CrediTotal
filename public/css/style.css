@@ -162,7 +162,6 @@ table {
 }
 
 
-
 #btn-draw{
     background-color: #1ea51e;
 }
@@ -241,8 +240,19 @@ table {
 }
 
 .secondary-table{
-    background-color: #3aadca;;
+    background-color: #3aadca;
 }
+
+.secondary-table td {
+    border-top: 1px solid #ccc;  /* Light gray line */
+    padding: 10px;  /* Add padding for better spacing */
+  }
+
+  /* Optional: style for the entire table */
+  table {
+    border-collapse: collapse;  /* Makes borders between cells appear as one line */
+    width: 100%;  /* Ensures the table spans the full width */
+  }
 
 .body-login {
     height: 80vh;
@@ -352,6 +362,13 @@ table {
     color: #3aadca;
 }
 
+#dynamic-dropdown {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+
 .buttons-container {
     display: flex;
     justify-content: space-around;
@@ -362,7 +379,7 @@ table {
 .option-button {
     max-width: 500px; /* Set a max-width */
     width: 100%; /* Allow it to grow to fill space */
-    height: 200px; /* Fixed height for all buttons */
+    height: 250px; /* Fixed height for all buttons */
     position: relative; /* Necessary for positioning the text overlay */
     display: flex;
     align-items: center;
@@ -409,7 +426,7 @@ table {
 }
 
 .text-overlay {
-    margin-top: 160px;
+    margin-top: 200px;
     position: absolute;
     color: #000000; /* Text color */
     width: 100%; /* Ensure it takes the full width of the button */
@@ -435,4 +452,26 @@ table {
 
 .logout-btn:hover {
     background-color: #d32f2f; /* Darker red on hover */
+}
+
+.back-btn {
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: absolute;
+    left: 180px; /* Align to the right */
+    top: 15px;
+    display: inline-block;
+    background-color: transparent; /* Modern blue button */
+    color: white;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn img{
+    width: 30px;
+    height: 100%;
 }

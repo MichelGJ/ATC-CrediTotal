@@ -7,14 +7,14 @@ const userSchema = new mongoose.Schema( {
     type: String,
     required: [ true, 'Name is required' ]
   },
+  cedula: {
+    type: String,
+    required: [ true, 'Cedula is required' ]
+  },
   email: {
     type: String,
     required: [ true, 'Email is required' ],
     unique: true,
-  },
-  emailValidated: {
-    type: Boolean,
-    default: false,
   },
   password: {
     type: String,

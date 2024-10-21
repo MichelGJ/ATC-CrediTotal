@@ -1,6 +1,6 @@
 import { JwtAdapter, bcryptAdapter, envs } from '../../config';
-import { UserModel } from '../../data';
-import { CustomError, LoginUserDto, RegisterUserDto, UserEntity } from '../../domain';
+import { UserModel, RoleModel } from '../../data';
+import { CustomError, LoginUserDto, RegisterUserDto, UserEntity, RoleEntity, RoleRepository } from '../../domain';
 import { EmailService } from './email.service';
 
 
@@ -10,6 +10,7 @@ export class AuthService {
 
   // DI
   constructor(
+    private readonly roleRepository: RoleRepository,
     private readonly emailService: EmailService,
     // webServiceUrl: string,
   ) { }
@@ -74,6 +75,11 @@ export class AuthService {
     }
   }
 
+  public async getRoles(){
+    const roles = await this.roleRepository.getRoles();
+    return roles;
+  }
+
   private sendEmailValidationLink = async (email: string) => {
 
     const token = await JwtAdapter.generateToken({ email });
@@ -99,22 +105,22 @@ export class AuthService {
   }
 
 
-  public validateEmail = async (token: string) => {
+  // public validateEmail = async (token: string) => {
 
-    const payload = await JwtAdapter.validateToken(token);
-    if (!payload) throw CustomError.unauthorized('Invalid token');
+  //   const payload = await JwtAdapter.validateToken(token);
+  //   if (!payload) throw CustomError.unauthorized('Invalid token');
 
-    const { email } = payload as { email: string };
-    if (!email) throw CustomError.internalServer('Email not in token');
+  //   const { email } = payload as { email: string };
+  //   if (!email) throw CustomError.internalServer('Email not in token');
 
-    const user = await UserModel.findOne({ email });
-    if (!user) throw CustomError.internalServer('Email not exists');
+  //   const user = await UserModel.findOne({ email });
+  //   if (!user) throw CustomError.internalServer('Email not exists');
 
-    user.emailValidated = true;
-    await user.save();
+  //   user.emailValidated = true;
+  //   await user.save();
 
-    return true;
-  }
+  //   return true;
+  // }
 
 
 }
