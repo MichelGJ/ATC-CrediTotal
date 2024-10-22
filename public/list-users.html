@@ -12,38 +12,36 @@
 </head>
 <body>
     <!-- Top Bar -->
-    <div class="top-bar">
+    <div class="top-bar" id="top-bar-users">
         <img src="images/banner.png" alt="Company Logo" class="logo">
     </div>
 
     <!-- User List Container -->
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-8">
+    <div class="container mt-4 user-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 user-table">
                 <div class="card">
                     <div class="card-header">
                         <button type="button" class="btn btn-primary" id="add-user-button">Agregar Usuario</button>
                     </div>
                     <div class="card-body">
                         <!-- Responsive Table -->
-                        <div class="container-fluid">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover w-300 users-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Email</th>
-                                            <th>Cédula</th>
-                                            <th>Rol</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="user-table-body">
-                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>  
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover users-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Email</th>
+                                        <th>Cédula</th>
+                                        <th>Rol</th>
+                                        <th id="acciones">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user-table-body">
+                                    <!-- User data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
