@@ -1,9 +1,11 @@
 import { JwtAdapter, bcryptAdapter, envs } from '../../config';
 import { UserModel, RoleModel } from '../../data';
-import { CustomError, LoginUserDto, RegisterUserDto, UserEntity, RoleEntity, RoleRepository } from '../../domain';
+import { CustomError, LoginUserDto, RegisterUserDto, UserEntity, RoleRepository, UserRepository } from '../../domain';
 import { EmailService } from './email.service';
+import { WssService } from './wss.services';
 
-
+const EventEmitter = require('events');
+const userRegistration = new EventEmitter();
 
 
 export class AuthService {
@@ -11,6 +13,7 @@ export class AuthService {
   // DI
   constructor(
     private readonly roleRepository: RoleRepository,
+    private readonly userRepository: UserRepository,
     private readonly emailService: EmailService,
     // webServiceUrl: string,
   ) { }
@@ -52,6 +55,7 @@ export class AuthService {
       const token = await JwtAdapter.generateToken({ id: user.id });
       if (!token) throw CustomError.internalServer('Error while creating JWT');
 
+      WssService.instance.sendMessage('newUser', userEntity);
 
       return {
         user: userEntity,
@@ -73,10 +77,10 @@ export class AuthService {
       },
       {
         $lookup: {
-          from: 'roles',        
-          localField: 'role',    
-          foreignField: '_id',   
-          as: 'roleDetails'      
+          from: 'roles',
+          localField: 'role',
+          foreignField: '_id',
+          as: 'roleDetails'
         }
       },
       { $unwind: '$roleDetails' }
@@ -104,6 +108,17 @@ export class AuthService {
   public async getRoles() {
     const roles = await this.roleRepository.getRoles();
     return roles;
+  }
+
+
+  public async getUsers() {
+    const users = await this.userRepository.getUsers();
+    return users;
+  }
+
+  public async deleteUserById(id: string) {
+    const users = await this.userRepository.deleteUserById(id);
+    return users;
   }
 
   private sendEmailValidationLink = async (email: string) => {

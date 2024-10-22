@@ -1,4 +1,4 @@
-import { RoleEntity } from "../entities/role.entity";
+import { RoleEntity } from "../";
 
 export abstract class RoleRepository {
     abstract getRoles(): Promise<RoleEntity[]>;

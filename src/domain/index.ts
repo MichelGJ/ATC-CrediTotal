@@ -11,5 +11,7 @@ export * from './dtos/auth/register-user.dto';
 export * from './dtos/auth/login-user.dto';
 
 export * from './repositories/role.repository';
+export * from './repositories/user.repository';
 
 export * from './datasources/role.datasource';
+export * from './datasources/user.datasource';

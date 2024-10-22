@@ -47,7 +47,7 @@ atpButton.addEventListener('click', () => {
 // Add click event for the Usuarios button
 usuariosButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {
-        window.location.href = 'registration.html';
+        window.location.href = 'list-users.html';
     } else {
         Auth.logout(); // Logout if token is expired
     }

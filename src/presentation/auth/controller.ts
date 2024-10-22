@@ -42,6 +42,19 @@ export class AuthController {
             .catch(error => this.handleError(error, res))
     }
 
+    getUsers = (req: Request, res: Response) => {
+        this.authService.getUsers()
+            .then((user) => res.json(user))
+            .catch(error => this.handleError(error, res))
+    }
+
+    deleteUserById = (req: Request, res: Response) => {
+        const id = req.params.id;
+        this.authService.deleteUserById(id)
+            .then((user) => res.json(user))
+            .catch(error => this.handleError(error, res))
+    }
+
     // validateEmail = (req: Request, res: Response) => {
     //     const { token } = req.params;
     //     this.authService.validateEmail(token)

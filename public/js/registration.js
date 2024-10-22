@@ -117,6 +117,7 @@ async function registerUser(event) {
 
         // Parse the response from the server
         const result = await response.json();
+        console.log({result});
 
         if (response.ok) {
             // Registration successful, redirect user or show success message
@@ -159,7 +160,6 @@ async function fetchData() {
 async function populateDropdown() {
     const dropdown = document.getElementById('dynamic-dropdown');
     const data = await fetchData();
-    console.log({data});
     data.forEach(item => {
         // Create a new option element
         const newOption = document.createElement('option');

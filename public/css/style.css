@@ -5,7 +5,7 @@ body {
     width: 100%;
     background-color: #3aadca;
     color: white;
-    margin:0;
+    margin: 0;
 }
 
 .top-bar {
@@ -19,48 +19,57 @@ body {
 }
 
 #top-bar-register,
-#top-bar-new-ticket{
+#top-bar-new-ticket {
     margin-bottom: 100px;
 }
 
-#top-bar-desk{
+#top-bar-desk {
     margin-bottom: 30px;
 }
 
 .icon-small {
-    height: 20px;          /* Adjust the size of the icon */
-    width: auto;           /* Keep the aspect ratio intact */
-    margin-right: 5px;     /* Space between the icon and the text */
+    height: 20px;
+    /* Adjust the size of the icon */
+    width: auto;
+    /* Keep the aspect ratio intact */
+    margin-right: 5px;
+    /* Space between the icon and the text */
 }
 
 
 .top-bar-link-add-user {
     font-size: 17px;
-    color: #7e7b74;     /* Bootstrap primary color */
+    color: #7e7b74;
+    /* Bootstrap primary color */
     text-decoration: none;
     padding: 5px;
     margin-left: 3%;
 }
 
 .top-bar-link-add-user:hover {
-    color: #000000;     /* Darker shade on hover */
+    color: #000000;
+    /* Darker shade on hover */
     text-decoration: underline;
 }
 
-.body-index{
+.body-index {
     background-color: #3aadca;
 }
 
 .logo {
-    height: 100%;  /* Adjust the height to fit your design */
-    width: auto;   /* Keep the aspect ratio intact */
+    height: 100%;
+    /* Adjust the height to fit your design */
+    width: auto;
+    /* Keep the aspect ratio intact */
 }
 
 /* Style for the anchor tag wrapping the logo */
 .logo-link {
     display: inline-block;
-    max-width: 150px;  /* Set a max width for the logo */
-    max-height: 50px;  /* Set a max height for the logo */
+    max-width: 150px;
+    /* Set a max width for the logo */
+    max-height: 50px;
+    /* Set a max height for the logo */
 }
 
 /* Ensure the image inside the anchor tag scales correctly */
@@ -84,7 +93,7 @@ table {
 }
 
 
-.cedula-current-number{
+.cedula-current-number {
     font-size: 50px;
 }
 
@@ -93,11 +102,11 @@ table {
     font-size: 50px;
 }
 
-.ticket-secondary-desk{
+.ticket-secondary-desk {
     font-size: 30px;
 }
 
-.cedula-secondary{
+.cedula-secondary {
     font-size: 20px;
 }
 
@@ -109,39 +118,45 @@ table {
     font-size: auto;
     color: #3aadca;
 }
-#lbl-new-cedula{
+
+#lbl-new-cedula {
     font-size: auto;
     color: #3aadca;
 }
 
-#lbl-new-ticket-title{
+#lbl-new-ticket-title {
     color: #3aadca;
-    font-family: 'Pacifico'; /* Fun font */
-    font-size: 200%; 
+    font-family: 'Pacifico';
+    /* Fun font */
+    font-size: 200%;
     /* Bigger text */
 }
 
 .cedula-input {
-    max-width: 300px; /* Set the maximum width of the input */
-    margin: 0 auto; /* Center the input horizontally */
+    max-width: 300px;
+    /* Set the maximum width of the input */
+    margin: 0 auto;
+    /* Center the input horizontally */
     margin-top: 90px;
     width: 100%;
     margin-top: 10%;
 }
 
-#new-ticket-container{
+#new-ticket-container {
     border: 1px solid #ccc;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px; /* Set the maximum width of the input *//* Center the input horizontally */
+    max-width: 600px;
+    /* Set the maximum width of the input */
+    /* Center the input horizontally */
     width: 100%;
     height: 350px;
     text-align: center;
     background-color: #fafafa;
 }
 
-#result-ticket{
+#result-ticket {
     border: 1px solid #ccc;
     padding: 30px;
     border-radius: 10px;
@@ -149,12 +164,14 @@ table {
     height: 200px;
     text-align: center;
     background-color: #fafafa;
-    max-width: 600px; /* Set the maximum width of the input *//* Center the input horizontally */
+    max-width: 600px;
+    /* Set the maximum width of the input */
+    /* Center the input horizontally */
     width: 100%;
 
 }
 
-.generarButton{
+.generarButton {
     margin-top: 40px;
     margin-bottom: 50px;
     background-color: #1ea51e;
@@ -162,11 +179,11 @@ table {
 }
 
 
-#btn-draw{
+#btn-draw {
     background-color: #1ea51e;
 }
 
-#btn-done{
+#btn-done {
     background-color: #a51e1e;
 }
 
@@ -178,11 +195,11 @@ table {
 #ticketNumber,
 #mesa,
 #lbl-pending,
-#mesaNumber{
+#mesaNumber {
     color: #3aadca;
 }
 
-#desk-container{
+#desk-container {
     border: 1px solid #ccc;
     padding: 30px;
     padding-top: 0px;
@@ -194,7 +211,7 @@ table {
     background-color: #fafafa;
 }
 
-#person-info{
+#person-info {
     border: 1px solid #ccc;
     padding: 30px;
     border-radius: 10px;
@@ -203,24 +220,27 @@ table {
     height: 200px;
     text-align: center;
     background-color: #fafafa;
-    max-width: 800px; /* Set the maximum width of the input *//* Center the input horizontally */
+    max-width: 800px;
+    /* Set the maximum width of the input */
+    /* Center the input horizontally */
     width: 100%;
     margin-top: 80px;
 }
 
-#atc{
+#atc {
     color: #3aadca;
 }
 
-#lbl-new-desk-title{
+#lbl-new-desk-title {
     color: #3aadca;
-    font-family: 'Pacifico'; /* Fun font */
-    font-size: 250%; 
+    font-family: 'Pacifico';
+    /* Fun font */
+    font-size: 250%;
     /* Bigger text */
 }
 
 
-#crearTicketButton{
+#crearTicketButton {
     margin-left: 25px;
     background-color: #1ea51e;
 }
@@ -228,31 +248,39 @@ table {
 .ticket-current-number,
 .ticket-current-desk,
 .cedula-current-number {
-    position: relative; /* Set relative positioning */
-    top: -90px; /* Adjust this value to raise the spans */
+    position: relative;
+    /* Set relative positioning */
+    top: -90px;
+    /* Adjust this value to raise the spans */
 }
 
 .ticket-secondary,
 .ticket-secondary-desk,
 .cedula-secondary {
-    position: relative; /* Set relative positioning */
-    top: -35px; /* Adjust this value to raise the spans */
+    position: relative;
+    /* Set relative positioning */
+    top: -35px;
+    /* Adjust this value to raise the spans */
 }
 
-.secondary-table{
+.secondary-table {
     background-color: #3aadca;
 }
 
 .secondary-table td {
-    border-top: 1px solid #ccc;  /* Light gray line */
-    padding: 10px;  /* Add padding for better spacing */
-  }
+    border-top: 1px solid #ccc;
+    /* Light gray line */
+    padding: 10px;
+    /* Add padding for better spacing */
+}
 
-  /* Optional: style for the entire table */
-  table {
-    border-collapse: collapse;  /* Makes borders between cells appear as one line */
-    width: 100%;  /* Ensures the table spans the full width */
-  }
+/* Optional: style for the entire table */
+table {
+    border-collapse: collapse;
+    /* Makes borders between cells appear as one line */
+    width: 100%;
+    /* Ensures the table spans the full width */
+}
 
 .body-login {
     height: 80vh;
@@ -283,9 +311,12 @@ table {
 
 .logo-login {
     margin-top: 5%;
-    max-width: 100%; /* Ensures the logo fits within the container */
-    height: auto;    /* Maintains the aspect ratio */
-    max-height: 100px; /* Set a maximum height to avoid it being too large */
+    max-width: 100%;
+    /* Ensures the logo fits within the container */
+    height: auto;
+    /* Maintains the aspect ratio */
+    max-height: 100px;
+    /* Set a maximum height to avoid it being too large */
 }
 
 .form-control {
@@ -299,7 +330,7 @@ table {
     margin-bottom: 15px;
 }
 
-.btn-register{
+.btn-register {
     margin-top: 20px;
     width: 100%;
 }
@@ -340,12 +371,17 @@ table {
 .registration-container {
     max-width: 600px;
     width: 100%;
-    margin: 50px auto; /* Center the box */
+    margin: 50px auto;
+    /* Center the box */
     padding: 20px;
-    background-color: #fafafa; /* Light background color */
-    border: 1px solid #fafafa; /* Border around the box */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #fafafa;
+    /* Light background color */
+    border: 1px solid #fafafa;
+    /* Border around the box */
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
 }
 
 /* Input field spacing and styling */
@@ -368,56 +404,87 @@ table {
     font-size: 16px;
 }
 
+.users-table {
+    width: 100%;
+    /* Adjust to your preferred width */
+    margin: auto;
+}
+
+.card {
+    width: 150%;
+    /* Adjust to your preferred width */
+    margin: auto;
+}
+
+#acciones {
+    width: 10%;
+}
+
 
 .buttons-container {
     display: flex;
     justify-content: space-around;
     padding: 20px;
-    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    flex-wrap: wrap;
+    /* Allow buttons to wrap on smaller screens */
 }
 
 .option-button {
-    max-width: 500px; /* Set a max-width */
-    width: 100%; /* Allow it to grow to fill space */
-    height: 250px; /* Fixed height for all buttons */
-    position: relative; /* Necessary for positioning the text overlay */
+    max-width: 500px;
+    /* Set a max-width */
+    width: 100%;
+    /* Allow it to grow to fill space */
+    height: 250px;
+    /* Fixed height for all buttons */
+    position: relative;
+    /* Necessary for positioning the text overlay */
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
     border: 1px solid #000;
-    margin: 20px; /* Margin for spacing */
+    margin: 20px;
+    /* Margin for spacing */
     font-size: 24px;
     font-weight: bold;
     color: #000;
     cursor: pointer;
     background-color: #fafafa;
-    overflow: hidden; /* Ensure content stays inside */
-    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+    overflow: hidden;
+    /* Ensure content stays inside */
+    transition: transform 0.3s ease;
+    /* Smooth transition for hover effect */
 }
 
 .option-button:hover {
-    transform: scale(1.2); /* Slightly enlarge on hover */
+    transform: scale(1.2);
+    /* Slightly enlarge on hover */
 }
 
 
 
 .atp-logo {
     margin-bottom: 30px;
-    height: 90%;  /* Adjust the height to fit your design */
-    width: 99%;   /* Keep the aspect ratio intact */
+    height: 90%;
+    /* Adjust the height to fit your design */
+    width: 99%;
+    /* Keep the aspect ratio intact */
 }
 
 .usuarios-logo {
     margin-bottom: 30px;
-    height: 80%;  /* Adjust the height to fit your design */
-    width: 80%;   /* Keep the aspect ratio intact */
+    height: 80%;
+    /* Adjust the height to fit your design */
+    width: 80%;
+    /* Keep the aspect ratio intact */
 }
 
 .reportar-logo {
     margin-bottom: 30px;
-    height: 80%;  /* Adjust the height to fit your design */
-    width: 40%;   /* Keep the aspect ratio intact */
+    height: 80%;
+    /* Adjust the height to fit your design */
+    width: 40%;
+    /* Keep the aspect ratio intact */
 }
 
 .disabled {
@@ -428,30 +495,37 @@ table {
 .text-overlay {
     margin-top: 200px;
     position: absolute;
-    color: #000000; /* Text color */
-    width: 100%; /* Ensure it takes the full width of the button */
-    height: 100%; /* Ensure it takes the full height of the button */
+    color: #000000;
+    /* Text color */
+    width: 100%;
+    /* Ensure it takes the full width of the button */
+    height: 100%;
+    /* Ensure it takes the full height of the button */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1; /* Ensure text is on top */
+    z-index: 1;
+    /* Ensure text is on top */
 }
 
 .logout-btn {
-    background-color: #f44336; /* Red color for logout */
+    background-color: #f44336;
+    /* Red color for logout */
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
     position: absolute;
-    right: 20px; /* Align to the right */
+    right: 20px;
+    /* Align to the right */
     top: 20px;
     border-radius: 5px;
 }
 
 .logout-btn:hover {
-    background-color: #d32f2f; /* Darker red on hover */
+    background-color: #d32f2f;
+    /* Darker red on hover */
 }
 
 .back-btn {
@@ -459,10 +533,12 @@ table {
     padding: 10px 20px;
     cursor: pointer;
     position: absolute;
-    left: 180px; /* Align to the right */
+    left: 180px;
+    /* Align to the right */
     top: 15px;
     display: inline-block;
-    background-color: transparent; /* Modern blue button */
+    background-color: transparent;
+    /* Modern blue button */
     color: white;
     text-decoration: none;
     font-family: Arial, sans-serif;
@@ -471,7 +547,7 @@ table {
     transition: background-color 0.3s ease;
 }
 
-.back-btn img{
+.back-btn img {
     width: 30px;
     height: 100%;
 }

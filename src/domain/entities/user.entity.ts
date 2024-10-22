@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 import { CustomError } from '../errors/custom.error';
+import { RoleEntity } from './role.entity';
 
 
 export class UserEntity {
@@ -11,10 +12,11 @@ export class UserEntity {
     public email: string,
     public password: string,
     public role: Types.ObjectId,
+    public roleDetails?: RoleEntity
   ) { }
 
   static fromObject(object: { [key: string]: any; }) {
-    const { id, _id, name, cedula, email, emailValidated, password, role, img } = object;
+    const { id, _id, name, cedula, email, password, role, roleDetails} = object;
 
     if (!_id && !id) {
       throw CustomError.badRequest('Missing id');
@@ -26,6 +28,6 @@ export class UserEntity {
     if (!password) throw CustomError.badRequest('Missing password');
     if (!role) throw CustomError.badRequest('Missing role');
 
-    return new UserEntity(_id || id, name, cedula, email, password, role);
+    return new UserEntity(_id || id, name, cedula, email, password, role, roleDetails);
   }
 }

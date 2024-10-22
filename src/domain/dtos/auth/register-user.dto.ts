@@ -16,7 +16,6 @@ export class RegisterUserDto {
 
   static create( object: { [key:string]:any } ): [string?, RegisterUserDto?] {
     const { name, cedula, email, password, role } = object;
-    console.log({role})
     if ( !name ) return ['Missing name'];
     if ( !cedula ) return ['Missing cedula'];
     if ( !email ) return ['Missing email'];
