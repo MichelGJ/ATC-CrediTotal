@@ -40,6 +40,7 @@ async function populateUserTable() {
         });
 
         attachDeleteHandlers();
+        attachEditHandlers();
 
 
     } catch (error) {
@@ -60,7 +61,7 @@ function attachDeleteHandlers() {
                     const deleted = await deleteUserById(userId);
                     if (deleted) {
                         populateUserTable();
-                    }else{
+                    } else {
                         console.error('Error deleting user:', error);
                         alert('Fallo eliminando el usuario');
                     }
@@ -69,6 +70,19 @@ function attachDeleteHandlers() {
                     alert('Fallo eliminando el usuario');
                 }
             }
+        });
+    });
+}
+
+function attachEditHandlers() {
+    const editButtons = document.querySelectorAll('.edit-user');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const userId = button.getAttribute('data-id');
+
+            // Redirect to registration page with user ID in the query string
+            window.location.href = `/edit-user.html?id=${userId}`;
         });
     });
 }
@@ -116,7 +130,7 @@ function connectToWebSockets() {
     };
 
     socket.onopen = (event) => {
-
+        
     };
 
     socket.onerror = function (event) {

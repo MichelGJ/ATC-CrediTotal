@@ -1,11 +1,9 @@
 import { JwtAdapter, bcryptAdapter, envs } from '../../config';
-import { UserModel, RoleModel } from '../../data';
+import { UserModel } from '../../data';
 import { CustomError, LoginUserDto, RegisterUserDto, UserEntity, RoleRepository, UserRepository } from '../../domain';
 import { EmailService } from './email.service';
 import { WssService } from './wss.services';
 
-const EventEmitter = require('events');
-const userRegistration = new EventEmitter();
 
 
 export class AuthService {
@@ -22,12 +20,7 @@ export class AuthService {
   public async registerUser(registerUserDto: RegisterUserDto) {
 
     try {
-      const existUser = await UserModel.findOne({
-        $or: [
-          { email: registerUserDto.email },
-          { cedula: registerUserDto.cedula }
-        ]
-      });
+      const existUser = await this.userRepository.getUserForRegistration(registerUserDto);
 
       if (existUser) {
         if (existUser.email === registerUserDto.email) {
@@ -37,22 +30,11 @@ export class AuthService {
           throw CustomError.badRequest('Cédula ya existe');
         }
       }
-      const user = new UserModel(registerUserDto);
+
+      const userEntity = await this.userRepository.insertUser(registerUserDto);
 
 
-      // Encriptar la contraseña
-      user.password = bcryptAdapter.hash(registerUserDto.password);
-
-      await user.save();
-      // JWT <---- para mantener la autenticación del usuario
-
-      // // Email de confirmación
-      // await this.sendEmailValidationLink(user.email);
-
-      const { password, ...userEntity } = UserEntity.fromObject(user);
-
-
-      const token = await JwtAdapter.generateToken({ id: user.id });
+      const token = await JwtAdapter.generateToken({ id: userEntity.id });
       if (!token) throw CustomError.internalServer('Error while creating JWT');
 
       WssService.instance.sendMessage('newUser', userEntity);
@@ -67,6 +49,33 @@ export class AuthService {
     }
 
   }
+
+  public async updateUser(registerUserDto: RegisterUserDto) {
+    try {
+
+      const existUser = await this.userRepository.getUserForRegistration(registerUserDto);
+
+      if (existUser) {
+        if (existUser.id !== registerUserDto.id) {
+          if (existUser.email === registerUserDto.email) {
+            throw CustomError.badRequest('Email ya existe');
+          }
+          if (existUser.cedula === registerUserDto.cedula) {
+            throw CustomError.badRequest('Cédula ya existe');
+          }
+        } else {
+
+          const userEntity = await this.userRepository.updateUser(registerUserDto);
+          WssService.instance.sendMessage('newUser', userEntity);
+
+          return userEntity;
+        }
+      }
+    } catch (error) {
+      throw CustomError.internalServer(`${error}`);
+    }
+  }
+
 
 
   public async loginUser(loginUserDto: LoginUserDto) {
@@ -94,7 +103,7 @@ export class AuthService {
     if (!isMatching) throw CustomError.badRequest('Contraseña invalida');
 
 
-    const { password, ...userEntity } = UserEntity.fromObject(user);
+    const { ...userEntity } = UserEntity.fromObject(user);
 
     const token = await JwtAdapter.generateToken({ id: user.id, name: user.name, role: user.roleDetails.nombre, permisos: user.roleDetails.permisos });
     if (!token) throw CustomError.internalServer('Error while creating JWT');
@@ -116,52 +125,14 @@ export class AuthService {
     return users;
   }
 
+  public async getUserById(id: string) {
+    const users = await this.userRepository.getUserById(id);
+    return users;
+  }
+
   public async deleteUserById(id: string) {
     const users = await this.userRepository.deleteUserById(id);
     return users;
   }
-
-  private sendEmailValidationLink = async (email: string) => {
-
-    const token = await JwtAdapter.generateToken({ email });
-    if (!token) throw CustomError.internalServer('Error getting token');
-
-    const link = `${envs.WEBSERVICE_URL}/auth/validate-email/${token}`;
-    const html = `
-      <h1>Validate your email</h1>
-      <p>Click on the following link to validate your email</p>
-      <a href="${link}">Validate your email: ${email}</a>
-    `;
-
-    const options = {
-      to: email,
-      subject: 'Validate your email',
-      htmlBody: html,
-    }
-
-    const isSent = await this.emailService.sendEmail(options);
-    if (!isSent) throw CustomError.internalServer('Error sending email');
-
-    return true;
-  }
-
-
-  // public validateEmail = async (token: string) => {
-
-  //   const payload = await JwtAdapter.validateToken(token);
-  //   if (!payload) throw CustomError.unauthorized('Invalid token');
-
-  //   const { email } = payload as { email: string };
-  //   if (!email) throw CustomError.internalServer('Email not in token');
-
-  //   const user = await UserModel.findOne({ email });
-  //   if (!user) throw CustomError.internalServer('Email not exists');
-
-  //   user.emailValidated = true;
-  //   await user.save();
-
-  //   return true;
-  // }
-
 
 }

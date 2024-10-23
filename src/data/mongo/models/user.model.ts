@@ -20,9 +20,6 @@ const userSchema = new mongoose.Schema( {
     type: String,
     required: [ true, 'Password is required' ]
   },
-  img: {
-    type: String,
-  },
   role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Role'
@@ -30,6 +27,16 @@ const userSchema = new mongoose.Schema( {
 
 } );
 
+userSchema.pre('validate', function (next) {
+  if (!this.isNew) {
+    // Skip required validation for certain fields when updating
+    this.markModified('password');
+    this.markModified('name');
+    this.markModified('cedula');
+    this.markModified('email');
+  }
+  next();
+});
 
 userSchema.set('toJSON', {
   virtuals: true,

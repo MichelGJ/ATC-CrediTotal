@@ -36,8 +36,10 @@ export class AuthRoutes {
     // Definir las rutas
     router.post('/login', controller.loginUser);
     router.post('/register', controller.registerUser);
+    router.put('/updateUser', controller.updateUser);
     router.get('/getRoles', controller.getRoles);
     router.get('/getUsers', controller.getUsers);
+    router.get('/getUserById/:id', controller.getUserById);
     router.delete('/deleteUserById/:id', controller.deleteUserById);
 
     // router.get('/validate-email/:token', controller.validateEmail);

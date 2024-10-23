@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { RegisterUserDto } from "../../domain/dtos/auth/register-user.dto";
 import { AuthService } from "../services";
-import { CustomError, LoginUserDto } from "../../domain";
+import { CustomError, LoginUserDto, UpdateUserDto } from "../../domain";
 
 export class AuthController {
     constructor(
@@ -20,11 +20,21 @@ export class AuthController {
         const [error, registerDto] = RegisterUserDto.create(req.body);
         if (error) return res.status(400).json({ error });
 
-
         this.authService.registerUser(registerDto!)
             .then((user) => res.json(user))
             .catch(error => this.handleError(error, res))
     }
+
+    updateUser = (req: Request, res: Response) => {
+        const [error, registerDto] = RegisterUserDto.create(req.body);
+        if (error) return res.status(400).json({ error });
+        
+
+        this.authService.updateUser(registerDto!)
+            .then((user) => res.json(user))
+            .catch(error => this.handleError(error, res))
+    }
+
 
     loginUser = (req: Request, res: Response) => {
         const [error, loginUserDto] = LoginUserDto.create(req.body);
@@ -51,6 +61,13 @@ export class AuthController {
     deleteUserById = (req: Request, res: Response) => {
         const id = req.params.id;
         this.authService.deleteUserById(id)
+            .then((user) => res.json(user))
+            .catch(error => this.handleError(error, res))
+    }
+
+    getUserById = (req: Request, res: Response) => {
+        const id = req.params.id;
+        this.authService.getUserById(id)
             .then((user) => res.json(user))
             .catch(error => this.handleError(error, res))
     }

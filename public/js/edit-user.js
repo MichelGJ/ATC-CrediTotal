@@ -1,3 +1,4 @@
+const idField = document.getElementById('user-id');
 const nameField = document.getElementById('fullName');
 const cedulaField = document.getElementById('cedulaUsuario');
 const rolField = document.getElementById('dynamic-dropdown')
@@ -10,23 +11,6 @@ const registerButton = document.querySelector('.btn-register'); // The submit bu
 const allowedDomains = ['totalmundo.com', 'creditotal.com'];
 
 
-// Function to check if the email format is valid
-function isEmailValid(email) {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailPattern.test(email) && isDomainAllowed(email);
-}
-
-// Function to check if the email domain is allowed
-function isDomainAllowed(email) {
-    const emailParts = email.split('@'); // Split email into local part and domain part
-    if (emailParts.length === 2) {
-        const domain = emailParts[1]; // Get the domain part after the '@'
-        return allowedDomains.includes(domain);
-    }
-    return false; // If the email is not split correctly, return false
-}
-
-// Function to check if the form is valid
 function validateForm() {
     const fullName = nameField.value.trim();
     const cedula = cedulaField.value.trim();
@@ -37,14 +21,28 @@ function validateForm() {
 
 
     // Check if all fields are filled and passwords match
-    if (fullName && cedula && rol !== "" && email && isEmailValid(email) && password && confirmPassword && password === confirmPassword) {
+    if (fullName && cedula && rol !== "" && email && isEmailValid(email) && password === confirmPassword) {
         registerButton.disabled = false; // Enable button
     } else {
         registerButton.disabled = true; // Disable button
     }
 }
 
-// Function to check if the password and confirmation match
+function isEmailValid(email) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email) && isDomainAllowed(email);
+}
+
+
+function isDomainAllowed(email) {
+    const emailParts = email.split('@');
+    if (emailParts.length === 2) {
+        const domain = emailParts[1];
+        return allowedDomains.includes(domain);
+    }
+    return false;
+}
+
 function checkPasswordMatch() {
     if (confirmPasswordField.value.length > 0) {
         if (password.value === confirmPassword.value) {
@@ -86,71 +84,32 @@ function checkEmail() {
 }
 
 
-// Registration submission
-async function registerUser(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
 
-    const fullName = nameField.value.trim();
-    const email = emailField.value.trim();
-    const password = passwordField.value.trim();
-    const cedula  = cedulaField.value.trim();
-    const role = rolField.value;
+document.addEventListener('DOMContentLoaded', async () => {
+    populateDropdown();
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
 
-    // Prepare user data to be sent
-    const userData = {
-        name: fullName,
-        cedula: cedula,
-        email: email,
-        password: password,
-        role: role,
-    };
-
-    try {
-        // Send a POST request to your registration API
-        const response = await fetch(`api/auth/register`, {
-            method: 'POST',
+    if (id) {
+        // Fetch user data based on userId
+        const data = await fetch(`/api/auth/getUserById/${id}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(userData), // Convert user data to JSON string
         });
 
-        // Parse the response from the server
-        const result = await response.json();
-        console.log({result});
-
-        if (response.ok) {
-            // Registration successful, redirect user or show success message
-            nameField.value = '';
-            emailField.value = '';
-            passwordField.value = '';
-            confirmPasswordField.value = '';
-            passwordHelp.innerText = '';
-            cedulaField.value = '';
-            rolField.value='';
-            emailField.classList.remove('is-valid', 'is-invalid');
-            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
-            alert('Registro exitoso!');
-            window.location.href = 'list-users.html';
-        } else {
-            // Handle server-side validation errors
-            alert(`Error en el registro: ${result.error || 'Error desconocido'}`);
-            passwordField.value = '';
-            confirmPasswordField.value = '';
-            passwordHelp.innerText = '';
-            emailField.classList.remove('is-valid', 'is-invalid');
-            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
-        }
-    } catch (error) {
-        // Handle network or other errors\
-        console.error('Error en el registro:', error);
-        alert('Hubo un error en el registro. Intente nuevamente más tarde.');
-        passwordField.value = '';
-        confirmPasswordField.value = '';
-        passwordHelp.innerText = '';
-        emailField.classList.remove('is-valid', 'is-invalid');            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
+        const userData = await data.json();
+        
+        // Pre-fill form fields with user data
+        idField.value = userData._id;
+        nameField.value = userData.name;
+        emailField.value = userData.email;
+        cedulaField.value = userData.cedula;
+        rolField.value = userData.roleDetails._id;
     }
-}
+});
+
 
 async function fetchData() {
     const response = await fetch('api/auth/getRoles');
@@ -171,7 +130,62 @@ async function populateDropdown() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', populateDropdown);
+async function updateUser(event) {
+    event.preventDefault(); 
+
+    const id = idField.value.trim();
+    const fullName = nameField.value.trim();
+    const email = emailField.value.trim();
+    const password = passwordField.value.trim();
+    const cedula  = cedulaField.value.trim();
+    const role = rolField.value;
+
+    const userData = {
+        id: id,
+        name: fullName,
+        cedula: cedula,
+        email: email,
+        password: password,
+        role: role,
+    };
+
+    try {
+        const response = await fetch(`api/auth/updateUser`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+        const result = await response.json();
+        console.log({userData});
+
+        if (response.ok) {
+            alert('Actualizacion exitosa!');
+            passwordField.value = '';
+            confirmPasswordField.value = '';
+            passwordHelp.innerText = '';
+            emailField.classList.remove('is-valid', 'is-invalid');
+            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
+            window.location.href = 'list-users.html';
+        } else {
+            alert(`Error en actualizacion: ${result.error || 'Error desconocido'}`);
+            passwordField.value = '';
+            confirmPasswordField.value = '';
+            passwordHelp.innerText = '';
+            emailField.classList.remove('is-valid', 'is-invalid');
+            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
+        }
+    } catch (error) {
+        console.error('Error en el registro:', error);
+        alert('Hubo un error en el registro. Intente nuevamente más tarde.');
+        passwordField.value = '';
+        confirmPasswordField.value = '';
+        passwordHelp.innerText = '';
+        emailField.classList.remove('is-valid', 'is-invalid');            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
+    }
+}
+
 
 password.addEventListener('input', function () {
     checkPasswordMatch();
@@ -188,8 +202,4 @@ emailField.addEventListener('input', function () {
     checkEmail();
     validateForm();
 });
-
-registerForm.addEventListener('submit', registerUser);
-
-
-registerButton.disabled = true;
+registerForm.addEventListener('submit', updateUser);

@@ -18,6 +18,10 @@ body {
     height: 80px;
 }
 
+#top-bar-desk{
+    margin-bottom: 20px;
+}
+
 .icon-small {
     height: 20px;
     /* Adjust the size of the icon */
@@ -379,13 +383,10 @@ table {
     font-size: 16px;
 }
 
-.card{
-    max-width: 900px;
-    width: 100%;
-}
+
 
 .user-container {
-    max-width: 900px;
+    max-width: 1300px;
     width: 100%;
     margin: 50px auto;
     /* Center the box */
@@ -394,12 +395,14 @@ table {
     border: 1px solid #fafafa;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
 }
 
 .user-table {
-    max-width: 900px;
-    width: 100%; 
+    max-width: 1300px;
+    width: 100%;
 }
+
 
 #acciones {
     width: 10%;
