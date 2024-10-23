@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { UserModel } from "../../data/mongo";
-import { CustomError, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
+import { CustomError, LoginUserDto, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
 import { bcryptAdapter } from "../../config";
 
 export class MongoUserDatasource implements UserDatasource {
@@ -50,6 +50,7 @@ export class MongoUserDatasource implements UserDatasource {
       },
       { $unwind: '$roleDetails' }
     ]);
+    
     if (!userWithRole || userWithRole.length === 0) throw CustomError.badRequest('Usuario no existe');
 
     const user = userWithRole[0];
@@ -88,7 +89,27 @@ export class MongoUserDatasource implements UserDatasource {
         { cedula: registerUserDto.cedula }
       ]
     });
-
   }
 
+  async getUserForLogin(loginUserDto: LoginUserDto): Promise<UserEntity> {
+    const userWithRole = await UserModel.aggregate([
+      {
+        $match: { email: loginUserDto.email }
+      },
+      {
+        $lookup: {
+          from: 'roles',
+          localField: 'role',
+          foreignField: '_id',
+          as: 'roleDetails'
+        }
+      },
+      { $unwind: '$roleDetails' }
+    ]);
+    
+    if (!userWithRole || userWithRole.length === 0) throw CustomError.badRequest('Correo inválido');
+
+    const user = userWithRole[0];
+    return user;
+  };
 }

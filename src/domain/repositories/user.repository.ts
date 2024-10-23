@@ -1,4 +1,4 @@
-import { RegisterUserDto, UpdateUserDto, UserEntity } from "../";
+import { LoginUserDto, RegisterUserDto, UpdateUserDto, UserEntity } from "../";
 
 export abstract class UserRepository {
     abstract insertUser(registerUserDto: RegisterUserDto): Promise<UserEntity>;
@@ -7,4 +7,5 @@ export abstract class UserRepository {
     abstract getUsers(): Promise<UserEntity[]>;
     abstract deleteUserById(id: string): Promise<boolean>;
     abstract getUserForRegistration(registerUserDto: RegisterUserDto): Promise<UserEntity | null>;
+    abstract getUserForLogin(loginUserDto: LoginUserDto): Promise<UserEntity>;
 }

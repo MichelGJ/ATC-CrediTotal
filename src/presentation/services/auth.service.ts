@@ -1,5 +1,4 @@
 import { JwtAdapter, bcryptAdapter, envs } from '../../config';
-import { UserModel } from '../../data';
 import { CustomError, LoginUserDto, RegisterUserDto, UserEntity, RoleRepository, UserRepository } from '../../domain';
 import { EmailService } from './email.service';
 import { WssService } from './wss.services';
@@ -79,33 +78,15 @@ export class AuthService {
 
 
   public async loginUser(loginUserDto: LoginUserDto) {
-    const email = loginUserDto.email;
-    const userWithRole = await UserModel.aggregate([
-      {
-        $match: { email }
-      },
-      {
-        $lookup: {
-          from: 'roles',
-          localField: 'role',
-          foreignField: '_id',
-          as: 'roleDetails'
-        }
-      },
-      { $unwind: '$roleDetails' }
-    ]);
-
-    if (!userWithRole || userWithRole.length === 0) throw CustomError.badRequest('Correo inválido');
-
-    const user = userWithRole[0];
-
+    const user = await this.userRepository.getUserForLogin(loginUserDto);
+    
     const isMatching = bcryptAdapter.compare(loginUserDto.password, user.password);
     if (!isMatching) throw CustomError.badRequest('Contraseña invalida');
 
 
     const { ...userEntity } = UserEntity.fromObject(user);
 
-    const token = await JwtAdapter.generateToken({ id: user.id, name: user.name, role: user.roleDetails.nombre, permisos: user.roleDetails.permisos });
+    const token = await JwtAdapter.generateToken({ id: user.id, name: user.name, role: user.roleDetails?.nombre , permisos: user.roleDetails?.permisos });
     if (!token) throw CustomError.internalServer('Error while creating JWT');
 
     return {
