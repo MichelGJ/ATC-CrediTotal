@@ -18,7 +18,7 @@ body {
     height: 80px;
 }
 
-#top-bar-desk{
+#top-bar-desk {
     margin-bottom: 20px;
 }
 
@@ -408,7 +408,7 @@ table {
     width: 10%;
 }
 
-.card-header{
+.card-header {
     height: 60px;
 }
 
@@ -419,8 +419,17 @@ table {
     /* Center align text vertically */
 }
 
-#userSearchInput{
+#userSearchInput {
     margin-top: 5%;
+}
+
+.btn-pagination {
+    background-color: #3aadca;
+}
+
+.btn-pagination.active,
+.btn-pagination:hover{
+    background-color: #f5a302;
 }
 
 .buttons-container {

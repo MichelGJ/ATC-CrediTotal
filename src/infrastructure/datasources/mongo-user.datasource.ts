@@ -70,7 +70,7 @@ async getUsers(page: number, limit: number, searchQuery: string = ''): Promise<{
         }
       : {};
 
-     const totalUsers = await UserModel.countDocuments();
+     const totalUsers = await UserModel.countDocuments(searchCondition);
 
      const totalPages = Math.ceil(totalUsers / limit);
 
