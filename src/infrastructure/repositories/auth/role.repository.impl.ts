@@ -1,4 +1,4 @@
-import { RoleDatasource, RoleEntity, RoleRepository } from "../../domain/";
+import { RoleDatasource, RoleEntity, RoleRepository } from "../../../domain";
 
 export class RoleRepositoryImpl implements RoleRepository {
 

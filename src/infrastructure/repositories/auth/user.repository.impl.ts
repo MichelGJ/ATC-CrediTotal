@@ -1,4 +1,4 @@
-import { LoginUserDto, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity, UserRepository } from "../../domain/";
+import { LoginUserDto, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity, UserRepository } from "../../../domain";
 
 export class UserRepositoryImpl implements UserRepository {
 
@@ -10,8 +10,8 @@ export class UserRepositoryImpl implements UserRepository {
         return this.userDatasource.insertUser(registerUserDto);
     }
 
-    updateUser(registerUserDto: RegisterUserDto): Promise<UserEntity> {
-        return this.userDatasource.updateUser(registerUserDto);
+    updateUser(UpdateUserDto: UpdateUserDto): Promise<UserEntity> {
+        return this.userDatasource.updateUser(UpdateUserDto);
     }
 
     getUserById(id: string): Promise<UserEntity> {

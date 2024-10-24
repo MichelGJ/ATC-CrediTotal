@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { UserModel } from "../../data/mongo";
-import { CustomError, LoginUserDto, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../domain";
-import { bcryptAdapter } from "../../config";
+import { UserModel } from "../../../data/mongo";
+import { CustomError, LoginUserDto, RegisterUserDto, UpdateUserDto, UserDatasource, UserEntity } from "../../../domain";
+import { bcryptAdapter } from "../../../config";
 
 export class MongoUserDatasource implements UserDatasource {
 
@@ -21,12 +21,19 @@ export class MongoUserDatasource implements UserDatasource {
     return userEntity;
   }
 
-  async updateUser(registerUserDto: RegisterUserDto): Promise<UserEntity> {
+  async updateUser(updateUserDto: UpdateUserDto): Promise<UserEntity> {
+    const { id, password, ...userData } = updateUserDto;
 
-    const user = new UserModel();
-    user.isNew = false;
-    user.set(registerUserDto);
-    user.password = bcryptAdapter.hash(registerUserDto.password);
+    let user;
+
+    user = await UserModel.findById(id);
+    if (!user) throw CustomError.badRequest('User not found');
+
+    user.set(userData);
+
+    if (password) {
+      user.password = bcryptAdapter.hash(user.password);
+    }
 
     await user.save();
 
@@ -58,7 +65,7 @@ export class MongoUserDatasource implements UserDatasource {
   };
 
 
-  async getUsers(page: number, limit: number, searchQuery: string = ''): Promise<{ users: UserEntity[], currentPage: number, totalPages: number }> {
+  async getUsers(page: number = 0, limit: number = 10, searchQuery: string = ''): Promise<{ users: UserEntity[], currentPage: number, totalPages: number }> {
     const skip = (page - 1) * limit;
 
     const searchCondition = searchQuery
