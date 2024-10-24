@@ -101,8 +101,8 @@ export class AuthService {
   }
 
 
-  public async getUsers() {
-    const users = await this.userRepository.getUsers();
+  public async getUsers(page: number, limit: number, searchQuery: string) {
+    const users = await this.userRepository.getUsers(page, limit, searchQuery);
     return users;
   }
 

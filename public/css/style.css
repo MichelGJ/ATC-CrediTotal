@@ -408,11 +408,19 @@ table {
     width: 10%;
 }
 
+.card-header{
+    height: 60px;
+}
+
 /* Table styles for better readability */
 .users-table th,
 .users-table td {
     vertical-align: middle;
     /* Center align text vertically */
+}
+
+#userSearchInput{
+    margin-top: 5%;
 }
 
 .buttons-container {

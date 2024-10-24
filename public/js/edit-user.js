@@ -1,89 +1,5 @@
 const idField = document.getElementById('user-id');
-const nameField = document.getElementById('fullName');
-const cedulaField = document.getElementById('cedulaUsuario');
-const rolField = document.getElementById('dynamic-dropdown')
-const emailField = document.getElementById('email');
-const passwordField = document.getElementById('password');
-const confirmPasswordField = document.getElementById('confirmPassword');
-const passwordHelp = document.getElementById('passwordHelp');
 const registerForm = document.querySelector('#register-form');
-const registerButton = document.querySelector('.btn-register'); // The submit button
-const allowedDomains = ['totalmundo.com', 'creditotal.com'];
-
-
-function validateForm() {
-    const fullName = nameField.value.trim();
-    const cedula = cedulaField.value.trim();
-    const rol = rolField.value;
-    const email = emailField.value.trim();
-    const password = passwordField.value.trim();
-    const confirmPassword = confirmPasswordField.value.trim();
-
-
-    // Check if all fields are filled and passwords match
-    if (fullName && cedula && rol !== "" && email && isEmailValid(email) && password === confirmPassword) {
-        registerButton.disabled = false; // Enable button
-    } else {
-        registerButton.disabled = true; // Disable button
-    }
-}
-
-function isEmailValid(email) {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailPattern.test(email) && isDomainAllowed(email);
-}
-
-
-function isDomainAllowed(email) {
-    const emailParts = email.split('@');
-    if (emailParts.length === 2) {
-        const domain = emailParts[1];
-        return allowedDomains.includes(domain);
-    }
-    return false;
-}
-
-function checkPasswordMatch() {
-    if (confirmPasswordField.value.length > 0) {
-        if (password.value === confirmPassword.value) {
-            confirmPasswordField.classList.remove('is-invalid');
-            confirmPasswordField.classList.add('is-valid');
-            passwordHelp.textContent = 'Las contraseñas coinciden';
-            passwordHelp.style.color = 'green';
-        } else {
-            confirmPasswordField.classList.remove('is-valid');
-            confirmPasswordField.classList.add('is-invalid');
-            passwordHelp.textContent = 'Las contraseñas no coinciden';
-            passwordHelp.style.color = 'red';
-        }
-    } else {
-        confirmPasswordField.classList.remove('is-valid', 'is-invalid');
-        passwordHelp.textContent = '';
-    }
-}
-
-function checkEmail() {
-    const email = emailField.value.trim();
-    // Email validation check
-    if (email.length === 0) {
-        // Clear the message and validation when the email field is empty
-        emailField.classList.remove('is-valid', 'is-invalid');
-        emailHelp.textContent = '';
-    } else if (isEmailValid(email) && isDomainAllowed(email)) {
-        emailField.classList.remove('is-invalid');
-        emailField.classList.add('is-valid');
-        emailHelp.textContent = '';
-    } else {
-        emailField.classList.remove('is-valid');
-        emailField.classList.add('is-invalid');
-        emailHelp.textContent = email.length > 0
-            ? 'Formato de correo electrónico no válido o dominio no permitido'
-            : ''; // Show alert if format is invalid or domain is not allowed
-        emailHelp.style.color = 'red';
-    }
-}
-
-
 
 document.addEventListener('DOMContentLoaded', async () => {
     populateDropdown();
@@ -109,7 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         rolField.value = userData.roleDetails._id;
     }
 });
-
 
 async function fetchData() {
     const response = await fetch('api/auth/getRoles');
@@ -182,24 +97,32 @@ async function updateUser(event) {
         passwordField.value = '';
         confirmPasswordField.value = '';
         passwordHelp.innerText = '';
-        emailField.classList.remove('is-valid', 'is-invalid');            confirmPasswordField.classList.remove('is-valid', 'is-invalid');
+        emailField.classList.remove('is-valid', 'is-invalid');            
+        confirmPasswordField.classList.remove('is-valid', 'is-invalid');
     }
 }
 
 
 password.addEventListener('input', function () {
-    checkPasswordMatch();
-    validateForm();
+    userValidation.checkPasswordMatch();
+    userValidation.validateForm(2);
 });
 confirmPassword.addEventListener('input', function () {
-    checkPasswordMatch();
-    validateForm();
+    userValidation.checkPasswordMatch();
+    userValidation.validateForm(2);
 });
-nameField.addEventListener('input', validateForm);
-cedulaField.addEventListener('input', validateForm);
-rolField.addEventListener('change', validateForm)
+nameField.addEventListener('input',function () {
+    userValidation.validateForm(2);
+});
+cedulaField.addEventListener('input', function () {
+    userValidation.validateForm(2);
+});
+rolField.addEventListener('change', function () {
+    userValidation.validateForm(2);
+});
 emailField.addEventListener('input', function () {
-    checkEmail();
-    validateForm();
+    userValidation.checkEmail();
+    userValidation.validateForm(2);
 });
+
 registerForm.addEventListener('submit', updateUser);

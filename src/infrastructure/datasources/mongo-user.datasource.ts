@@ -58,8 +58,24 @@ export class MongoUserDatasource implements UserDatasource {
   };
 
 
-  async getUsers(): Promise<UserEntity[]> {
+async getUsers(page: number, limit: number, searchQuery: string = ''): Promise<{ users: UserEntity[], currentPage: number, totalPages: number }> {
+    const skip = (page - 1) * limit;
+
+    const searchCondition = searchQuery
+      ? { $or: [
+            { name: { $regex: searchQuery, $options: 'i' } },   // Case-insensitive search
+            { email: { $regex: searchQuery, $options: 'i' } },
+            { cedula: { $regex: searchQuery, $options: 'i' } }
+          ]
+        }
+      : {};
+
+     const totalUsers = await UserModel.countDocuments();
+
+     const totalPages = Math.ceil(totalUsers / limit);
+
     const userWithRole = await UserModel.aggregate([
+      { $match: searchCondition },
       {
         $lookup: {
           from: 'roles',
@@ -68,12 +84,19 @@ export class MongoUserDatasource implements UserDatasource {
           as: 'roleDetails'
         }
       },
-      { $unwind: '$roleDetails' }
+      { $unwind: '$roleDetails' },
+      { $skip: skip },       // Skip records for pagination
+      { $limit: limit }      // Limit the number of records returned
     ]);
 
     const users = userWithRole.map(role => UserEntity.fromObject(role));
-    return users;
+    return {
+      users,
+      currentPage: page,
+      totalPages
   };
+}
+
 
 
   async deleteUserById(id: string): Promise<boolean> {

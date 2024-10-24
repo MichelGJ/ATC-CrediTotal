@@ -28,7 +28,7 @@ export class AuthController {
     updateUser = (req: Request, res: Response) => {
         const [error, registerDto] = RegisterUserDto.create(req.body);
         if (error) return res.status(400).json({ error });
-        
+
 
         this.authService.updateUser(registerDto!)
             .then((user) => res.json(user))
@@ -53,7 +53,11 @@ export class AuthController {
     }
 
     getUsers = (req: Request, res: Response) => {
-        this.authService.getUsers()
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+        const searchQuery = req.query.search as string || '';
+
+        this.authService.getUsers(page, limit, searchQuery)
             .then((user) => res.json(user))
             .catch(error => this.handleError(error, res))
     }

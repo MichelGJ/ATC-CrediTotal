@@ -18,8 +18,8 @@ export class UserRepositoryImpl implements UserRepository {
         return this.userDatasource.getUserById(id)
     }
 
-    getUsers(): Promise<UserEntity[]> {
-        return this.userDatasource.getUsers();
+    getUsers(page: number, limit: number,searchQuery: string):Promise<{ users: UserEntity[], currentPage: number, totalPages: number }> {
+        return this.userDatasource.getUsers(page, limit, searchQuery);
     }
 
     deleteUserById(id: string): Promise<boolean> {
