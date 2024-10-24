@@ -22,12 +22,12 @@ export class MongoUserDatasource implements UserDatasource {
   }
 
   async updateUser(registerUserDto: RegisterUserDto): Promise<UserEntity> {
-  
+
     const user = new UserModel();
-    user.isNew = false; 
+    user.isNew = false;
     user.set(registerUserDto);
     user.password = bcryptAdapter.hash(registerUserDto.password);
-    
+
     await user.save();
 
     const { ...userEntity } = UserEntity.fromObject(user);
@@ -50,7 +50,7 @@ export class MongoUserDatasource implements UserDatasource {
       },
       { $unwind: '$roleDetails' }
     ]);
-    
+
     if (!userWithRole || userWithRole.length === 0) throw CustomError.badRequest('Usuario no existe');
 
     const user = userWithRole[0];
@@ -58,21 +58,22 @@ export class MongoUserDatasource implements UserDatasource {
   };
 
 
-async getUsers(page: number, limit: number, searchQuery: string = ''): Promise<{ users: UserEntity[], currentPage: number, totalPages: number }> {
+  async getUsers(page: number, limit: number, searchQuery: string = ''): Promise<{ users: UserEntity[], currentPage: number, totalPages: number }> {
     const skip = (page - 1) * limit;
 
     const searchCondition = searchQuery
-      ? { $or: [
-            { name: { $regex: searchQuery, $options: 'i' } },   // Case-insensitive search
-            { email: { $regex: searchQuery, $options: 'i' } },
-            { cedula: { $regex: searchQuery, $options: 'i' } }
-          ]
-        }
+      ? {
+        $or: [
+          { name: { $regex: searchQuery, $options: 'i' } },   // Case-insensitive search
+          { email: { $regex: searchQuery, $options: 'i' } },
+          { cedula: { $regex: searchQuery, $options: 'i' } }
+        ]
+      }
       : {};
 
-     const totalUsers = await UserModel.countDocuments(searchCondition);
+    const totalUsers = await UserModel.countDocuments(searchCondition);
 
-     const totalPages = Math.ceil(totalUsers / limit);
+    const totalPages = Math.ceil(totalUsers / limit);
 
     const userWithRole = await UserModel.aggregate([
       { $match: searchCondition },
@@ -94,8 +95,8 @@ async getUsers(page: number, limit: number, searchQuery: string = ''): Promise<{
       users,
       currentPage: page,
       totalPages
-  };
-}
+    };
+  }
 
 
 
@@ -108,7 +109,7 @@ async getUsers(page: number, limit: number, searchQuery: string = ''): Promise<{
   async getUserForRegistration(registerUserDto: RegisterUserDto): Promise<UserEntity | null> {
     return await UserModel.findOne({
       $or: [
-        { email: registerUserDto.email },
+        { email: { $regex: new RegExp(registerUserDto.email, 'i') } },
         { cedula: registerUserDto.cedula }
       ]
     });
@@ -117,7 +118,7 @@ async getUsers(page: number, limit: number, searchQuery: string = ''): Promise<{
   async getUserForLogin(loginUserDto: LoginUserDto): Promise<UserEntity> {
     const userWithRole = await UserModel.aggregate([
       {
-        $match: { email: loginUserDto.email }
+        $match: { email: { $regex: new RegExp(loginUserDto.email, 'i') } }
       },
       {
         $lookup: {
@@ -129,7 +130,7 @@ async getUsers(page: number, limit: number, searchQuery: string = ''): Promise<{
       },
       { $unwind: '$roleDetails' }
     ]);
-    
+
     if (!userWithRole || userWithRole.length === 0) throw CustomError.badRequest('Correo inválido');
 
     const user = userWithRole[0];

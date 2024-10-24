@@ -22,7 +22,7 @@ export class AuthService {
       const existUser = await this.userRepository.getUserForRegistration(registerUserDto);
 
       if (existUser) {
-        if (existUser.email === registerUserDto.email) {
+        if (existUser.email.toLocaleLowerCase() === registerUserDto.email.toLocaleLowerCase()) {
           throw CustomError.badRequest('Email ya existe');
         }
         if (existUser.cedula === registerUserDto.cedula) {
@@ -56,7 +56,7 @@ export class AuthService {
 
       if (existUser) {
         if (existUser.id !== registerUserDto.id) {
-          if (existUser.email === registerUserDto.email) {
+          if (existUser.email.toLocaleLowerCase() === registerUserDto.email.toLocaleLowerCase()) {
             throw CustomError.badRequest('Email ya existe');
           }
           if (existUser.cedula === registerUserDto.cedula) {

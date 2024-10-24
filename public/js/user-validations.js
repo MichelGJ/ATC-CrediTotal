@@ -26,6 +26,11 @@ const userValidation = {
         return false; // If the email is not split correctly, return false
     },
 
+    isCedulaValid(cedula) {
+        const cedulaPattern = /^\d+$/;
+        return cedulaPattern.test(cedula);
+    },
+
     // Function to check if the form is valid
     validateForm(tipo) {
         const fullName = nameField.value.trim();
@@ -38,9 +43,10 @@ const userValidation = {
         // Check if all fields are filled and passwords match
         let condicion;
         if (tipo === 1) {
-            condicion = fullName && cedula && rol !== "" && email && this.isEmailValid(email) && password && confirmPassword && password === confirmPassword;
+            condicion = fullName && cedula && this.isCedulaValid(cedula) && rol !== "" && email && this.isEmailValid(email) && password && confirmPassword
+                && password === confirmPassword;
         } else {
-            condicion = fullName && cedula && rol !== "" && email && this.isEmailValid(email) && password === confirmPassword;
+            condicion = fullName && cedula && this.isCedulaValid(cedula) && rol !== "" && email && this.isEmailValid(email) && password === confirmPassword;
         }
         if (condicion) {
             registerButton.disabled = false; // Enable button
