@@ -4,8 +4,8 @@ import { CustomError } from '../errors/custom.error';
 export class TipoIncidenciaEntity {
 
   constructor(
-    public id: string,
     public name: string,
+    public id?: string,
   ) { }
 
   static fromObject(object: { [key: string]: any; }) {
