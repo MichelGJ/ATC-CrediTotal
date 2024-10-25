@@ -31,7 +31,7 @@ export class MongoTipoIncidenciaDatasource implements TipoIncidenciaDatasource {
     let tipoIncidencia;
 
     tipoIncidencia = await TipoIncidenciaModel.findById(tipoIncidenciaData.id);
-    if (!tipoIncidencia) throw CustomError.badRequest('User not found');
+    if (!tipoIncidencia) throw CustomError.badRequest('TipoIncidencia no existe');
 
     tipoIncidencia.set(tipoIncidenciaData);
 
@@ -45,7 +45,7 @@ export class MongoTipoIncidenciaDatasource implements TipoIncidenciaDatasource {
   async getTipoIncidenciaById(id: string): Promise<TipoIncidenciaEntity> {
     const tipoIncidencia = await TipoIncidenciaModel.findById(id);
   
-      if (!tipoIncidencia) throw CustomError.badRequest('Usuario no existe');
+      if (!tipoIncidencia) throw CustomError.badRequest('TipoIncidencia no existe');
 
       return tipoIncidencia;
   }

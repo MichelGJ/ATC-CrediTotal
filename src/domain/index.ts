@@ -4,10 +4,10 @@
 
 export * from './errors/custom.error';
 
-export * from './entities/user.entity';
-export * from './entities/role.entity';
-export * from './entities/tipoIncidencia.entity';
-export * from './entities/subTipoIncidencia.entity';
+export * from './entities/auth/user.entity';
+export * from './entities/auth/role.entity';
+export * from './entities/incidencias/tipoIncidencia.entity';
+export * from './entities/incidencias/subTipoIncidencia.entity';
 
 export * from './dtos/auth/register-user.dto';
 export * from './dtos/auth/login-user.dto';

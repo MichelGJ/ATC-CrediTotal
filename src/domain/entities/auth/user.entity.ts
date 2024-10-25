@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { CustomError } from '../errors/custom.error';
+import { CustomError } from '../../errors/custom.error';
 import { RoleEntity } from './role.entity';
 
 
