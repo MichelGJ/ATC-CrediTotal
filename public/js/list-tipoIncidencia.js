@@ -75,7 +75,7 @@ function attachDeleteHandlers() {
                 try {
                     const deleted = await deleteUserById(userId);
                     if (deleted) {
-                        populateUserTable();
+                        populateTipoIncidenciaTable();
                     } else {
                         console.error('Error deleting tipo incidencia:', error);
                         alert('Fallo eliminando el tipo de incidencia');
@@ -233,7 +233,7 @@ function connectToWebSockets() {
 
 addUserButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {
-        window.location.href = 'edit-user.html';
+        window.location.href = 'add-tipoIncidencia.html';
     } else {
         Auth.logout(); // Logout if token is expired
     }

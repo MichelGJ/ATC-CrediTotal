@@ -89,24 +89,24 @@ document.addEventListener('DOMContentLoaded', populateDropdown);
 
 password.addEventListener('input', function () {
     userValidation.checkPasswordMatch();
-    userValidation.validateForm(1);
+    userValidation.validateFormUser(1);
 });
 confirmPassword.addEventListener('input', function () {
     userValidation.checkPasswordMatch();
-    userValidation.validateForm(1);
+    userValidation.validateFormUser(1);
 });
 nameField.addEventListener('input',function () {
-    userValidation.validateForm(1);
+    userValidation.validateFormUser(1);
 });
 cedulaField.addEventListener('input', function () {
-    userValidation.validateForm(1);
+    userValidation.validateFormUser(1);
 });
 rolField.addEventListener('change', function () {
-    userValidation.validateForm(1);
+    userValidation.validateFormUser(1);
 });
 emailField.addEventListener('input', function () {
     userValidation.checkEmail();
-    userValidation.validateForm(1);
+    userValidation.validateFormUser(1);
 });
 
 registerForm.addEventListener('submit', registerUser);

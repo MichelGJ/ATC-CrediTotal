@@ -62,14 +62,13 @@ export class AuthService {
           if (existUser.cedula === registerUserDto.cedula) {
             throw CustomError.badRequest('Cédula ya existe');
           }
-        } else {
-
-          const userEntity = await this.userRepository.updateUser(registerUserDto);
-          WssService.instance.sendMessage('newUser', userEntity);
-
-          return userEntity;
         }
       }
+      const userEntity = await this.userRepository.updateUser(registerUserDto);
+      WssService.instance.sendMessage('newUser', userEntity);
+
+      return userEntity;
+
     } catch (error) {
       throw CustomError.internalServer(`${error}`);
     }
@@ -79,14 +78,14 @@ export class AuthService {
 
   public async loginUser(loginUserDto: LoginUserDto) {
     const user = await this.userRepository.getUserForLogin(loginUserDto);
-    
+
     const isMatching = bcryptAdapter.compare(loginUserDto.password, user.password);
     if (!isMatching) throw CustomError.badRequest('Contraseña invalida');
 
 
     const { ...userEntity } = UserEntity.fromObject(user);
 
-    const token = await JwtAdapter.generateToken({ id: user.id, name: user.name, role: user.roleDetails?.nombre , permisos: user.roleDetails?.permisos });
+    const token = await JwtAdapter.generateToken({ id: user.id, name: user.name, role: user.roleDetails?.nombre, permisos: user.roleDetails?.permisos });
     if (!token) throw CustomError.internalServer('Error while creating JWT');
 
     return {

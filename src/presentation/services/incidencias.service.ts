@@ -52,14 +52,13 @@ export class IncidenciaService {
       if (existUser) {
         if (existUser.id !== registerTipoIncidenciaDto.id) {
           throw CustomError.badRequest('Incidencia ya existe');
-        } else {
-
-          const tipoIncidenciaEntity = await this.tipoIncidenciaRepository.updateTipoIncidencia(registerTipoIncidenciaDto);
-          WssService.instance.sendMessage('newTipoIncidencia', tipoIncidenciaEntity);
-
-          return tipoIncidenciaEntity;
         }
       }
+      const tipoIncidenciaEntity = await this.tipoIncidenciaRepository.updateTipoIncidencia(registerTipoIncidenciaDto);
+      WssService.instance.sendMessage('newTipoIncidencia', tipoIncidenciaEntity);
+
+      return tipoIncidenciaEntity;
+
     } catch (error) {
       throw CustomError.internalServer(`${error}`);
     }

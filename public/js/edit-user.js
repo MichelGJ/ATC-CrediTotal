@@ -105,24 +105,24 @@ async function updateUser(event) {
 
 password.addEventListener('input', function () {
     userValidation.checkPasswordMatch();
-    userValidation.validateForm(2);
+    userValidation.validateFormUser(2);
 });
 confirmPassword.addEventListener('input', function () {
     userValidation.checkPasswordMatch();
-    userValidation.validateForm(2);
+    userValidation.validateFormUser(2);
 });
 nameField.addEventListener('input',function () {
-    userValidation.validateForm(2);
+    userValidation.validateFormUser(2);
 });
 cedulaField.addEventListener('input', function () {
-    userValidation.validateForm(2);
+    userValidation.validateFormUser(2);
 });
 rolField.addEventListener('change', function () {
-    userValidation.validateForm(2);
+    userValidation.validateFormUser(2);
 });
 emailField.addEventListener('input', function () {
     userValidation.checkEmail();
-    userValidation.validateForm(2);
+    userValidation.validateFormUser(2);
 });
 
 registerForm.addEventListener('submit', updateUser);

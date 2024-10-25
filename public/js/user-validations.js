@@ -32,7 +32,7 @@ const userValidation = {
     },
 
     // Function to check if the form is valid
-    validateForm(tipo) {
+    validateFormUser(tipo) {
         const fullName = nameField.value.trim();
         const cedula = cedulaField.value.trim();
         const rol = rolField.value;
@@ -95,5 +95,15 @@ const userValidation = {
                 : ''; // Show alert if format is invalid or domain is not allowed
             emailHelp.style.color = 'red';
         }
-    }
+    },
+
+    validateFormTipoIncidencia() {
+        const fullName = nameField.value.trim();
+
+        if (fullName) {
+            registerButton.disabled = false; // Enable button
+        } else {
+            registerButton.disabled = true; // Disable button
+        }
+    },
 };

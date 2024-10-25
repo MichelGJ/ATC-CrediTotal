@@ -15,15 +15,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         const tipoIncidenciaData = await data.json();
-        
+
         // Pre-fill form fields with user data
-        idField.value = tipoIncidenciaData._id;
+        idField.value = tipoIncidenciaData.id;
         nameField.value = tipoIncidenciaData.name;
     }
 });
 
 async function updateTipoIncidencia(event) {
-    event.preventDefault(); 
+    event.preventDefault();
 
     const id = idField.value.trim();
     const name = nameField.value.trim();
@@ -32,6 +32,8 @@ async function updateTipoIncidencia(event) {
         id: id,
         name: name,
     };
+
+    console.log(userData);
 
     try {
         const response = await fetch(`api/incidencia/updateTipoIncidencia`, {
@@ -42,7 +44,7 @@ async function updateTipoIncidencia(event) {
             body: JSON.stringify(userData),
         });
         const result = await response.json();
-        console.log({userData});
+        console.log({ userData });
 
         if (response.ok) {
             alert('Actualizacion exitosa!');
@@ -58,8 +60,8 @@ async function updateTipoIncidencia(event) {
 
 
 
-nameField.addEventListener('input',function () {
-    userValidation.validateForm(2);
+nameField.addEventListener('input', function () {
+    userValidation.validateFormTipoIncidencia();
 });
 
 
