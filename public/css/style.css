@@ -408,6 +408,10 @@ table {
     width: 10%;
 }
 
+#acciones-tiposIncidencia {
+    width: 33%;
+}
+
 .card-header {
     height: 60px;
 }
@@ -425,11 +429,13 @@ table {
 
 .btn-pagination {
     background-color: #3aadca;
+    border-color: #3aadca;
 }
 
 .btn-pagination.active,
 .btn-pagination:hover{
     background-color: #f5a302;
+    border-color: #f5a302;
 }
 
 .buttons-container {
@@ -565,4 +571,9 @@ table {
 
 .hidden {
     visibility: hidden;
+}
+
+#subtipos-button{
+    background-color: #3aadca;
+    border-color: #3aadca;
 }

@@ -1,5 +1,7 @@
 const atpButton = document.getElementById('atp-button');
 const usuariosButton = document.getElementById('usuarios-button');
+const incidenciasButton = document.getElementById('incidencias-button');
+const gestionIncidenciasButton = document.getElementById('gestionIncidencias-button');
 const token = localStorage.getItem('token');
 
 const enableOptionButton = () => {
@@ -34,6 +36,11 @@ const enableOptionButton = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     enableOptionButton();
+    const element = document.getElementById('gestionIncidencia-button');
+if (element) {
+    // Proceed with operations on the element
+    element.textContent = 'Found!';
+}
 });
 
 atpButton.addEventListener('click', () => {
@@ -46,6 +53,22 @@ atpButton.addEventListener('click', () => {
 
 // Add click event for the Usuarios button
 usuariosButton.addEventListener('click', () => {
+    if (Auth.isLoggedIn()) {
+        window.location.href = 'list-users.html';
+    } else {
+        Auth.logout(); // Logout if token is expired
+    }
+});
+
+incidenciasButton.addEventListener('click', () => {
+    if (Auth.isLoggedIn()) {
+        window.location.href = 'menu-incidencias.html';
+    } else {
+        Auth.logout(); // Logout if token is expired
+    }
+});
+
+gestionIncidenciasButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {
         window.location.href = 'list-users.html';
     } else {

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { TicketRoutes } from './tickets/routes';
 import { AuthRoutes } from './auth/routes';
+import { IncidenciaRoute } from './incidencias/routes';
 
 
 
@@ -18,6 +19,7 @@ export class AppRoutes {
 
     router.use('/api/ticket',  TicketRoutes.routes  );
     router.use('/api/auth', AuthRoutes.routes);
+    router.use('/api/incidencia', IncidenciaRoute.routes);
 
     return router;
   }

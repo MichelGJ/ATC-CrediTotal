@@ -1,9 +1,18 @@
 import { Types } from "mongoose";
 import { TipoIncidenciaModel } from "../../../data/mongo";
-import { CustomError, LoginUserDto, RegisterSubTipoIncidenciaDto, RegisterTipoIncidenciaDto, TipoIncidenciaDatasource, TipoIncidenciaEntity } from "../../../domain";
+import { CustomError, RegisterTipoIncidenciaDto, TipoIncidenciaDatasource, TipoIncidenciaEntity } from "../../../domain";
 import { bcryptAdapter } from "../../../config";
 
 export class MongoTipoIncidenciaDatasource implements TipoIncidenciaDatasource {
+
+
+  async getTipoIncidenciaForRegistration(registerTipoIncidenciaDto: RegisterTipoIncidenciaDto): Promise<TipoIncidenciaEntity | null> {
+    return await TipoIncidenciaModel.findOne({
+      $or: [
+        { name: { $regex: new RegExp(registerTipoIncidenciaDto.name, 'i') } }
+      ]
+    });
+  }
 
 
   async insertTipoIncidencia(registerTipoIncidenciaDto: RegisterTipoIncidenciaDto): Promise<TipoIncidenciaEntity> {

@@ -1,6 +1,3 @@
-
-
-
 export class RegisterTipoIncidenciaDto {
 
     private constructor(
@@ -9,7 +6,7 @@ export class RegisterTipoIncidenciaDto {
     ) { }
 
     static create(object: { [key: string]: any }): [string?, RegisterTipoIncidenciaDto?] {
-        const { name, id } = object;
+        const { id, name } = object;
 
         if (!name) return ['Missing name'];
 

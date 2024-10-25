@@ -18,6 +18,6 @@ export class TipoIncidenciaEntity {
     if (!name) throw CustomError.badRequest('Missing name');
     
 
-    return new TipoIncidenciaEntity(_id || id, name);
+    return new TipoIncidenciaEntity(name, _id || id);
   }
 }

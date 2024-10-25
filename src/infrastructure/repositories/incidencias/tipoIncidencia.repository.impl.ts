@@ -6,12 +6,12 @@ export class TipoIncidenciaRepositoryImpl implements TipoIncidenciaRepository {
         private readonly tipoIncidenciaDatasource: TipoIncidenciaDatasource
     ) { }
 
-    insertTipoIncidencia(registerUserDto: RegisterTipoIncidenciaDto): Promise<TipoIncidenciaEntity> {
-        return this.tipoIncidenciaDatasource.insertTipoIncidencia(registerUserDto);
+    insertTipoIncidencia(registerTipoIncidenciaDto: RegisterTipoIncidenciaDto): Promise<TipoIncidenciaEntity> {
+        return this.tipoIncidenciaDatasource.insertTipoIncidencia(registerTipoIncidenciaDto);
     }
 
-    updateTipoIncidencia(UpdateUserDto: RegisterTipoIncidenciaDto): Promise<TipoIncidenciaEntity> {
-        return this.tipoIncidenciaDatasource.updateTipoIncidencia(UpdateUserDto);
+    updateTipoIncidencia(registerTipoIncidenciaDto: RegisterTipoIncidenciaDto): Promise<TipoIncidenciaEntity> {
+        return this.tipoIncidenciaDatasource.updateTipoIncidencia(registerTipoIncidenciaDto);
     }
 
     getTipoIncidenciaById(id: string): Promise<TipoIncidenciaEntity> {
@@ -25,5 +25,10 @@ export class TipoIncidenciaRepositoryImpl implements TipoIncidenciaRepository {
     deleteTipoIncidenciaById(id: string): Promise<boolean> {
         return this.tipoIncidenciaDatasource.deleteTipoIncidenciaById(id);
     }
+
+    getTipoIncidenciaForRegistration(registerUserDto: RegisterTipoIncidenciaDto): Promise<TipoIncidenciaEntity | null> {
+        return this.tipoIncidenciaDatasource.getTipoIncidenciaForRegistration(registerUserDto);
+    }
+
 
 }
