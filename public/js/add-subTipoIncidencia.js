@@ -5,14 +5,17 @@ const registerForm = document.querySelector('#register-form');
 async function registerTipoIncidencia(event) {
     event.preventDefault();
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const idTipo = urlParams.get('idTipo');
     const name = nameField.value.trim();
 
     const userData = {
         name: name,
+        tipoIncidenciaId: idTipo,
     };
 
     try {
-        const response = await fetch(`api/incidencia/registerTipoIncidencia`, {
+        const response = await fetch(`api/incidencia/registerSubTipoIncidencia`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +26,7 @@ async function registerTipoIncidencia(event) {
 
         if (response.ok) {
             alert('Registro exitoso!');
-            window.location.href = 'list-tipoIncidencia.html';
+            window.location.href = `list-subTipoIncidencia.html?idTipo=${idTipo}`;
         } else {
             alert(`Error en actualizacion: ${result.error || 'Error desconocido'}`);
         }
@@ -38,6 +41,7 @@ async function registerTipoIncidencia(event) {
 nameField.addEventListener('input', function () {
     userValidation.validateFormTipoIncidencia();
 });
+document.addEventListener('DOMContentLoaded', userValidation.validateFormTipoIncidencia());
 
 
 registerForm.addEventListener('submit', registerTipoIncidencia);

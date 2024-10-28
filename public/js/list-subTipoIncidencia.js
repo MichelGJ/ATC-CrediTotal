@@ -66,12 +66,12 @@ function attachDeleteHandlers() {
 
     deleteButtons.forEach(button => {
         button.addEventListener('click', async (event) => {
-            const userId = button.getAttribute('data-id');
+            const idSubTipo = button.getAttribute('data-id');
 
             // Confirm if the user wants to delete
             if (confirm('¿Está seguro de eliminar este tipo de incidencia?')) {
                 try {
-                    const deleted = await deleteUserById(userId);
+                    const deleted = await deleteUserById(idSubTipo);
                     if (deleted) {
                         populateUserTable();
                     } else {
@@ -92,10 +92,10 @@ function attachEditHandlers() {
 
     editButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            const userId = button.getAttribute('data-id');
+            const idSubTipo = button.getAttribute('data-id');
 
             // Redirect to registration page with user ID in the query string
-            window.location.href = `/edit-tipoIncidencia.html?id=${userId}`;
+            window.location.href = `/edit-subTipoIncidencia.html?id=${idSubTipo}&idTipo=${idTipo}`;
         });
     });
 }
@@ -216,7 +216,7 @@ function connectToWebSockets() {
 
 addUserButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {
-        window.location.href = 'registration.html';
+        window.location.href = `add-subTipoIncidencia.html?idTipo=${idTipo}`;
     } else {
         Auth.logout(); // Logout if token is expired
     }

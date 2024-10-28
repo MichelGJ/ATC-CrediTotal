@@ -9,8 +9,8 @@ const subTipoIncidenciaSchema = new mongoose.Schema( {
   },
   tipoIncidenciaId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: [ true, 'Name is required' ],
-    ref: 'TipoIncidencia'
+    required: [ true, 'TipoIncidencia is required' ],
+    ref: 'Tipo_Incidencia'
   }
 } );
 

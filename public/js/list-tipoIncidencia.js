@@ -94,10 +94,10 @@ function attachEditHandlers() {
 
     editButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            const userId = button.getAttribute('data-id');
+            const idTipo = button.getAttribute('data-id');
 
             // Redirect to registration page with user ID in the query string
-            window.location.href = `/edit-tipoIncidencia.html?id=${userId}`;
+            window.location.href = `/edit-tipoIncidencia.html?id=${idTipo}`;
         });
     });
 }
