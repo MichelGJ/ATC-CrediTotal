@@ -209,10 +209,10 @@ function connectToWebSockets() {
     const socket = new WebSocket(wsUrl);
 
     socket.onmessage = (event) => {
-        // const message = JSON.parse(event.data);
-        // if (message.type === 'newUser') {
-        //     populateTipoIncidenciaTable();
-        // }
+        const message = JSON.parse(event.data);
+        if (message.type === 'newTipoIncidencia') {
+            populateTipoIncidenciaTable();
+        }
     };
 
     socket.onclose = (event) => {
