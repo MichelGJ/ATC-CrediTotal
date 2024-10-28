@@ -32,5 +32,5 @@ subTipoIncidenciaSchema.set('toJSON', {
 })
 
 
-export const SubTipoIncidenciaModel = mongoose.model('SubTipoIncidencia', subTipoIncidenciaSchema);
+export const SubTipoIncidenciaModel = mongoose.model('SubTipo_Incidencia', subTipoIncidenciaSchema);
 

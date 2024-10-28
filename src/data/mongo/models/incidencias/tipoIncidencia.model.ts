@@ -26,5 +26,5 @@ tipoIncidenciaSchema.set('toJSON', {
 })
 
 
-export const TipoIncidenciaModel = mongoose.model('TipoIncidencia', tipoIncidenciaSchema);
+export const TipoIncidenciaModel = mongoose.model('Tipo_Incidencia', tipoIncidenciaSchema);
 

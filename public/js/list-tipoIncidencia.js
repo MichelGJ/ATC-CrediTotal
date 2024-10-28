@@ -109,7 +109,8 @@ function attachSubTipoHandlers() {
     subTipoButton.forEach(button => {
         button.addEventListener('click', () => {
             if (Auth.isLoggedIn()) {
-                window.location.href = 'list-subTipoIncidencia.html';
+                const idTipo = button.getAttribute('data-id');
+                window.location.href = `list-subTipoIncidencia.html?idTipo=${idTipo}`;
             } else {
                 Auth.logout(); // Logout if token is expired
             }

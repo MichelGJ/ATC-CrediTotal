@@ -1,7 +1,7 @@
-import { Types } from "mongoose";
 import { SubTipoIncidenciaModel } from "../../../data/mongo";
 import { CustomError, RegisterSubTipoIncidenciaDto, SubTipoIncidenciaDatasource, SubTipoIncidenciaEntity } from "../../../domain";
 import { bcryptAdapter } from "../../../config";
+import { Types } from "mongoose";
 
 export class MongoSubTipoIncidenciaDatasource implements SubTipoIncidenciaDatasource {
 
@@ -44,22 +44,23 @@ export class MongoSubTipoIncidenciaDatasource implements SubTipoIncidenciaDataso
 
   async getSubTipoIncidenciaById(id: string): Promise<SubTipoIncidenciaEntity> {
     const tipoIncidencia = await SubTipoIncidenciaModel.findById(id);
-  
-      if (!tipoIncidencia) throw CustomError.badRequest('SubTipoIncidencia no existe');
 
-      return tipoIncidencia;
+    if (!tipoIncidencia) throw CustomError.badRequest('SubTipoIncidencia no existe');
+
+    return tipoIncidencia;
   }
 
-  async getAllSubTipoIncidenciaByTipoIncidencia(id: string, page: number, limit: number, searchQuery: string): Promise<{ listaSubTipos: SubTipoIncidenciaEntity[], currentPage: number, totalPages: number }>{
+  async getAllSubTipoIncidenciaByTipoIncidencia(idTipo: string, page: number, limit: number, searchQuery: string): Promise<{ listaSubTipos: SubTipoIncidenciaEntity[], currentPage: number, totalPages: number }> {
     const skip = (page - 1) * limit;
 
-    const searchCondition = searchQuery
-      ? {
-        $or: [
-          { name: { $regex: searchQuery, $options: 'i' } }
-        ]
-      }
-      : {};
+    const searchCondition = {
+      $and: [
+        { tipoIncidenciaId: new Types.ObjectId(idTipo) },
+        searchQuery
+          ? { name: { $regex: searchQuery, $options: 'i' } }
+          : {}
+      ]
+    };
 
     const totalTiposIncidencia = await SubTipoIncidenciaModel.countDocuments(searchCondition);
 
@@ -67,8 +68,17 @@ export class MongoSubTipoIncidenciaDatasource implements SubTipoIncidenciaDataso
 
     const tiposIncidencias = await SubTipoIncidenciaModel.aggregate([
       { $match: searchCondition },
-      { $skip: skip },   
-      { $limit: limit }      
+      {
+        $lookup: {
+          from: 'tipo_incidencias',
+          localField: 'tipoIncidenciaId',
+          foreignField: '_id',
+          as: 'tipoDetails'
+        }
+      },
+      { $unwind: '$tipoDetails' },
+      { $skip: skip },
+      { $limit: limit }
     ]);
 
     const listaSubTipos = tiposIncidencias.map(tipo => SubTipoIncidenciaEntity.fromObject(tipo));
@@ -79,7 +89,7 @@ export class MongoSubTipoIncidenciaDatasource implements SubTipoIncidenciaDataso
     };
   }
 
-  
+
   async deleteSubTipoIncidenciaById(id: string): Promise<boolean> {
     const user = await SubTipoIncidenciaModel.deleteOne({ _id: id });
     return user.acknowledged;

@@ -4,10 +4,12 @@ const searchInput = document.getElementById('userSearchInput');
 
 let currentPage = 1;
 const limit = 10; // Default users per page
+const urlParams = new URLSearchParams(window.location.search);
+const idTipo = urlParams.get('idTipo');
 
-async function fetchData(page = 1, search = '') {
+async function fetchData(idTipo, page = 1, search = '') {
     try {
-        const response = await fetch(`api/incidencia/getAllTipoIncidencia?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`);
+        const response = await fetch(`api/incidencia/getAllSubTipoIncidenciaByTipoIncidencia?idTipo=${idTipo}&page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`);
         if (!response.ok) {
             throw new Error(`Fetch failed with status ${response.status}`);
         }
@@ -19,24 +21,24 @@ async function fetchData(page = 1, search = '') {
     }
 }
 
-async function populateTipoIncidenciaTable(page = 1, searchQuery = '') {
+async function populateTipoIncidenciaTable(idTipo, page = 1, searchQuery = '') {
     try {
-        const { listaTipos, currentPage, totalPages } = await fetchData(page, searchQuery);
+        const { listaSubTipos, currentPage, totalPages } = await fetchData(idTipo, page, searchQuery);
 
-        userTableBody.innerHTML = ''; 
+        userTableBody.innerHTML = '';
 
-        if (listaTipos.length === 0) {
+        if (listaSubTipos.length === 0) {
             userTableBody.innerHTML = '<tr><td colspan="5">No se encontro tipos de incidencia.</td></tr>';
             updatePaginationControls(currentPage, totalPages, searchQuery);
             return;
         }
 
         // Populate users
-        listaTipos.forEach(tipo => {
+        listaSubTipos.forEach(tipo => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${tipo.name}</td>
-                <td>${tipo.tipo}</td>
+                <td>${tipo.tipoDetails.name}</td>
                 <td id="acciones">
                   <button class="btn btn-danger btn-sm delete-user" data-id="${tipo.id}">
                     <i class="bi bi-trash"></i>
@@ -49,7 +51,7 @@ async function populateTipoIncidenciaTable(page = 1, searchQuery = '') {
             userTableBody.appendChild(row);
         });
 
-        
+
         updatePaginationControls(currentPage, totalPages, searchQuery);
 
         attachDeleteHandlers();
@@ -100,9 +102,9 @@ function attachEditHandlers() {
 
 function updatePaginationControls(currentPage, totalPages, searchQuery = '') {
     const paginationElement = document.getElementById('pagination');
-    paginationElement.innerHTML = ''; 
+    paginationElement.innerHTML = '';
 
-    const maxVisiblePages = 5;  
+    const maxVisiblePages = 5;
     const halfVisible = Math.floor(maxVisiblePages / 2);
 
     let startPage = Math.max(currentPage - halfVisible, 1);
@@ -147,7 +149,7 @@ function appendPageButton(pageNumber, currentPage, searchQuery) {
     }
 
     pageButton.addEventListener('click', () => {
-        populateTipoIncidenciaTable(pageNumber, searchQuery);
+        populateTipoIncidenciaTable(idTipo, pageNumber, searchQuery);
     });
 
     paginationElement.appendChild(pageButton);
@@ -189,10 +191,10 @@ function connectToWebSockets() {
     const socket = new WebSocket(wsUrl);
 
     socket.onmessage = (event) => {
-        // const message = JSON.parse(event.data);
-        // if (message.type === 'newUser') {
-        //     populateTipoIncidenciaTable();
-        // }
+        const message = JSON.parse(event.data);
+        if (message.type === 'newTipoIncidencia') {
+            populateTipoIncidenciaTable(idTipo);
+        }
     };
 
     socket.onclose = (event) => {
@@ -222,12 +224,12 @@ addUserButton.addEventListener('click', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    populateTipoIncidenciaTable()
+    populateTipoIncidenciaTable(idTipo)
 });
 
 searchInput.addEventListener('keyup', function () {
     const filterText = searchInput.value.trim().toLowerCase();  // Trim any extra spaces
-    populateTipoIncidenciaTable(1, filterText);
+    populateTipoIncidenciaTable(idTipo, 1, filterText);
 });
 
 connectToWebSockets();

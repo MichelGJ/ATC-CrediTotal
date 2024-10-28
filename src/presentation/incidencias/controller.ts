@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { IncidenciaService } from "../services";
-import { CustomError, LoginUserDto, RegisterTipoIncidenciaDto, UpdateUserDto } from "../../domain";
+import { CustomError, RegisterSubTipoIncidenciaDto, RegisterTipoIncidenciaDto } from "../../domain";
 
 export class IncidenciasController {
     constructor(
@@ -59,5 +59,48 @@ export class IncidenciasController {
             .catch(error => this.handleError(error, res))
     }
 
+    registerSubTipoIncidencia = (req: Request, res: Response) => {
+        const [error, registerDto] = RegisterSubTipoIncidenciaDto.create(req.body);
+        if (error) return res.status(400).json({ error });
+
+        this.incidenciaService.registerSubTipoIncidencia(registerDto!)
+            .then((tipoIncidencia) => res.json(tipoIncidencia))
+            .catch(error => this.handleError(error, res))
+    }
+
+    updateSubTipoIncidencia = (req: Request, res: Response) => {
+        const [error, registerDto] = RegisterSubTipoIncidenciaDto.create(req.body);
+        if (error) return res.status(400).json({ error });
+
+
+        this.incidenciaService.updateSubTipoIncidencia(registerDto!)
+            .then((user) => res.json(user))
+            .catch(error => this.handleError(error, res))
+    }
+
+
+    getAllSubTipoIncidenciaByTipoIncidencia = (req: Request, res: Response) => {
+        const idTipo = req.query.idTipo as string;
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+        const searchQuery = req.query.search as string || '';
+        this.incidenciaService.getAllSubTipoIncidenciaByTipoIncidencia(idTipo, page, limit, searchQuery)
+            .then((tipoIncidencia) => res.json(tipoIncidencia))
+            .catch(error => this.handleError(error, res))
+    }
+
+    deleteSubTipoIncidenciaById = (req: Request, res: Response) => {
+        const id = req.params.id;
+        this.incidenciaService.deleteSubTipoIncidenciaById(id)
+            .then((tipoIncidencia) => res.json(tipoIncidencia))
+            .catch(error => this.handleError(error, res))
+    }
+
+    getSubTipoIncidenciaById = (req: Request, res: Response) => {
+        const id = req.params.id;
+        this.incidenciaService.getSubTipoIncidenciaById(id)
+            .then((tipoIncidencia) => res.json(tipoIncidencia))
+            .catch(error => this.handleError(error, res))
+    }
 
 }
