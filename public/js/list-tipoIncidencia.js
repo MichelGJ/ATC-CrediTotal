@@ -1,6 +1,7 @@
 const userTableBody = document.getElementById('user-table-body');
 const addUserButton = document.getElementById('add-user-button');
 const searchInput = document.getElementById('userSearchInput');
+const backButton = document.getElementById('goBack-button')
 // const subTiposButton = document.getElementById('subtipos-button');
 
 let currentPage = 1;
@@ -240,6 +241,13 @@ addUserButton.addEventListener('click', () => {
     }
 });
 
+backButton.addEventListener('click', () => {
+    if (Auth.isLoggedIn()) {
+        window.location.href = `main-menu.html`;
+    } else {
+        Auth.logout(); // Logout if token is expired
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     populateTipoIncidenciaTable()

@@ -1,7 +1,7 @@
 const userTableBody = document.getElementById('user-table-body');
 const addUserButton = document.getElementById('add-user-button');
 const searchInput = document.getElementById('userSearchInput');
-
+const backButton = document.getElementById('goBack-button')
 let currentPage = 1;
 const limit = 10; // Default users per page
 const urlParams = new URLSearchParams(window.location.search);
@@ -222,6 +222,13 @@ addUserButton.addEventListener('click', () => {
     }
 });
 
+backButton.addEventListener('click', () => {
+    if (Auth.isLoggedIn()) {
+        window.location.href = `list-tipoIncidencia.html`;
+    } else {
+        Auth.logout(); // Logout if token is expired
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     populateTipoIncidenciaTable(idTipo)
