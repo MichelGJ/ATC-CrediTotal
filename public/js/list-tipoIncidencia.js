@@ -243,7 +243,7 @@ addUserButton.addEventListener('click', () => {
 
 backButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {
-        window.location.href = `main-menu.html`;
+        window.location.href = `menu-incidencias.html`;
     } else {
         Auth.logout(); // Logout if token is expired
     }
