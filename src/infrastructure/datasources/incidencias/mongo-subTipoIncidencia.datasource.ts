@@ -6,17 +6,17 @@ import { Types } from "mongoose";
 export class MongoSubTipoIncidenciaDatasource implements SubTipoIncidenciaDatasource {
 
 
-  async getSubTipoIncidenciaForRegistration(registerTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity | null> {
+  async getSubTipoIncidenciaForRegistration(registerSubTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity | null> {
     return await SubTipoIncidenciaModel.findOne({
       $or: [
-        { name: { $regex: new RegExp(registerTipoIncidenciaDto.name, 'i') } }
+        { name: { $regex: new RegExp(registerSubTipoIncidenciaDto.name, 'i') } }
       ]
     });
   }
 
 
-  async insertSubTipoIncidencia(registerTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity> {
-    const tipoIncidencia = new SubTipoIncidenciaModel(registerTipoIncidenciaDto);
+  async insertSubTipoIncidencia(registerSubTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity> {
+    const tipoIncidencia = new SubTipoIncidenciaModel(registerSubTipoIncidenciaDto);
 
     await tipoIncidencia.save();
 
@@ -25,8 +25,8 @@ export class MongoSubTipoIncidenciaDatasource implements SubTipoIncidenciaDataso
     return tipoIncidenciaEntity;
   }
 
-  async updateSubTipoIncidencia(registerTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity> {
-    const { ...tipoIncidenciaData } = registerTipoIncidenciaDto;
+  async updateSubTipoIncidencia(registerSubTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity> {
+    const { ...tipoIncidenciaData } = registerSubTipoIncidenciaDto;
 
     let tipoIncidencia;
 
