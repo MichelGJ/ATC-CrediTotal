@@ -1,10 +1,10 @@
-import { RegisterTicketSoporteDto, TicketSoportEntity } from "../..";
+import { RegisterTicketSoporteDto, TicketSoporteEntity } from "../..";
 
-export abstract class TicketSoportRepository {
-    abstract insertTicketSoporte(registerTipoIncidenciaDto: RegisterTicketSoporteDto): Promise<TicketSoportEntity>;
-    abstract updateTicketSoporte(registerSubTipoIncidenciaDto: RegisterTicketSoporteDto): Promise<TicketSoportEntity>;
-    abstract getTicketSoporteById(id: string): Promise<TicketSoportEntity>;
-    abstract getAllTicketSoporte(page: number, limit: number, searchQuery: string): Promise<{ listaTipos: TicketSoportEntity[], currentPage: number, totalPages: number }>;
+export abstract class TicketSoporteRepository {
+    abstract insertTicketSoporte(registerTipoIncidenciaDto: RegisterTicketSoporteDto): Promise<TicketSoporteEntity>;
+    abstract updateTicketSoporte(registerSubTipoIncidenciaDto: RegisterTicketSoporteDto): Promise<TicketSoporteEntity>;
+    abstract getTicketSoporteById(id: string): Promise<TicketSoporteEntity>;
+    abstract getAllTicketSoporte(page: number, limit: number, searchQuery: string): Promise<{ listaTipos: TicketSoporteEntity[], currentPage: number, totalPages: number }>;
     abstract deleteTicketSoporteById(id: string): Promise<boolean>;
-    abstract getTicketSoporteForRegistration(registerTipoIncidenciaDto: RegisterTicketSoporteDto): Promise<TicketSoportEntity | null>;
+    abstract getTicketSoporteForRegistration(registerTipoIncidenciaDto: RegisterTicketSoporteDto): Promise<TicketSoporteEntity | null>;
 }

@@ -1,6 +1,5 @@
 import { SubTipoIncidenciaModel } from "../../../data/mongo";
 import { CustomError, RegisterSubTipoIncidenciaDto, SubTipoIncidenciaDatasource, SubTipoIncidenciaEntity } from "../../../domain";
-import { bcryptAdapter } from "../../../config";
 import { Types } from "mongoose";
 
 export class MongoSubTipoIncidenciaDatasource implements SubTipoIncidenciaDatasource {

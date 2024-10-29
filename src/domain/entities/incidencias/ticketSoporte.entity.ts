@@ -1,14 +1,15 @@
+import { Types } from 'mongoose';
 import { CustomError } from '../../errors/custom.error';
 
 
-export class TicketSoportEntity {
+export class TicketSoporteEntity {
 
     constructor(
-        public tipoIncidenciaId: string,
-        public subTipoIncidenciaId: string,
+        public tipoIncidenciaId:  Types.ObjectId,
+        public subTipoIncidenciaId:  Types.ObjectId,
         public descripcion: string,
         public cedulaCliente: string,
-        public userId: string,
+        public userId:  Types.ObjectId,
         public estatus: string,
         public id?: string
     ) { }
@@ -27,6 +28,6 @@ export class TicketSoportEntity {
         if (!userId) throw CustomError.badRequest('Missing userId');
         if (!estatus) throw CustomError.badRequest('Missing estatus');
 
-        return new TicketSoportEntity(tipoIncidenciaId,  subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, _id || id);
+        return new TicketSoporteEntity(tipoIncidenciaId,  subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, _id || id);
     }
 }

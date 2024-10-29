@@ -1,7 +1,5 @@
-import { Types } from "mongoose";
 import { TipoIncidenciaModel } from "../../../data/mongo";
 import { CustomError, RegisterTipoIncidenciaDto, TipoIncidenciaDatasource, TipoIncidenciaEntity } from "../../../domain";
-import { bcryptAdapter } from "../../../config";
 
 export class MongoTipoIncidenciaDatasource implements TipoIncidenciaDatasource {
 
