@@ -1,21 +1,27 @@
 import { Types } from 'mongoose';
 import { CustomError } from '../../errors/custom.error';
+import { TipoIncidenciaEntity } from './tipoIncidencia.entity';
+import { SubTipoIncidenciaEntity } from './subTipoIncidencia.entity';
+import { UserEntity } from '../../';
 
 
 export class TicketSoporteEntity {
 
     constructor(
-        public tipoIncidenciaId:  Types.ObjectId,
-        public subTipoIncidenciaId:  Types.ObjectId,
+        public tipoIncidenciaId: Types.ObjectId,
+        public subTipoIncidenciaId: Types.ObjectId,
         public descripcion: string,
         public cedulaCliente: string,
-        public userId:  Types.ObjectId,
+        public userId: Types.ObjectId,
         public estatus: string,
+        public tipoDetails?: TipoIncidenciaEntity,
+        public subTipoDetails?: SubTipoIncidenciaEntity,
+        public userDetails?: UserEntity,
         public id?: string
     ) { }
 
     static fromObject(object: { [key: string]: any; }) {
-        const { id, _id, tipoIncidenciaId,  subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, } = object;
+        const { id, _id, tipoIncidenciaId, subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, tipoDetails, subTipoDetails, UserEntity } = object;
 
         if (!_id && !id) {
             throw CustomError.badRequest('Missing id');
@@ -28,6 +34,6 @@ export class TicketSoporteEntity {
         if (!userId) throw CustomError.badRequest('Missing userId');
         if (!estatus) throw CustomError.badRequest('Missing estatus');
 
-        return new TicketSoporteEntity(tipoIncidenciaId,  subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, _id || id);
+        return new TicketSoporteEntity(tipoIncidenciaId, subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, tipoDetails, subTipoDetails, UserEntity, _id || id);
     }
 }

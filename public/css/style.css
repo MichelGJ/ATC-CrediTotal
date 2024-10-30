@@ -82,15 +82,15 @@ table {
 }
 
 .ticket-secondary-desk {
-    font-size: 30px;
+    font-size: 40px;
 }
 
 .cedula-secondary {
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .ticket-secondary {
-    font-size: 15px;
+    font-size: 25px;
 }
 
 #lbl-new-ticket {
@@ -247,7 +247,7 @@ table {
 }
 
 .secondary-table td {
-    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #494949;
     /* Light gray line */
     padding: 10px;
     /* Add padding for better spacing */

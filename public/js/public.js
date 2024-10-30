@@ -12,7 +12,7 @@ function renderTicket(tickets = []) {
 
         lblTicket.innerText = `Ticket ${ticket.number}`;
         lblDesk.innerText = `Mesa ${ticket.handleAtDesk}`;
-        lblCedula.innerText =  `Cédula ${ticket.cedula}`;
+        lblCedula.innerText = `Cédula ${ticket.cedula}`;
     }
 }
 
@@ -25,10 +25,16 @@ async function loadInitialCount() {
 
 
 function connectToWebSockets() {
-
     const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-    const host = window.location.host; // This gives you 'localhost:3000' for local or your production domain.
+    const host = window.location.host;
     const wsUrl = `${protocol}${host}/ws`;
+
+    const playSound = () => {
+        const sound = new Audio("../sounds/nextticket.wav");
+        sound.play().catch(error => {
+            console.log("Error playing sound:", error);
+        });
+    };
 
     const socket = new WebSocket(wsUrl);
 
@@ -36,22 +42,18 @@ function connectToWebSockets() {
         console.log(event.data);
         const { type, payload } = JSON.parse(event.data);
         if (type !== 'on-working-changed') return;
+        playSound();
         renderTicket(payload);
     };
 
-    socket.onclose = (event) => {
+    socket.onclose = () => {
         console.log('Connection closed');
-        setTimeout(() => {
-            console.log('retrying to connect');
-            connectToWebSockets();
-        }, 1500);
-
+        setTimeout(() => connectToWebSockets(), 1500);
     };
 
-    socket.onopen = (event) => {
+    socket.onopen = () => {
         console.log('Connected');
     };
-
 }
 
 connectToWebSockets();

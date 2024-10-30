@@ -3,6 +3,7 @@ import { AuthController } from './controller';
 import { AuthService, EmailService } from '../services';
 import { envs } from '../../config';
 import { RoleRepositoryImpl, MongoRoleDatasource, UserRepositoryImpl, MongoUserDatasource } from '../../infrastructure/';
+import { ValidateMiddleware } from '../middlewares/validate.middleware';
 
 const roleRepository = new RoleRepositoryImpl(
   // new FileSystemDataSource()
@@ -35,7 +36,7 @@ export class AuthRoutes {
 
     // Definir las rutas
     router.post('/login', controller.loginUser);
-    router.post('/register', controller.registerUser);
+    router.post('/register', [ValidateMiddleware.validate], controller.registerUser);
     router.put('/updateUser', controller.updateUser);
     router.get('/getRoles', controller.getRoles);
     router.get('/getUsers', controller.getUsers);

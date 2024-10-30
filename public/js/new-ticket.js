@@ -24,7 +24,7 @@ async function createTicket() {
             headers: {
                 'Content-Type': 'application/json', // Set the content type to application/json
             },
-            body: JSON.stringify({ userId: userId })
+            body: JSON.stringify({ cedula: userId })
         });
 
         const result = await response.json();

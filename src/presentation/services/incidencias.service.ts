@@ -153,12 +153,6 @@ export class IncidenciaService {
     try {
       const exist = await this.ticketSoporteRepository.getTicketSoporteForRegistration(registerTicketSoporteDto);
 
-      // if (exist) {
-      //   if (exist.name.toLocaleLowerCase() === registerTicketSoporteDto.name.toLocaleLowerCase()) {
-      //     throw CustomError.badRequest('Incidencia ya existe');
-      //   }
-      // }
-
       const tipoIncidenciaEntity = await this.ticketSoporteRepository.insertTicketSoporte(registerTicketSoporteDto);
 
 

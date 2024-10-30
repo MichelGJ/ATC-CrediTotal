@@ -24,8 +24,8 @@ export class TicketController {
   }
 
   public createTicket = async (req: Request, res: Response) => {
-    const { userId } = req.body;
-    res.status(201).json(this.ticketService.createTicket(userId));
+    const { cedula } = req.body;
+    res.status(201).json(this.ticketService.createTicket(cedula));
   }
 
   public drawTicket = async (req: Request, res: Response) => {

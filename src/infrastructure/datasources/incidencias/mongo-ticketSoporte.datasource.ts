@@ -43,10 +43,10 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
 
   async getTicketSoporteById(id: string): Promise<TicketSoporteEntity> {
     const ticketSoporte = await TicketSoporteModel.findById(id);
-  
-      if (!ticketSoporte) throw CustomError.badRequest('ticketSoporte no existe');
 
-      return ticketSoporte;
+    if (!ticketSoporte) throw CustomError.badRequest('ticketSoporte no existe');
+
+    return ticketSoporte;
   }
 
   async getAllTicketSoporte(page: number, limit: number, searchQuery: string): Promise<{ listaTipos: TicketSoporteEntity[]; currentPage: number; totalPages: number; }> {
@@ -64,13 +64,40 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
 
     const totalPages = Math.ceil(totalTiposIncidencia / limit);
 
-    const tiposIncidencias = await TicketSoporteModel.aggregate([
+    const ticketsSoporte = await TicketSoporteModel.aggregate([
       { $match: searchCondition },
-      { $skip: skip },   
-      { $limit: limit }      
+      {
+        $lookup: {
+          from: 'tipo_incidencias',
+          localField: 'tipoIncidenciaId',
+          foreignField: '_id',
+          as: 'tipoDetails'
+        }
+      },
+      { $unwind: '$tipoDetails' },
+      {
+        $lookup: {
+          from: 'subtipo_incidencias',
+          localField: 'subTipoIncidenciaId',
+          foreignField: '_id',
+          as: 'subTipoDetails'
+        }
+      },
+      { $unwind: '$subTipoDetails' },
+      {
+        $lookup: {
+          from: 'user',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'userDetails'
+        }
+      },
+      { $unwind: '$userDetails' },
+      { $skip: skip },
+      { $limit: limit }
     ]);
 
-    const listaTipos = tiposIncidencias.map(tipo => TicketSoporteEntity.fromObject(tipo));
+    const listaTipos = ticketsSoporte.map(ticket => TicketSoporteEntity.fromObject(ticket));
     return {
       listaTipos,
       currentPage: page,
@@ -78,9 +105,9 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
     };
   }
 
-  
+
   async deleteTicketSoporteById(id: string): Promise<boolean> {
-    const user = await TicketSoporteModel.deleteOne({ _id: id });
-    return user.acknowledged;
+    const ticketDeleted = await TicketSoporteModel.deleteOne({ _id: id });
+    return ticketDeleted.acknowledged;
   }
 }

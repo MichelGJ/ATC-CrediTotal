@@ -9,13 +9,13 @@ export class ValidateMiddleware {
 
         try {
 
-            const cedula = req.body.userId;
+            const cedula = req.body.cedula;
 
             // Regular expression for a cedula format (adjust based on your requirements)
-            const cedulaRegex = /^[0-9]{8}$/;
+            const cedulaRegex = /^\d+$/;
 
             if (!cedulaRegex.test(cedula)) {
-                return res.status(400).json({ error: 'Debe contener 8 digitos numéricos' });
+                return res.status(400).json({ error: 'Cédula incorrecta' });
             }
 
             // If cedula is valid, proceed to the next middleware or route handler

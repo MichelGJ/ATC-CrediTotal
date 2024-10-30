@@ -10,7 +10,6 @@ export class MongoUserDatasource implements UserDatasource {
 
     const user = new UserModel(registerUserDto);
 
-
     // Encriptar la contraseña
     user.password = bcryptAdapter.hash(registerUserDto.password);
 
