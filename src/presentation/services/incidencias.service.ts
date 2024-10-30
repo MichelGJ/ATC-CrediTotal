@@ -1,5 +1,8 @@
-import { JwtAdapter, bcryptAdapter, envs } from '../../config';
-import { CustomError, RegisterSubTipoIncidenciaDto, RegisterTipoIncidenciaDto, SubTipoIncidenciaRepository, TipoIncidenciaRepository } from '../../domain';
+import { JwtAdapter } from '../../config';
+import {
+  CustomError, RegisterSubTipoIncidenciaDto, RegisterTipoIncidenciaDto, RegisterTicketSoporteDto, SubTipoIncidenciaRepository,
+  TicketSoporteRepository, TipoIncidenciaRepository
+} from '../../domain';
 import { WssService } from './wss.services';
 
 
@@ -10,6 +13,7 @@ export class IncidenciaService {
   constructor(
     private readonly tipoIncidenciaRepository: TipoIncidenciaRepository,
     private readonly subTipoIncidenciaRepository: SubTipoIncidenciaRepository,
+    private readonly ticketSoporteRepository: TicketSoporteRepository,
     // webServiceUrl: string,
   ) { }
 
@@ -20,9 +24,7 @@ export class IncidenciaService {
       const exist = await this.tipoIncidenciaRepository.getTipoIncidenciaForRegistration(registerTipoIncidenciaDto);
 
       if (exist) {
-        if (exist.name.toLocaleLowerCase() === registerTipoIncidenciaDto.name.toLocaleLowerCase()) {
-          throw CustomError.badRequest('Incidencia ya existe');
-        }
+        throw CustomError.badRequest('Incidencia ya existe');
       }
 
       const tipoIncidenciaEntity = await this.tipoIncidenciaRepository.insertTipoIncidencia(registerTipoIncidenciaDto);
@@ -81,7 +83,7 @@ export class IncidenciaService {
     return tipos;
   }
 
-  
+
 
   public async registerSubTipoIncidencia(registerSubTipoIncidenciaDto: RegisterSubTipoIncidenciaDto) {
 
@@ -89,9 +91,7 @@ export class IncidenciaService {
       const exist = await this.subTipoIncidenciaRepository.getSubTipoIncidenciaForRegistration(registerSubTipoIncidenciaDto);
 
       if (exist) {
-        if (exist.name.toLocaleLowerCase() === registerSubTipoIncidenciaDto.name.toLocaleLowerCase()) {
-          throw CustomError.badRequest('Incidencia ya existe');
-        }
+        throw CustomError.badRequest('Incidencia ya existe');
       }
 
       const tipoIncidenciaEntity = await this.subTipoIncidenciaRepository.insertSubTipoIncidencia(registerSubTipoIncidenciaDto);
@@ -100,7 +100,7 @@ export class IncidenciaService {
       const token = await JwtAdapter.generateToken({ id: tipoIncidenciaEntity.id });
       if (!token) throw CustomError.internalServer('Error while creating JWT');
 
-      WssService.instance.sendMessage('newTipoIncidencia','');
+      WssService.instance.sendMessage('newTipoIncidencia', '');
 
       return {
         user: tipoIncidenciaEntity,
@@ -147,4 +147,76 @@ export class IncidenciaService {
     const tipos = await this.subTipoIncidenciaRepository.deleteSubTipoIncidenciaById(id);
     return tipos;
   }
+
+  public async registerTicketSoporte(registerTicketSoporteDto: RegisterTicketSoporteDto) {
+
+    try {
+      const exist = await this.ticketSoporteRepository.getTicketSoporteForRegistration(registerTicketSoporteDto);
+
+      // if (exist) {
+      //   if (exist.name.toLocaleLowerCase() === registerTicketSoporteDto.name.toLocaleLowerCase()) {
+      //     throw CustomError.badRequest('Incidencia ya existe');
+      //   }
+      // }
+
+      const tipoIncidenciaEntity = await this.ticketSoporteRepository.insertTicketSoporte(registerTicketSoporteDto);
+
+
+      const token = await JwtAdapter.generateToken({ id: tipoIncidenciaEntity.id });
+      if (!token) throw CustomError.internalServer('Error while creating JWT');
+
+      WssService.instance.sendMessage('newTipoIncidencia', '');
+
+      return {
+        user: tipoIncidenciaEntity,
+        token: token
+      };
+
+    } catch (error) {
+      throw CustomError.internalServer(`${error}`);
+    }
+
+  }
+
+  public async updateTicketSoporte(registerTicketSoporteDto: RegisterTicketSoporteDto) {
+    try {
+
+      const exist = await this.ticketSoporteRepository.getTicketSoporteForRegistration(registerTicketSoporteDto);
+
+      // if (exist) {
+      //   if (exist.id !== registerTicketSoporteDto.id) {
+      //     throw CustomError.badRequest('Incidencia ya existe');
+      //   }
+      // }
+      const tipoIncidenciaEntity = await this.ticketSoporteRepository.updateTicketSoporte(registerTicketSoporteDto);
+      WssService.instance.sendMessage('newTipoIncidencia', '');
+
+      return tipoIncidenciaEntity;
+
+    } catch (error) {
+      throw CustomError.internalServer(`${error}`);
+    }
+  }
+
+  public async getAllTicketSoporte(page: number, limit: number, searchQuery: string) {
+    const tipos = await this.ticketSoporteRepository.getAllTicketSoporte(page, limit, searchQuery);
+    return tipos;
+  }
+
+  public async getTicketSoporteById(id: string) {
+    const tipos = await this.ticketSoporteRepository.getTicketSoporteById(id);
+    return tipos;
+  }
+
+  public async deleteTicketSoporteById(id: string) {
+    const tipos = await this.ticketSoporteRepository.deleteTicketSoporteById(id);
+    return tipos;
+  }
+
+
+
+
+
+
+
 }

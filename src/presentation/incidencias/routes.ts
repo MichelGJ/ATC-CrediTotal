@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import { IncidenciasController } from './controller';
 import { AuthService, EmailService, IncidenciaService } from '../services';
-import { envs } from '../../config';
-import { TipoIncidenciaRepositoryImpl, MongoTipoIncidenciaDatasource, SubTipoIncidenciaRepositoryImpl, MongoSubTipoIncidenciaDatasource } from '../../infrastructure/';
+import {
+    TipoIncidenciaRepositoryImpl, MongoTipoIncidenciaDatasource, SubTipoIncidenciaRepositoryImpl,
+    MongoSubTipoIncidenciaDatasource, TicketSoporteRepositoryImpl, MongoTicketSoporteDatasource
+} from '../../infrastructure/';
 
 const tipoIncidenciaRepository = new TipoIncidenciaRepositoryImpl(
     // new FileSystemDataSource()
@@ -14,6 +16,11 @@ const subTipoIncidenciaRepository = new SubTipoIncidenciaRepositoryImpl(
     new MongoSubTipoIncidenciaDatasource()
 );
 
+const ticketSoporteRepository = new TicketSoporteRepositoryImpl(
+    // new FileSystemDataSource()
+    new MongoTicketSoporteDatasource()
+);
+
 export class IncidenciaRoute {
 
 
@@ -21,7 +28,7 @@ export class IncidenciaRoute {
 
         const router = Router();
 
-        const incidenciaService = new IncidenciaService(tipoIncidenciaRepository, subTipoIncidenciaRepository);
+        const incidenciaService = new IncidenciaService(tipoIncidenciaRepository, subTipoIncidenciaRepository, ticketSoporteRepository);
 
         const controller = new IncidenciasController(incidenciaService);
 
@@ -38,7 +45,12 @@ export class IncidenciaRoute {
         router.get('/getAllSubTipoIncidenciaByTipoIncidencia/', controller.getAllSubTipoIncidenciaByTipoIncidencia);
         router.get('/getSubTipoIncidenciaById/:id', controller.getSubTipoIncidenciaById);
         router.delete('/deleteSubTipoIncidenciaById/:id', controller.deleteSubTipoIncidenciaById);
-        
+        //Tickets
+        router.post('/registerTicketSoporte', controller.registerTicketSoporte);
+        router.put('/updateTicketSoporte', controller.updateTicketSoporte);
+        router.get('/getAllTicketSoporte/', controller.getAllTicketSoporte);
+        router.get('/getTicketSoporteById/:id', controller.getTicketSoporteById);
+        router.delete('/deleteTicketSoporteById/:id', controller.deleteTicketSoporteById);
 
 
         return router;
