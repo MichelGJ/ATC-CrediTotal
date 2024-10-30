@@ -193,18 +193,18 @@ export class IncidenciaService {
   }
 
   public async getAllTicketSoporte(page: number, limit: number, searchQuery: string) {
-    const tipos = await this.ticketSoporteRepository.getAllTicketSoporte(page, limit, searchQuery);
-    return tipos;
+    const tickets = await this.ticketSoporteRepository.getAllTicketSoporte(page, limit, searchQuery);
+    return tickets;
   }
 
   public async getTicketSoporteById(id: string) {
-    const tipos = await this.ticketSoporteRepository.getTicketSoporteById(id);
-    return tipos;
+    const tickets = await this.ticketSoporteRepository.getTicketSoporteById(id);
+    return tickets;
   }
 
   public async deleteTicketSoporteById(id: string) {
-    const tipos = await this.ticketSoporteRepository.deleteTicketSoporteById(id);
-    return tipos;
+    const tickets = await this.ticketSoporteRepository.deleteTicketSoporteById(id);
+    return tickets;
   }
 
 

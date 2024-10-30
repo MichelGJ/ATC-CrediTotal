@@ -1,4 +1,6 @@
 const gestionIncidenciasButton = document.getElementById('gestionIncidencias-button');
+const reportarButton = document.getElementById('reportar-button');
+
 const token = localStorage.getItem('token');
 
 const enableOptionButton = () => {
@@ -38,6 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
 gestionIncidenciasButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {
         window.location.href = 'list-tipoIncidencia.html';
+    } else {
+        Auth.logout(); // Logout if token is expired
+    }
+});
+
+reportarButton.addEventListener('click', () => {
+    if (Auth.isLoggedIn()) {
+        window.location.href = 'list-ticketSoporte.html';
     } else {
         Auth.logout(); // Logout if token is expired
     }

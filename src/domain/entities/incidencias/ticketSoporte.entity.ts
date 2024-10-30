@@ -21,7 +21,7 @@ export class TicketSoporteEntity {
     ) { }
 
     static fromObject(object: { [key: string]: any; }) {
-        const { id, _id, tipoIncidenciaId, subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, tipoDetails, subTipoDetails, UserEntity } = object;
+        const { id, _id, tipoIncidenciaId, subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, tipoDetails, subTipoDetails, userDetails } = object;
 
         if (!_id && !id) {
             throw CustomError.badRequest('Missing id');
@@ -34,6 +34,6 @@ export class TicketSoporteEntity {
         if (!userId) throw CustomError.badRequest('Missing userId');
         if (!estatus) throw CustomError.badRequest('Missing estatus');
 
-        return new TicketSoporteEntity(tipoIncidenciaId, subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, tipoDetails, subTipoDetails, UserEntity, _id || id);
+        return new TicketSoporteEntity(tipoIncidenciaId, subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus, tipoDetails, subTipoDetails, userDetails, _id || id);
     }
 }

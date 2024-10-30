@@ -49,61 +49,113 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
     return ticketSoporte;
   }
 
-  async getAllTicketSoporte(page: number, limit: number, searchQuery: string): Promise<{ listaTipos: TicketSoporteEntity[]; currentPage: number; totalPages: number; }> {
+  async getAllTicketSoporte(page: number, limit: number, searchQuery: string): Promise<{ listaTickets: TicketSoporteEntity[]; currentPage: number; totalPages: number; }> {
     const skip = (page - 1) * limit;
 
+    // Define the search condition, accounting for joined fields
     const searchCondition = searchQuery
-      ? {
-        $or: [
-          { name: { $regex: searchQuery, $options: 'i' } }
-        ]
-      }
-      : {};
-
-    const totalTiposIncidencia = await TicketSoporteModel.countDocuments(searchCondition);
-
-    const totalPages = Math.ceil(totalTiposIncidencia / limit);
+        ? {
+            $or: [
+                { descripcion: { $regex: searchQuery, $options: 'i' } },
+                { cedulaCliente: { $regex: searchQuery, $options: 'i' } },
+                { estatus: { $regex: searchQuery, $options: 'i' } },
+                { tipoNombre: { $regex: searchQuery, $options: 'i' } }, // Placeholder for joined field
+                { subTipoNombre: { $regex: searchQuery, $options: 'i' } }, // Placeholder for joined field
+                { userName: { $regex: searchQuery, $options: 'i' } } // Placeholder for joined field
+            ]
+        }
+        : {};
 
     const ticketsSoporte = await TicketSoporteModel.aggregate([
-      { $match: searchCondition },
-      {
-        $lookup: {
-          from: 'tipo_incidencias',
-          localField: 'tipoIncidenciaId',
-          foreignField: '_id',
-          as: 'tipoDetails'
-        }
-      },
-      { $unwind: '$tipoDetails' },
-      {
-        $lookup: {
-          from: 'subtipo_incidencias',
-          localField: 'subTipoIncidenciaId',
-          foreignField: '_id',
-          as: 'subTipoDetails'
-        }
-      },
-      { $unwind: '$subTipoDetails' },
-      {
-        $lookup: {
-          from: 'user',
-          localField: 'userId',
-          foreignField: '_id',
-          as: 'userDetails'
-        }
-      },
-      { $unwind: '$userDetails' },
-      { $skip: skip },
-      { $limit: limit }
+        {
+            $lookup: {
+                from: 'tipo_incidencias',
+                localField: 'tipoIncidenciaId',
+                foreignField: '_id',
+                as: 'tipoDetails'
+            }
+        },
+        { $unwind: '$tipoDetails' },
+        {
+            $lookup: {
+                from: 'subtipo_incidencias',
+                localField: 'subTipoIncidenciaId',
+                foreignField: '_id',
+                as: 'subTipoDetails'
+            }
+        },
+        { $unwind: '$subTipoDetails' },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'userDetails'
+            }
+        },
+        { $unwind: '$userDetails' },
+        // Add fields from lookups to the main document for easier matching
+        {
+            $addFields: {
+                tipoNombre: "$tipoDetails.name",
+                subTipoNombre: "$subTipoDetails.name",
+                userName: "$userDetails.name"
+            }
+        },
+        // Apply match condition that includes both local and joined fields
+        { $match: searchCondition },
+        { $skip: skip },
+        { $limit: limit }
     ]);
 
-    const listaTipos = ticketsSoporte.map(ticket => TicketSoporteEntity.fromObject(ticket));
+    const totalTicketsSoporte = await TicketSoporteModel.aggregate([
+        {
+            $lookup: {
+                from: 'tipo_incidencias',
+                localField: 'tipoIncidenciaId',
+                foreignField: '_id',
+                as: 'tipoDetails'
+            }
+        },
+        { $unwind: '$tipoDetails' },
+        {
+            $lookup: {
+                from: 'subtipo_incidencias',
+                localField: 'subTipoIncidenciaId',
+                foreignField: '_id',
+                as: 'subTipoDetails'
+            }
+        },
+        { $unwind: '$subTipoDetails' },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'userDetails'
+            }
+        },
+        { $unwind: '$userDetails' },
+        {
+            $addFields: {
+                tipoNombre: "$tipoDetails.name",
+                subTipoNombre: "$subTipoDetails.name",
+                userName: "$userDetails.name"
+            }
+        },
+        { $match: searchCondition },
+        { $count: "total" }
+    ]);
+
+    const totalPages = totalTicketsSoporte[0] ? Math.ceil(totalTicketsSoporte[0].total / limit) : 0;
+    const listaTickets = ticketsSoporte.map(ticket => TicketSoporteEntity.fromObject(ticket));
+
     return {
-      listaTipos,
-      currentPage: page,
-      totalPages
+        listaTickets,
+        currentPage: page,
+        totalPages
     };
-  }
+}
 
 
   async deleteTicketSoporteById(id: string): Promise<boolean> {

@@ -22,29 +22,31 @@ async function fetchData(page = 1, search = '') {
 
 async function populateTicketTable(page = 1, searchQuery = '') {
     try {
-        const { users, currentPage, totalPages } = await fetchData(page, searchQuery);
+        const { listaTickets, currentPage, totalPages } = await fetchData(page, searchQuery);
 
         userTableBody.innerHTML = ''; 
 
-        if (users.length === 0) {
-            userTableBody.innerHTML = '<tr><td colspan="5">No users found.</td></tr>';
+        if (listaTickets.length === 0) {
+            userTableBody.innerHTML = '<tr><td colspan="7">No tickets found.</td></tr>';
             updatePaginationControls(currentPage, totalPages, searchQuery);
             return;
         }
 
         // Populate users
-        users.forEach(user => {
+        listaTickets.forEach(ticket => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${user.name}</td>
-                <td>${user.email}</td>
-                <td>${user.cedula}</td>
-                <td>${user.roleDetails.nombre}</td>
+                <td>${ticket.tipoDetails.name}</td>
+                <td>${ticket.subTipoDetails.name}</td>
+                <td>${ticket.descripcion}</td>
+                <td>${ticket.cedulaCliente}</td>
+                <td>${ticket.estatus}</td>
+                <td>${ticket.userDetails.name}</td>
                 <td id="acciones">
-                  <button class="btn btn-danger btn-sm delete-user" data-id="${user.id}">
-                    <i class="bi bi-trash"></i>
+                  <button class="btn btn-success btn-sm close-ticket" data-id="${ticket.id}">
+                    <i class="bi bi-check"></i>
                   </button>
-                  <button class="btn btn-warning btn-sm edit-user" data-id="${user.id}">
+                  <button class="btn btn-warning btn-sm edit-user" data-id="${ticket.id}">
                     <i class="bi bi-pencil"></i>
                   </button>
                 </td>
@@ -63,7 +65,7 @@ async function populateTicketTable(page = 1, searchQuery = '') {
 }
 
 function attachDeleteHandlers() {
-    const deleteButtons = document.querySelectorAll('.delete-user');
+    const deleteButtons = document.querySelectorAll('.close-ticket');
 
     deleteButtons.forEach(button => {
         button.addEventListener('click', async (event) => {
@@ -192,10 +194,10 @@ function connectToWebSockets() {
     const socket = new WebSocket(wsUrl);
 
     socket.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-        if (message.type === 'newUser') {
-            populateTicketTable();
-        }
+        // const message = JSON.parse(event.data);
+        // if (message.type === 'newUser') {
+        //     populateTicketTable();
+        // }
     };
 
     socket.onclose = (event) => {
@@ -216,17 +218,17 @@ function connectToWebSockets() {
 
 }
 
-addUserButton.addEventListener('click', () => {
-    if (Auth.isLoggedIn()) {
-        window.location.href = 'registration.html';
-    } else {
-        Auth.logout(); // Logout if token is expired
-    }
-});
+// addUserButton.addEventListener('click', () => {
+//     if (Auth.isLoggedIn()) {
+//         window.location.href = 'registration.html';
+//     } else {
+//         Auth.logout(); // Logout if token is expired
+//     }
+// });
 
 backButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {
-        window.location.href = `main-menu.html`;
+        window.location.href = `menu-incidencias.html`;
     } else {
         Auth.logout(); // Logout if token is expired
     }

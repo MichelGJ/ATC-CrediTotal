@@ -18,7 +18,7 @@ export class TicketSoporteRepositoryImpl implements TicketSoporteRepository {
         return this.TicketSoporteDatasource.getTicketSoporteById(id)
     }
 
-    getAllTicketSoporte(page: number, limit: number,searchQuery: string):Promise<{ listaTipos: TicketSoporteEntity[], currentPage: number, totalPages: number }> {
+    getAllTicketSoporte(page: number, limit: number,searchQuery: string):Promise<{ listaTickets: TicketSoporteEntity[], currentPage: number, totalPages: number }> {
         return this.TicketSoporteDatasource.getAllTicketSoporte(page, limit, searchQuery);
     }
 
