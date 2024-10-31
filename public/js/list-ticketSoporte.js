@@ -218,13 +218,13 @@ function connectToWebSockets() {
 
 }
 
-// addUserButton.addEventListener('click', () => {
-//     if (Auth.isLoggedIn()) {
-//         window.location.href = 'registration.html';
-//     } else {
-//         Auth.logout(); // Logout if token is expired
-//     }
-// });
+addUserButton.addEventListener('click', () => {
+    if (Auth.isLoggedIn()) {
+        window.location.href = 'register-ticketSoporte.html';
+    } else {
+        Auth.logout(); // Logout if token is expired
+    }
+});
 
 backButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {

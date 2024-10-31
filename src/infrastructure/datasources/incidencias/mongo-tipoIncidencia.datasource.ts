@@ -48,34 +48,44 @@ export class MongoTipoIncidenciaDatasource implements TipoIncidenciaDatasource {
       return tipoIncidencia;
   }
 
-  async getAllTipoIncidencia(page: number, limit: number, searchQuery: string): Promise<{ listaTipos: TipoIncidenciaEntity[]; currentPage: number; totalPages: number; }> {
-    const skip = (page - 1) * limit;
+  async getAllTipoIncidencia(
+  page: number = 1,
+  limit: number | null = null,
+  searchQuery: string
+): Promise<{ listaTipos: TipoIncidenciaEntity[]; currentPage: number; totalPages: number }> {
+  
+  const skip = (page - 1) * (limit ?? 0);
 
-    const searchCondition = searchQuery
-      ? {
-        $or: [
-          { name: { $regex: searchQuery, $options: 'i' } }
-        ]
-      }
-      : {};
+  const searchCondition = searchQuery
+    ? { $or: [{ name: { $regex: searchQuery, $options: 'i' } }] }
+    : {};
 
-    const totalTiposIncidencia = await TipoIncidenciaModel.countDocuments(searchCondition);
+  const totalTiposIncidencia = await TipoIncidenciaModel.countDocuments(searchCondition);
 
-    const totalPages = Math.ceil(totalTiposIncidencia / limit);
+  const totalPages = limit ? Math.ceil(totalTiposIncidencia / limit) : 1;
 
-    const tiposIncidencias = await TipoIncidenciaModel.aggregate([
-      { $match: searchCondition },
-      { $skip: skip },   
-      { $limit: limit }      
-    ]);
+  // Construct aggregation pipeline
+  const aggregationPipeline: any[] = [
+    { $match: searchCondition },
+    { $skip: skip }
+  ];
 
-    const listaTipos = tiposIncidencias.map(tipo => TipoIncidenciaEntity.fromObject(tipo));
-    return {
-      listaTipos,
-      currentPage: page,
-      totalPages
-    };
+  // Conditionally add $limit if limit is provided
+  if (limit || limit) {
+    aggregationPipeline.push({ $limit: limit });
   }
+
+  // Execute the aggregation
+  const tiposIncidencias = await TipoIncidenciaModel.aggregate(aggregationPipeline);
+
+  const listaTipos = tiposIncidencias.map(tipo => TipoIncidenciaEntity.fromObject(tipo));
+
+  return {
+    listaTipos,
+    currentPage: page,
+    totalPages
+  };
+}
 
   
   async deleteTipoIncidenciaById(id: string): Promise<boolean> {

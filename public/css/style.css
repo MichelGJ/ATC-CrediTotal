@@ -377,6 +377,8 @@ table {
     color: #3aadca;
 }
 
+#dynamic-dropdown-tipo,
+#dynamic-dropdown-subtipo,
 #dynamic-dropdown {
     width: 100%;
     padding: 8px;
@@ -415,14 +417,21 @@ table {
 }
 
 /* Set a specific max-width for the description column if needed */
-.ticket-table td:nth-child(3) { /* Adjust 'nth-child(3)' if the description column position changes */
-    max-width: 300px; /* Set to your preferred width */
-    white-space: normal; /* Allow text to wrap onto new lines */
+.ticket-table td:nth-child(3) {
+    /* Adjust 'nth-child(3)' if the description column position changes */
+    max-width: 300px;
+    /* Set to your preferred width */
+    white-space: normal;
+    /* Allow text to wrap onto new lines */
 }
+
 /* Set a specific max-width for the description column if needed */
-.ticket-table td:nth-child(4) { /* Adjust 'nth-child(3)' if the description column position changes */
-    max-width: 100px; /* Set to your preferred width */
-    white-space: normal; /* Allow text to wrap onto new lines */
+.ticket-table td:nth-child(4) {
+    /* Adjust 'nth-child(3)' if the description column position changes */
+    max-width: 100px;
+    /* Set to your preferred width */
+    white-space: normal;
+    /* Allow text to wrap onto new lines */
 }
 
 
@@ -455,7 +464,7 @@ table {
 }
 
 .btn-pagination.active,
-.btn-pagination:hover{
+.btn-pagination:hover {
     background-color: #f5a302;
     border-color: #f5a302;
 }
@@ -596,7 +605,7 @@ table {
     visibility: hidden;
 }
 
-#subtipos-button{
+#subtipos-button {
     background-color: #3aadca;
     border-color: #3aadca;
 }
@@ -605,3 +614,10 @@ table {
     margin-right: 400px;
 } */
 
+#descripcion {
+    height:150px;
+    resize: none; /* Disables manual resizing */
+    overflow-x: hidden; /* Hides horizontal overflow */
+    white-space: normal; /* Allows text wrapping */
+    word-wrap: break-word; /* Breaks long words onto the next line */
+}

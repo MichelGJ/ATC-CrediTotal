@@ -37,7 +37,7 @@ export class IncidenciasController {
 
     getAllTipoIncidencia = (req: Request, res: Response) => {
         const page = parseInt(req.query.page as string) || 1;
-        const limit = parseInt(req.query.limit as string) || 10;
+        const limit = parseInt(req.query.limit as string) || 0;
         const searchQuery = req.query.search as string || '';
 
         this.incidenciaService.getAllTipoIncidencia(page, limit, searchQuery)
