@@ -10,8 +10,7 @@ export class AuthService {
   // DI
   constructor(
     private readonly roleRepository: RoleRepository,
-    private readonly userRepository: UserRepository,
-    private readonly emailService: EmailService,
+    private readonly userRepository: UserRepository
     // webServiceUrl: string,
   ) { }
 
@@ -83,9 +82,9 @@ export class AuthService {
     if (!isMatching) throw CustomError.badRequest('Contraseña invalida');
 
 
-    const { ...userEntity } = UserEntity.fromObject(user);
+    const { id, ...userEntity } = UserEntity.fromObject(user);
 
-    const token = await JwtAdapter.generateToken({ id: user.id, name: user.name, role: user.roleDetails?.nombre, permisos: user.roleDetails?.permisos });
+    const token = await JwtAdapter.generateToken({ id: id, name: user.name});
     if (!token) throw CustomError.internalServer('Error while creating JWT');
 
     return {

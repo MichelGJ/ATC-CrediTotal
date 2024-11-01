@@ -6,6 +6,7 @@ body {
     background-color: #3aadca;
     color: white;
     margin: 0;
+    
 }
 
 .top-bar {
@@ -16,11 +17,14 @@ body {
     align-items: center;
     box-shadow: 0 4px 2px -2px gray;
     height: 80px;
+    justify-content: space-between;
 }
 
 #top-bar-desk {
     margin-bottom: 20px;
 }
+
+
 
 .icon-small {
     height: 20px;
@@ -406,7 +410,7 @@ table {
 }
 
 .ticket-table {
-    max-width: 1300px;
+    width: 1300px;
     width: 100%;
 }
 
@@ -536,6 +540,24 @@ table {
     /* Keep the aspect ratio intact */
 }
 
+.gestionIncidencias-logo {
+    margin-left: 15px;
+    margin-bottom: 30px;
+    height: 80%;
+    /* Adjust the height to fit your design */
+    width: 40%;
+    /* Keep the aspect ratio intact */
+}
+
+.listaTicket-logo {
+    margin-left: 15px;
+    margin-bottom: 30px;
+    height: 80%;
+    /* Adjust the height to fit your design */
+    width: 65%;
+    /* Keep the aspect ratio intact */
+}
+
 .disabled {
     opacity: 0.5;
     pointer-events: none;
@@ -576,6 +598,7 @@ table {
     background-color: #d32f2f;
     /* Darker red on hover */
 }
+
 
 .back-btn {
     border: none;

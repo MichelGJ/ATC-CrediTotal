@@ -18,7 +18,7 @@ export class TicketSoporteRepositoryImpl implements TicketSoporteRepository {
         return this.TicketSoporteDatasource.getTicketSoporteById(id)
     }
 
-    getAllTicketSoporte(page: number, limit: number,searchQuery: string):Promise<{ listaTickets: TicketSoporteEntity[], currentPage: number, totalPages: number }> {
+    getAllTicketSoporte(page: number, limit: number, searchQuery: string): Promise<{ listaTickets: TicketSoporteEntity[], currentPage: number, totalPages: number }> {
         return this.TicketSoporteDatasource.getAllTicketSoporte(page, limit, searchQuery);
     }
 
@@ -29,6 +29,11 @@ export class TicketSoporteRepositoryImpl implements TicketSoporteRepository {
     getTicketSoporteForRegistration(registerUserDto: RegisterTicketSoporteDto): Promise<TicketSoporteEntity | null> {
         return this.TicketSoporteDatasource.getTicketSoporteForRegistration(registerUserDto);
     }
+
+    closeTicketSoporte(id: string): Promise<boolean>{
+        return this.TicketSoporteDatasource.closeTicketSoporte(id);
+    };
+
 
 
 }

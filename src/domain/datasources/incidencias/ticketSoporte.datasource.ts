@@ -7,4 +7,5 @@ export abstract class TicketSoporteDatasource {
     abstract getAllTicketSoporte(page: number, limit: number, searchQuery: string): Promise<{ listaTickets: TicketSoporteEntity[], currentPage: number, totalPages: number }>;
     abstract deleteTicketSoporteById(id: string): Promise<boolean>;
     abstract getTicketSoporteForRegistration(registerTipoIncidenciaDto: RegisterTicketSoporteDto): Promise<TicketSoporteEntity | null>;
+    abstract closeTicketSoporte(id: string): Promise<boolean>;
 }

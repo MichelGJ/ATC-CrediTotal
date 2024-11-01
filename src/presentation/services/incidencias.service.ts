@@ -159,7 +159,7 @@ export class IncidenciaService {
       const token = await JwtAdapter.generateToken({ id: tipoIncidenciaEntity.id });
       if (!token) throw CustomError.internalServer('Error while creating JWT');
 
-      WssService.instance.sendMessage('newTipoIncidencia', '');
+      WssService.instance.sendMessage('newTicket', '');
 
       return {
         user: tipoIncidenciaEntity,
@@ -183,7 +183,7 @@ export class IncidenciaService {
       //   }
       // }
       const tipoIncidenciaEntity = await this.ticketSoporteRepository.updateTicketSoporte(registerTicketSoporteDto);
-      WssService.instance.sendMessage('newTipoIncidencia', '');
+      WssService.instance.sendMessage('newTicket', '');
 
       return tipoIncidenciaEntity;
 
@@ -204,6 +204,11 @@ export class IncidenciaService {
 
   public async deleteTicketSoporteById(id: string) {
     const tickets = await this.ticketSoporteRepository.deleteTicketSoporteById(id);
+    return tickets;
+  }
+
+  public async closeTicketSoporte(id: string) {
+    const tickets = await this.ticketSoporteRepository.closeTicketSoporte(id);
     return tickets;
   }
 

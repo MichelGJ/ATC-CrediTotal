@@ -1,13 +1,13 @@
 const atpButton = document.getElementById('atp-button');
 const usuariosButton = document.getElementById('usuarios-button');
 const incidenciasButton = document.getElementById('incidencias-button');
-const gestionIncidenciasButton = document.getElementById('gestionIncidencias-button');
 const token = localStorage.getItem('token');
 
-const enableOptionButton = () => {
+const enableOptionButton = async () => {
     if (token) {
         const decodedToken = jwt_decode(token);
-        const userPermisos = decodedToken.permisos || [];
+        const user = await Auth.getUser(decodedToken.id);
+        const userPermisos = user.roleDetails.permisos || [];
 
         const buttonsContainer = document.querySelector(".buttons-container");
         // buttonsContainer.innerHTML = '';
@@ -16,7 +16,6 @@ const enableOptionButton = () => {
             const button = document.getElementById(`${permission.valueOf()}-button`);
 
             if (!button) {
-                console.error(`Button with id '${permission}' not found`);
                 return;
             }
     
@@ -63,14 +62,6 @@ usuariosButton.addEventListener('click', () => {
 incidenciasButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {
         window.location.href = 'menu-incidencias.html';
-    } else {
-        Auth.logout(); // Logout if token is expired
-    }
-});
-
-gestionIncidenciasButton.addEventListener('click', () => {
-    if (Auth.isLoggedIn()) {
-        window.location.href = 'list-users.html';
     } else {
         Auth.logout(); // Logout if token is expired
     }

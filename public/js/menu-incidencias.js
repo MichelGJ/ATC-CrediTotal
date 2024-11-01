@@ -1,12 +1,14 @@
 const gestionIncidenciasButton = document.getElementById('gestionIncidencias-button');
 const reportarButton = document.getElementById('reportar-button');
+const listaTicketsButton = document.getElementById('listaTickets-button');
 
 const token = localStorage.getItem('token');
 
-const enableOptionButton = () => {
+const enableOptionButton = async () => {
     if (token) {
         const decodedToken = jwt_decode(token);
-        const userPermisos = decodedToken.permisos || [];
+        const user = await Auth.getUser(decodedToken.id);
+        const userPermisos = user.roleDetails.permisos || [];
 
         const buttonsContainer = document.querySelector(".buttons-container");
         // buttonsContainer.innerHTML = '';
@@ -15,7 +17,6 @@ const enableOptionButton = () => {
             const button = document.getElementById(`${permission.valueOf()}-button`);
 
             if (!button) {
-                console.error(`Button with id '${permission}' not found`);
                 return;
             }
 
@@ -46,6 +47,14 @@ gestionIncidenciasButton.addEventListener('click', () => {
 });
 
 reportarButton.addEventListener('click', () => {
+    if (Auth.isLoggedIn()) {
+        window.location.href = 'add-ticketSoporte.html';
+    } else {
+        Auth.logout(); // Logout if token is expired
+    }
+});
+
+listaTicketsButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {
         window.location.href = 'list-ticketSoporte.html';
     } else {

@@ -1,8 +1,8 @@
 const userTableBody = document.getElementById('user-table-body');
-const addUserButton = document.getElementById('add-user-button');
+// const addUserButton = document.getElementById('add-user-button');
 const searchInput = document.getElementById('userSearchInput');
 const backButton = document.getElementById('goBack-button')
-
+const token = localStorage.getItem('token');
 let currentPage = 1;
 const limit = 10; // Default users per page
 
@@ -23,8 +23,10 @@ async function fetchData(page = 1, search = '') {
 async function populateTicketTable(page = 1, searchQuery = '') {
     try {
         const { listaTickets, currentPage, totalPages } = await fetchData(page, searchQuery);
-
-        userTableBody.innerHTML = ''; 
+        const decodedToken = jwt_decode(token);
+        const user = await Auth.getUser(decodedToken.id);
+        const userPermisos = user.roleDetails.permisos || [];
+        userTableBody.innerHTML = '';
 
         if (listaTickets.length === 0) {
             userTableBody.innerHTML = '<tr><td colspan="7">No tickets found.</td></tr>';
@@ -36,54 +38,51 @@ async function populateTicketTable(page = 1, searchQuery = '') {
         listaTickets.forEach(ticket => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${ticket.tipoDetails.name}</td>
-                <td>${ticket.subTipoDetails.name}</td>
-                <td>${ticket.descripcion}</td>
-                <td>${ticket.cedulaCliente}</td>
-                <td>${ticket.estatus}</td>
-                <td>${ticket.userDetails.name}</td>
-                <td id="acciones">
-                  <button class="btn btn-success btn-sm close-ticket" data-id="${ticket.id}">
+              <td>${ticket.tipoDetails.name}</td>
+              <td>${ticket.subTipoDetails.name}</td>
+              <td>${ticket.descripcion}</td>
+              <td>${ticket.cedulaCliente}</td>
+              <td>${ticket.estatus}</td>
+              <td>${ticket.userDetails.name}</td>
+              <td id="acciones">
+                ${ticket.estatus !== 'Cerrado' && userPermisos.includes('closeTicket') ?
+                    `<button class="btn btn-success btn-sm close-ticket" data-id="${ticket.id}">
                     <i class="bi bi-check"></i>
-                  </button>
-                  <button class="btn btn-warning btn-sm edit-user" data-id="${ticket.id}">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                </td>
-            `;
+                  </button>`
+                    : ''}
+              </td>`;
             userTableBody.appendChild(row);
         });
 
-        
         updatePaginationControls(currentPage, totalPages, searchQuery);
 
-        attachDeleteHandlers();
+        attachCloseHandlers();
         attachEditHandlers();
     } catch (error) {
         console.error('Error populating user table:', error);
     }
 }
 
-function attachDeleteHandlers() {
-    const deleteButtons = document.querySelectorAll('.close-ticket');
+function attachCloseHandlers() {
+    const closeButtons = document.querySelectorAll('.close-ticket');
 
-    deleteButtons.forEach(button => {
+    closeButtons.forEach(button => {
         button.addEventListener('click', async (event) => {
-            const userId = button.getAttribute('data-id');
+            const ticketId = button.getAttribute('data-id');
 
             // Confirm if the user wants to delete
-            if (confirm('¿Está seguro de eliminar este usuario?')) {
+            if (confirm('¿Está seguro de cerrar este ticket?')) {
                 try {
-                    const deleted = await deleteUserById(userId);
+                    const deleted = await closeTicket(ticketId);
                     if (deleted) {
                         populateTicketTable();
                     } else {
-                        console.error('Error deleting user:', error);
-                        alert('Fallo eliminando el usuario');
+                        console.error('Error closing ticket:', error);
+                        alert('Fallo cerrando el ticket');
                     }
                 } catch (error) {
                     console.error(error);
-                    alert('Fallo eliminando el usuario');
+                    alert('Fallo cerrando el ticket');
                 }
             }
         });
@@ -105,9 +104,9 @@ function attachEditHandlers() {
 
 function updatePaginationControls(currentPage, totalPages, searchQuery = '') {
     const paginationElement = document.getElementById('pagination');
-    paginationElement.innerHTML = ''; 
+    paginationElement.innerHTML = '';
 
-    const maxVisiblePages = 5;  
+    const maxVisiblePages = 5;
     const halfVisible = Math.floor(maxVisiblePages / 2);
 
     let startPage = Math.max(currentPage - halfVisible, 1);
@@ -167,21 +166,23 @@ function appendEllipsis(paginationElement) {
 
 
 
-async function deleteUserById(id) {
+async function closeTicket(id) {
     try {
-        const response = await fetch(`api/auth/deleteUserById/${id}`, {
-            method: 'DELETE',
+        const response = await fetch(`api/incidencia/closeTicketSoporte/${id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        if (!response.ok) {
-            throw new Error(`Delete failed with status ${response.status}`);
+        if (response.ok) {
+            alert('Ticket Cerrado!');
+        } else {
+            alert(`Error en actualizacion: ${result.error || 'Error desconocido'}`);
         }
         const data = await response.json();
         return data;
     } catch (error) {
-        throw new Error('Error deleting data:', error);
+        throw new Error('Error updating data:', error);
     }
 }
 
@@ -194,10 +195,10 @@ function connectToWebSockets() {
     const socket = new WebSocket(wsUrl);
 
     socket.onmessage = (event) => {
-        // const message = JSON.parse(event.data);
-        // if (message.type === 'newUser') {
-        //     populateTicketTable();
-        // }
+        const message = JSON.parse(event.data);
+        if (message.type === 'newTicket') {
+            populateTicketTable();
+        }
     };
 
     socket.onclose = (event) => {
@@ -218,13 +219,13 @@ function connectToWebSockets() {
 
 }
 
-addUserButton.addEventListener('click', () => {
-    if (Auth.isLoggedIn()) {
-        window.location.href = 'register-ticketSoporte.html';
-    } else {
-        Auth.logout(); // Logout if token is expired
-    }
-});
+// addUserButton.addEventListener('click', () => {
+//     if (Auth.isLoggedIn()) {
+//         window.location.href = 'register-ticketSoporte.html';
+//     } else {
+//         Auth.logout(); // Logout if token is expired
+//     }
+// });
 
 backButton.addEventListener('click', () => {
     if (Auth.isLoggedIn()) {

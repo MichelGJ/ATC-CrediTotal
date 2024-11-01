@@ -22,9 +22,29 @@ const Auth = {
             this.logout();
         }
     },
+
+    getUser: function (id) {
+        return getUserById(id);
+    }
+
+
 };
 
-// Inject the logout button dynamically into the top bar
+async function getUserById(id) {
+    try {
+        const response = await fetch(`api/auth/getUserById/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error('Error updating data:', error);
+    }
+}
+
 function injectLogoutButton() {
     const topBars = document.getElementsByClassName('top-bar');
 
@@ -34,6 +54,7 @@ function injectLogoutButton() {
         logoutButton.classList.add('logout-btn');
         logoutButton.innerText = 'Cerrar Sesión';
 
+
         const backButton = document.createElement('button');
         const img = document.createElement('img');
         img.src = '../images/goback.png';
@@ -41,34 +62,33 @@ function injectLogoutButton() {
         backButton.classList.add('back-btn');
         backButton.prepend(img);
 
-
-        // Append the logout button to each top bar element
         Array.from(topBars).forEach(topBar => {
-            topBar.appendChild(logoutButton);
+
             topBar.appendChild(backButton);
+            topBar.appendChild(logoutButton);
+
             const logo = topBar.querySelector('.logo');
             if (logo) {
                 const logoLink = document.createElement('a');
-                logoLink.href = 'main-menu.html'; // Redirect to main menu
-                logoLink.classList.add('logo-link'); // Add a class to style the anchor-wrapped logo
+                logoLink.href = 'main-menu.html';
+                logoLink.classList.add('logo-link');
                 logoLink.appendChild(logo.cloneNode(true));
                 logo.replaceWith(logoLink);
             }
         });
-
 
         logoutButton.addEventListener('click', () => {
             Auth.logout();
         });
 
         backButton.addEventListener('click', () => {
-            window.history.back()
+            window.history.back();
         });
-
     } else {
-        console.error('No top bars found with the class "top-bar"'); // Error log if no top bars are found
+        console.error('No top bars found with the class "top-bar"');
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     Auth.protectPage(); // Call protectPage to log out users with expired tokens

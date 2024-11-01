@@ -122,6 +122,7 @@ export class IncidenciasController {
             .then((ticketSoporte) => res.json(ticketSoporte))
             .catch(error => this.handleError(error, res))
     }
+    
 
     getAllTicketSoporte = (req: Request, res: Response) => {
         const page = parseInt(req.query.page as string) || 1;
@@ -143,6 +144,13 @@ export class IncidenciasController {
     getTicketSoporteById = (req: Request, res: Response) => {
         const id = req.params.id;
         this.incidenciaService.getTicketSoporteById(id)
+            .then((ticketSoporte) => res.json(ticketSoporte))
+            .catch(error => this.handleError(error, res))
+    }
+
+    closeTicketSoporte = (req: Request, res: Response) => {
+        const id = req.params.id;
+        this.incidenciaService.closeTicketSoporte(id)
             .then((ticketSoporte) => res.json(ticketSoporte))
             .catch(error => this.handleError(error, res))
     }

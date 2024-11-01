@@ -48,6 +48,7 @@ export class IncidenciaRoute {
         //Tickets
         router.post('/registerTicketSoporte', controller.registerTicketSoporte);
         router.put('/updateTicketSoporte', controller.updateTicketSoporte);
+        router.put('/closeTicketSoporte/:id', controller.closeTicketSoporte);
         router.get('/getAllTicketSoporte/', controller.getAllTicketSoporte);
         router.get('/getTicketSoporteById/:id', controller.getTicketSoporteById);
         router.delete('/deleteTicketSoporteById/:id', controller.deleteTicketSoporteById);

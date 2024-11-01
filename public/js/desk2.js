@@ -4,7 +4,7 @@ const cedulaCliente = document.querySelector('#cedulaCliente');
 const noMoreAlert = document.querySelector('.alert');
 const btnDraw = document.querySelector('#btn-draw');
 const btnDone = document.querySelector('#btn-done');
-const lblCurrentTicket = document.querySelector('#ticketNumber')
+const lblCurrentTicket = document.querySelector('#ticketNumber');
 
 const searchParams = new URLSearchParams(window.location.search);
 

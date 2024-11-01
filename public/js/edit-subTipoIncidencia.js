@@ -1,6 +1,7 @@
 const idField = document.getElementById('user-id');
 const registerForm = document.querySelector('#register-form');
 const urlParams = new URLSearchParams(window.location.search);
+const token = localStorage.getItem('token');
 
 document.addEventListener('DOMContentLoaded', async () => {
     const id = urlParams.get('id');

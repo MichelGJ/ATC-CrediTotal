@@ -162,4 +162,9 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
     const ticketDeleted = await TicketSoporteModel.deleteOne({ _id: id });
     return ticketDeleted.acknowledged;
   }
+
+  async closeTicketSoporte(id: string): Promise<boolean> {
+    const ticketDeleted = await TicketSoporteModel.updateOne({ _id: id },{$set:{"estatus":"Cerrado"}});
+    return ticketDeleted.acknowledged;
+  }
 }
