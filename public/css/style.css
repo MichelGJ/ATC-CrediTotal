@@ -200,14 +200,14 @@ table {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 800px;
-    height: 200px;
+    height: 250px;
     text-align: center;
     background-color: #fafafa;
     max-width: 800px;
-    /* Set the maximum width of the input */
-    /* Center the input horizontally */
+
     width: 100%;
-    margin-top: 80px;
+    margin-top: 10px;
+    color:#000000;
 }
 
 #atc {

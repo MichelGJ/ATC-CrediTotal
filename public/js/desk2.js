@@ -1,10 +1,11 @@
 const lblPending = document.querySelector('#lbl-pending');
 const deskHeader = document.querySelector('#mesaNumber');
-const cedulaCliente = document.querySelector('#cedulaCliente');
+// const cedulaCliente = document.querySelector('#cedulaCliente');
 const noMoreAlert = document.querySelector('.alert');
 const btnDraw = document.querySelector('#btn-draw');
 const btnDone = document.querySelector('#btn-done');
 const lblCurrentTicket = document.querySelector('#ticketNumber');
+const personInfoBox = document.getElementById('person-info');
 
 const searchParams = new URLSearchParams(window.location.search);
 
@@ -45,9 +46,43 @@ async function getTicket() {
         cedulaCliente.innerText = '....';
     }
 
+    const response = await fetch(`https://staging-api.creditotal.online/api/integration/customer_info_by_id?identity=V${ticket.cedula}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'YXBpY2hhdGJvdDo0cDFjaDR0YjB0Kg=='
+        },
+    });
+
+    const cliente = await response.json();
+    console.log(cliente);
+
+    if (!cliente.code) {
+        personInfoBox.style.display = 'block'; // Show the box if it's hidden
+        personInfoBox.innerHTML = `
+        <h4>Cédula: ${cliente.person.code_identity || ''}${cliente.person.identity || ''}</h4>
+        <h4>Nombre: ${cliente.person.name.toUpperCase() || ''} ${cliente.person.second_name?.toUpperCase() || ''} ${cliente.person.lastName.toUpperCase() || ''}  
+        ${cliente.person.second_lastName?.toUpperCase() || ''}</h4>
+        ${cliente.domiciled ?
+                    `<h5>Domiciliado</h5>
+                    <h5>Banco: ${cliente.domiciled_bank.name || ''}</h5>`
+                    : ''}
+        <h5>Link Backoffice: 
+            <a href="https://staging-console.creditotal.online/console/person/profile/${cliente.person.code || ''}" target="_blank">
+                ${cliente.person.code ? 'Ver Perfil' : ''}
+            </a>
+        </h5>
+        <h5>Correo: ${cliente.person.contacts[1].contact.toLowerCase() || ''}</h5>
+        `;
+    }else{
+        personInfoBox.style.display = 'block'; 
+        personInfoBox.innerHTML = 'Cliente no registrado';
+        // personInfoBox.style.display = 'none';
+    }
+
     workingTicket = ticket;
     lblCurrentTicket.innerText = `ticket ${ticket.number}`;
-    cedulaCliente.innerText = ticket.cedula;
+    // cedulaCliente.innerText = ticket.cedula;
 }
 
 async function finishTicket() {
@@ -62,7 +97,8 @@ async function finishTicket() {
     if (status === 'ok') {
         workingTicket == null;
         lblCurrentTicket.innerText = '....';
-        cedulaCliente.innerText = '....';
+        // cedulaCliente.innerText = '....';
+        personInfoBox.style.display = 'none';
     }
 }
 
