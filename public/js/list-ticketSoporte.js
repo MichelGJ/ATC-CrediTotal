@@ -38,12 +38,12 @@ async function populateTicketTable(page = 1, searchQuery = '') {
         listaTickets.forEach(ticket => {
             const row = document.createElement('tr');
             row.innerHTML = `
-              <td>${ticket.tipoDetails.name}</td>
-              <td>${ticket.subTipoDetails.name}</td>
+              <td>${ticket.tipoDetails?.name || ''}</td>
+              <td>${ticket.subTipoDetails?.name || ''}</td>
               <td>${ticket.descripcion}</td>
               <td>${ticket.cedulaCliente}</td>
               <td>${ticket.estatus}</td>
-              <td>${ticket.userDetails.name}</td>
+              <td>${ticket.userDetails?.name || ''}</td>
               <td id="acciones">
                 ${ticket.estatus !== 'Cerrado' && userPermisos.includes('closeTicket') ?
                     `<button class="btn btn-success btn-sm close-ticket" data-id="${ticket.id}">

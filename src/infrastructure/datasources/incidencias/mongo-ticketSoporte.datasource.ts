@@ -75,7 +75,7 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
                 as: 'tipoDetails'
             }
         },
-        { $unwind: '$tipoDetails' },
+        { $unwind: { path: '$tipoDetails', preserveNullAndEmptyArrays: true }  },
         {
             $lookup: {
                 from: 'subtipo_incidencias',
@@ -84,7 +84,7 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
                 as: 'subTipoDetails'
             }
         },
-        { $unwind: '$subTipoDetails' },
+        { $unwind:{ path: '$subTipoDetails', preserveNullAndEmptyArrays: true } },
         {
             $lookup: {
                 from: 'users',
@@ -93,7 +93,7 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
                 as: 'userDetails'
             }
         },
-        { $unwind: '$userDetails' },
+        { $unwind: { path: '$userDetails', preserveNullAndEmptyArrays: true } },
         // Add fields from lookups to the main document for easier matching
         {
             $addFields: {
@@ -117,7 +117,7 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
                 as: 'tipoDetails'
             }
         },
-        { $unwind: '$tipoDetails' },
+        { $unwind:  { path: '$tipoDetails', preserveNullAndEmptyArrays: true } },
         {
             $lookup: {
                 from: 'subtipo_incidencias',
@@ -126,7 +126,7 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
                 as: 'subTipoDetails'
             }
         },
-        { $unwind: '$subTipoDetails' },
+        { $unwind:  { path: '$subTipoDetails', preserveNullAndEmptyArrays: true } },
         {
             $lookup: {
                 from: 'users',
@@ -135,7 +135,7 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
                 as: 'userDetails'
             }
         },
-        { $unwind: '$userDetails' },
+        { $unwind:{ path: '$userDetails', preserveNullAndEmptyArrays: true }},
         {
             $addFields: {
                 tipoNombre: "$tipoDetails.name",
