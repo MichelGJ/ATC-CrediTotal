@@ -3,32 +3,34 @@ import { RegisterSubTipoIncidenciaDto, SubTipoIncidenciaDatasource, SubTipoIncid
 export class SubTipoIncidenciaRepositoryImpl implements SubTipoIncidenciaRepository {
 
     constructor(
-        private readonly tipoIncidenciaDatasource: SubTipoIncidenciaDatasource
+        private readonly subTipoIncidenciaDatasource: SubTipoIncidenciaDatasource
     ) { }
 
     insertSubTipoIncidencia(registerTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity> {
-        return this.tipoIncidenciaDatasource.insertSubTipoIncidencia(registerTipoIncidenciaDto);
+        return this.subTipoIncidenciaDatasource.insertSubTipoIncidencia(registerTipoIncidenciaDto);
     }
 
     updateSubTipoIncidencia(registerTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity> {
-        return this.tipoIncidenciaDatasource.updateSubTipoIncidencia(registerTipoIncidenciaDto);
+        return this.subTipoIncidenciaDatasource.updateSubTipoIncidencia(registerTipoIncidenciaDto);
     }
 
     getSubTipoIncidenciaById(id: string): Promise<SubTipoIncidenciaEntity> {
-        return this.tipoIncidenciaDatasource.getSubTipoIncidenciaById(id)
+        return this.subTipoIncidenciaDatasource.getSubTipoIncidenciaById(id)
     }
 
     getAllSubTipoIncidenciaByTipoIncidencia(id: string, page: number, limit: number,searchQuery: string):Promise<{ listaSubTipos: SubTipoIncidenciaEntity[], currentPage: number, totalPages: number }> {
-        return this.tipoIncidenciaDatasource.getAllSubTipoIncidenciaByTipoIncidencia(id, page, limit, searchQuery);
+        return this.subTipoIncidenciaDatasource.getAllSubTipoIncidenciaByTipoIncidencia(id, page, limit, searchQuery);
     }
 
     deleteSubTipoIncidenciaById(id: string): Promise<boolean> {
-        return this.tipoIncidenciaDatasource.deleteSubTipoIncidenciaById(id);
+        return this.subTipoIncidenciaDatasource.deleteSubTipoIncidenciaById(id);
     }
 
     getSubTipoIncidenciaForRegistration(registerUserDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity | null> {
-        return this.tipoIncidenciaDatasource.getSubTipoIncidenciaForRegistration(registerUserDto);
+        return this.subTipoIncidenciaDatasource.getSubTipoIncidenciaForRegistration(registerUserDto);
     }
 
-
+    deleteSubTipoIncidenciaByTipoIncidencia(idTipo: string): Promise<boolean> {
+        return this.subTipoIncidenciaDatasource.deleteSubTipoIncidenciaByTipoIncidencia(idTipo);
+    }
 }

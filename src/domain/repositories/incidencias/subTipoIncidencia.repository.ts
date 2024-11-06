@@ -8,4 +8,5 @@ export abstract class SubTipoIncidenciaRepository {
     // abstract getAllSubTipoIncidencia(page: number, limit: number, searchQuery: string): Promise<{ listaSubTipos: SubTipoIncidenciaEntity[], currentPage: number, totalPages: number }>;
     abstract deleteSubTipoIncidenciaById(id: string): Promise<boolean>;
     abstract getSubTipoIncidenciaForRegistration(registerTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity | null>;
+    abstract deleteSubTipoIncidenciaByTipoIncidencia(idTipo: string): Promise<boolean>;
 }

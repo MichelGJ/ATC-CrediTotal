@@ -103,6 +103,12 @@ export class IncidenciasController {
             .catch(error => this.handleError(error, res))
     }
 
+    deleteSubTipoIncidenciaByTipoIncidencia = (req: Request, res: Response) => {
+        const id = req.params.id;
+        this.incidenciaService.deleteSubTipoIncidenciaByTipoIncidencia(id)
+            .then((tipoIncidencia) => res.json(tipoIncidencia))
+            .catch(error => this.handleError(error, res))
+    }
 
     registerTicketSoporte = (req: Request, res: Response) => {
         const [error, registerDto] = RegisterTicketSoporteDto.create(req.body);
@@ -122,7 +128,7 @@ export class IncidenciasController {
             .then((ticketSoporte) => res.json(ticketSoporte))
             .catch(error => this.handleError(error, res))
     }
-    
+
 
     getAllTicketSoporte = (req: Request, res: Response) => {
         const page = parseInt(req.query.page as string) || 1;

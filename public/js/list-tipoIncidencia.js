@@ -69,12 +69,14 @@ function attachDeleteHandlers() {
 
     deleteButtons.forEach(button => {
         button.addEventListener('click', async (event) => {
-            const userId = button.getAttribute('data-id');
+            const tipoId = button.getAttribute('data-id');
 
             // Confirm if the user wants to delete
             if (confirm('¿Está seguro de eliminar este tipo de incidencia?')) {
                 try {
-                    const deleted = await deleteUserById(userId);
+                    const deleted = await deleteTipoIncidenciaById(tipoId);
+                    await deleteSubTiposIncidenciaByTipoIncidencia(tipoId);
+                    console.log(deleted)
                     if (deleted) {
                         populateTipoIncidenciaTable();
                     } else {
@@ -183,7 +185,7 @@ function appendEllipsis(paginationElement) {
 
 
 
-async function deleteUserById(id) {
+async function deleteTipoIncidenciaById(id) {
     try {
         const response = await fetch(`api/incidencia/deleteTipoIncidenciaById/${id}`, {
             method: 'DELETE',
@@ -197,7 +199,25 @@ async function deleteUserById(id) {
         const data = await response.json();
         return data;
     } catch (error) {
-        throw new Error('Error deleting data:', error);
+        throw new Error('Error deleting tipos:', error);
+    }
+}
+
+async function deleteSubTiposIncidenciaByTipoIncidencia(id) {
+    try {
+        const response = await fetch(`api/incidencia/deleteSubTipoIncidenciaByTipoIncidencia/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Delete failed with status ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error('Error deleting subTipos:', error);
     }
 }
 

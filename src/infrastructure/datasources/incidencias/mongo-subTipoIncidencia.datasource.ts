@@ -3,6 +3,7 @@ import { CustomError, RegisterSubTipoIncidenciaDto, SubTipoIncidenciaDatasource,
 import { Types } from "mongoose";
 
 export class MongoSubTipoIncidenciaDatasource implements SubTipoIncidenciaDatasource {
+ 
 
 
   async getSubTipoIncidenciaForRegistration(registerSubTipoIncidenciaDto: RegisterSubTipoIncidenciaDto): Promise<SubTipoIncidenciaEntity | null> {
@@ -88,9 +89,13 @@ export class MongoSubTipoIncidenciaDatasource implements SubTipoIncidenciaDataso
     };
   }
 
-
   async deleteSubTipoIncidenciaById(id: string): Promise<boolean> {
     const user = await SubTipoIncidenciaModel.deleteOne({ _id: id });
+    return user.acknowledged;
+  }
+
+  async deleteSubTipoIncidenciaByTipoIncidencia(idTipo: string): Promise<boolean> {
+    const user = await SubTipoIncidenciaModel.deleteMany({ tipoIncidenciaId: new Types.ObjectId(idTipo) });
     return user.acknowledged;
   }
 }

@@ -148,6 +148,11 @@ export class IncidenciaService {
     return tipos;
   }
 
+  public async deleteSubTipoIncidenciaByTipoIncidencia(idTipo: string) {
+    const tipos = await this.subTipoIncidenciaRepository.deleteSubTipoIncidenciaByTipoIncidencia(idTipo);
+    return tipos;
+  }
+
   public async registerTicketSoporte(registerTicketSoporteDto: RegisterTicketSoporteDto) {
 
     try {

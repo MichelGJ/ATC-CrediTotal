@@ -45,6 +45,7 @@ export class IncidenciaRoute {
         router.get('/getAllSubTipoIncidenciaByTipoIncidencia/', controller.getAllSubTipoIncidenciaByTipoIncidencia);
         router.get('/getSubTipoIncidenciaById/:id', controller.getSubTipoIncidenciaById);
         router.delete('/deleteSubTipoIncidenciaById/:id', controller.deleteSubTipoIncidenciaById);
+        router.delete('/deleteSubTipoIncidenciaByTipoIncidencia/:id', controller.deleteSubTipoIncidenciaByTipoIncidencia);
         //Tickets
         router.post('/registerTicketSoporte', controller.registerTicketSoporte);
         router.put('/updateTicketSoporte', controller.updateTicketSoporte);
