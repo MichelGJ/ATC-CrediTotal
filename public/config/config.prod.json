@@ -1,0 +1,5 @@
+{
+    "API_URL": "https://staging-api.creditotal.online/api/integration/customer_info_by_id?identity=V",
+    "Authorization": "YXBpY2hhdGJvdDo0cDFjaDR0YjB0Kg==",
+    "CONSOLE_URL":"https://console.creditotal.online/console/person/profile/"
+}

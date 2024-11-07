@@ -54,30 +54,34 @@ async function getTicket() {
         },
     });
 
-    const cliente = await response.json();
-    console.log(cliente);
+    if (!response.ok) {
+        personInfoBox.style.display = 'block';
+        personInfoBox.innerHTML = 'Error obteniendo informacion del cliente';
+    } else {
+        const cliente = await response.json();
 
-    if (!cliente.code) {
-        personInfoBox.style.display = 'block'; // Show the box if it's hidden
-        personInfoBox.innerHTML = `
-        <h4>Cédula: ${cliente.person.code_identity || ''}${cliente.person.identity || ''}</h4>
-        <h4>Nombre: ${cliente.person.name.toUpperCase() || ''} ${cliente.person.second_name?.toUpperCase() || ''} ${cliente.person.lastName.toUpperCase() || ''}  
-        ${cliente.person.second_lastName?.toUpperCase() || ''}</h4>
-        ${cliente.domiciled ?
+        if (!cliente.code) {
+            personInfoBox.style.display = 'block'; // Show the box if it's hidden
+            personInfoBox.innerHTML = `
+            <h4>Cédula: ${cliente.person.code_identity || ''}${cliente.person.identity || ''}</h4>
+            <h4>Nombre: ${cliente.person.name.toUpperCase() || ''} ${cliente.person.second_name?.toUpperCase() || ''} ${cliente.person.lastName.toUpperCase() || ''}  
+            ${cliente.person.second_lastName?.toUpperCase() || ''}</h4>
+            ${cliente.domiciled ?
                     `<h5>Domiciliado</h5>
-                    <h5>Banco: ${cliente.domiciled_bank.name || ''}</h5>`
+                        <h5>Banco: ${cliente.domiciled_bank.name || ''}</h5>`
                     : ''}
-        <h5>Link Backoffice: 
-            <a href="https://staging-console.creditotal.online/console/person/profile/${cliente.person.code || ''}" target="_blank">
-                ${cliente.person.code ? 'Ver Perfil' : ''}
-            </a>
-        </h5>
-        <h5>Correo: ${cliente.person.contacts[1].contact.toLowerCase() || ''}</h5>
-        `;
-    }else{
-        personInfoBox.style.display = 'block'; 
-        personInfoBox.innerHTML = 'Cliente no registrado';
-        // personInfoBox.style.display = 'none';
+            <h5>Link Backoffice: 
+                <a href="https://staging-console.creditotal.online/console/person/profile/${cliente.person.code || ''}" target="_blank">
+                    ${cliente.person.code ? 'Ver Perfil' : ''}
+                </a>
+            </h5>
+            <h5>Correo: ${cliente.person.contacts[1].contact.toLowerCase() || ''}</h5>
+            `;
+        } else {
+            personInfoBox.style.display = 'block';
+            personInfoBox.innerHTML = 'Cliente no registrado';
+            // personInfoBox.style.display = 'none';
+        }
     }
 
     workingTicket = ticket;

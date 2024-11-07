@@ -29,7 +29,11 @@ const ticketSoporteSchema = new mongoose.Schema({
   estatus: {
     type: String,
     required: [true, 'estatus is required']
-  }
+  },
+  fecha: {
+    type: Date,
+    required: [true, 'fecha is required']
+  },
 
 });
 
@@ -42,6 +46,7 @@ ticketSoporteSchema.pre('validate', function (next) {
     this.markModified('cedulaCliente');
     this.markModified('userId');
     this.markModified('estatus');
+    this.markModified('fecha');
   }
   next();
 });

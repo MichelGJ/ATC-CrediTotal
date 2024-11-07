@@ -40,6 +40,7 @@ async function populateTicketTable(page = 1, searchQuery = '') {
             row.innerHTML = `
               <td>${ticket.tipoDetails?.name || ''}</td>
               <td>${ticket.subTipoDetails?.name || ''}</td>
+              <td>${ticket.fecha || ''}</td>
               <td>${ticket.descripcion}</td>
               <td>${ticket.cedulaCliente}</td>
               <td>${ticket.estatus}</td>
@@ -59,7 +60,7 @@ async function populateTicketTable(page = 1, searchQuery = '') {
         attachCloseHandlers();
         attachEditHandlers();
     } catch (error) {
-        console.error('Error populating user table:', error);
+        console.error('Error populating ticket table:', error);
     }
 }
 
