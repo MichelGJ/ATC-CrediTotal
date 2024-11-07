@@ -60,7 +60,7 @@ async function getTicket() {
         personInfoBox.innerHTML = 'Error obteniendo informacion del cliente';
     } else {
         const cliente = await response.json();
-        
+
         if (!cliente.code) {
             personInfoBox.style.display = 'block'; // Show the box if it's hidden
             personInfoBox.innerHTML = `
@@ -119,6 +119,51 @@ async function getClient(cedula) {
 
     return response;
 }
+
+
+async function registerTicket(cedula) {
+    const cedulaCliente = cedula.trim();
+    const decodedToken = jwt_decode(token);
+    const userId = decodedToken.id || [];
+
+
+    // Prepare user data to be sent
+    const ticketData = {
+        cedulaCliente: cedulaCliente,
+        userId: userId,
+    };
+
+    try {
+        // Send a POST request to your registration API
+        const response = await fetch(`api/atp/registerTicketPresencial`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ticketData), // Convert user data to JSON string
+        });
+
+        // Parse the response from the server
+        const result = await response.json();
+
+        if (response.ok) {
+            // Registration successful, redirect user or show success message
+            dropdownTipo.value = '';
+            dropdownSubTipo.value = '';
+            cedulaField.value = '';
+            descripcionField.value = '';
+            alert('Ticket Abierto!');
+        } else {
+            // Handle server-side validation errors
+            alert(`Error en el registro: ${result.error || 'Error desconocido'}`);
+        }
+    } catch (error) {
+        // Handle network or other errors\
+        console.error('Error en el registro:', error);
+        alert('Hubo un error en el registro. Intente nuevamente más tarde.');
+    }
+}
+
 
 function connectToWebSockets() {
 

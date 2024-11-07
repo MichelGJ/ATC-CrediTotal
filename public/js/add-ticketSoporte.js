@@ -41,7 +41,7 @@ async function registerTicket(event) {
 
         // Parse the response from the server
         const result = await response.json();
-
+        console.log(result);
         if (response.ok) {
             // Registration successful, redirect user or show success message
             dropdownTipo.value = '';

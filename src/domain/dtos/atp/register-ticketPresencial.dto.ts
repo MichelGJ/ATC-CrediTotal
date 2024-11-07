@@ -2,18 +2,18 @@
 export class RegisterTicketPresencialDto {
 
     private constructor(
-        public descripcion: string,
         public cedulaCliente: string,
+        public userId: string,
         public id?: string
     ) { }
 
     static create(object: { [key: string]: any }): [string?, RegisterTicketPresencialDto?] {
-        const {descripcion, cedulaCliente, fechaInicio, id } = object;
+        const {cedulaCliente, userId, id } = object;
 
-        if (!descripcion) return ['Missing descripcion'];
+        
         if (!cedulaCliente) return ['Missing cedulaCliente'];
+        if (!userId) return ['Missing userId'];
 
-        return [undefined, new RegisterTicketPresencialDto(descripcion, cedulaCliente, id)];
+        return [undefined, new RegisterTicketPresencialDto(cedulaCliente, userId, id)];
     }
-
 }

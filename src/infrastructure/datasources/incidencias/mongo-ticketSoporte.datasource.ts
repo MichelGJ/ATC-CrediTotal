@@ -19,9 +19,9 @@ export class MongoTicketSoporteDatasource implements TicketSoporteDatasource {
         const ticketSoporte = new TicketSoporteModel(registerTicketSoporteDto);
         ticketSoporte.fecha = new Date();
 
-        await ticketSoporte.save();
+        const ticketSoporteInserted = await ticketSoporte.save();
 
-        const { ...ticketSoporteEntity } = TicketSoporteEntity.fromObject(ticketSoporte);
+        const { ...ticketSoporteEntity } = TicketSoporteEntity.fromObject(ticketSoporteInserted);
 
         return ticketSoporteEntity;
     }

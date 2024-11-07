@@ -10,9 +10,9 @@ export class MongoTicketPresencialDatasource implements TicketPresencialDatasour
         const ticketPresencial = new TicketPresencialModel(registerTicketPresencialDto);
         ticketPresencial.fechaFin = new Date();
 
-        await ticketPresencial.save();
+        const ticketPresencialInserted = await ticketPresencial.save();
 
-        const { ...ticketPresencialEntity } = TicketPresencialEntity.fromObject(ticketPresencial);
+        const { ...ticketPresencialEntity } = TicketPresencialEntity.fromObject(ticketPresencialInserted);
 
         return ticketPresencialEntity;
     }

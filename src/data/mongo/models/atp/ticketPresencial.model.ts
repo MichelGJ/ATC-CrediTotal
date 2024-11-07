@@ -24,7 +24,11 @@ const ticketPresencialSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'fechaFin is required']
   },
-
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: [true, 'userId is required'],
+    ref: 'User'
+  },
 });
 
 ticketPresencialSchema.pre('validate', function (next) {
@@ -35,6 +39,7 @@ ticketPresencialSchema.pre('validate', function (next) {
     this.markModified('resultado');
     this.markModified('fechaInicio');
     this.markModified('fechaFin');
+    this.markModified('userId');
   }
   next();
 });
