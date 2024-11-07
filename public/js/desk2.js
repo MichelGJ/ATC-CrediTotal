@@ -53,14 +53,14 @@ async function getTicket() {
         cedulaCliente.innerText = '....';
     }
 
-    response = getClient(ticket.cedula);
-
+    response = await getClient(ticket.cedula);
+    
     if (!response.ok) {
         personInfoBox.style.display = 'block';
         personInfoBox.innerHTML = 'Error obteniendo informacion del cliente';
     } else {
         const cliente = await response.json();
-
+        
         if (!cliente.code) {
             personInfoBox.style.display = 'block'; // Show the box if it's hidden
             personInfoBox.innerHTML = `
@@ -72,7 +72,7 @@ async function getTicket() {
                         <h5>Banco: ${cliente.domiciled_bank.name || ''}</h5>`
                     : ''}
             <h5>Link Backoffice: 
-                <a href="${envsData.CONSOLA_URL}/${cliente.person.code || ''}" target="_blank">
+                <a href="${envsData.CONSOLA_URL}${cliente.person.code || ''}" target="_blank">
                     ${cliente.person.code ? 'Ver Perfil' : ''}
                 </a>
             </h5>
