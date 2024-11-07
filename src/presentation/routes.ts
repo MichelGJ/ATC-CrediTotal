@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { TicketRoutes } from './tickets/routes';
 import { AuthRoutes } from './auth/routes';
 import { IncidenciaRoute } from './incidencias/routes';
+import { envs } from '../config/envs';
 
 
 
@@ -21,6 +22,9 @@ export class AppRoutes {
     router.use('/api/auth', AuthRoutes.routes);
     router.use('/api/incidencia', IncidenciaRoute.routes);
     router.use('/api/atp', IncidenciaRoute.routes);
+    router.get('/api/envs', (req, res) => {
+      res.json(envs); // Send envs as JSON response
+    });
 
     return router;
   }

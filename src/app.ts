@@ -6,7 +6,7 @@ import { WssService } from './presentation/services/wss.services';
 import { MongoDatabase } from './data';
 
 
-(async()=> {
+(async () => {
   main();
 })();
 
@@ -25,15 +25,15 @@ async function main() {
     port: envs.PORT,
   });
 
-  const httpServer = createServer( server.app );
+  const httpServer = createServer(server.app);
   WssService.initWss({ server: httpServer });
 
 
-  server.setRoutes( AppRoutes.routes );
+  server.setRoutes(AppRoutes.routes);
 
 
 
-  httpServer.listen( envs.PORT, () => {
-    console.log(`Server running on port: ${ envs.PORT }`);
+  httpServer.listen(envs.PORT, () => {
+    console.log(`Server running on port: ${envs.PORT}`);
   })
 }

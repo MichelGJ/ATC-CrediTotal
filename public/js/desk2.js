@@ -9,6 +9,8 @@ const personInfoBox = document.getElementById('person-info');
 
 const searchParams = new URLSearchParams(window.location.search);
 
+let envsData;
+
 if (!searchParams.has('mesa')) {
     window.location = 'index.html';
     throw new Error('Mesa es requerida');
@@ -36,6 +38,11 @@ async function loadInitialCount() {
     checkTicketCount(pendingTickets.length);
 }
 
+async function loadEnvs() {
+    const envs = await fetch(`/api/envs/`)
+    envsData = await envs.json();
+}
+
 async function getTicket() {
     await finishTicket();
 
@@ -46,13 +53,7 @@ async function getTicket() {
         cedulaCliente.innerText = '....';
     }
 
-    const response = await fetch(`https://staging-api.creditotal.online/api/integration/customer_info_by_id?identity=V${ticket.cedula}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'YXBpY2hhdGJvdDo0cDFjaDR0YjB0Kg=='
-        },
-    });
+    response = getClient(ticket.cedula);
 
     if (!response.ok) {
         personInfoBox.style.display = 'block';
@@ -71,7 +72,7 @@ async function getTicket() {
                         <h5>Banco: ${cliente.domiciled_bank.name || ''}</h5>`
                     : ''}
             <h5>Link Backoffice: 
-                <a href="https://staging-console.creditotal.online/console/person/profile/${cliente.person.code || ''}" target="_blank">
+                <a href="${envsData.CONSOLA_URL}/${cliente.person.code || ''}" target="_blank">
                     ${cliente.person.code ? 'Ver Perfil' : ''}
                 </a>
             </h5>
@@ -104,6 +105,19 @@ async function finishTicket() {
         // cedulaCliente.innerText = '....';
         personInfoBox.style.display = 'none';
     }
+}
+
+async function getClient(cedula) {
+
+    const response = await fetch(envsData.API_URL + cedula, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': envsData.AUTH_API
+        },
+    });
+
+    return response;
 }
 
 function connectToWebSockets() {
@@ -140,4 +154,5 @@ btnDraw.addEventListener('click', getTicket);
 btnDone.addEventListener('click', finishTicket);
 
 loadInitialCount();
+loadEnvs();
 connectToWebSockets();

@@ -51,14 +51,6 @@ export class Server {
       res.sendFile(indexPath);
     });
 
-
-    this.app.get('/config', (req, res) => {
-      console.log("Aaaaaaaaaa")
-      const env = process.env.ENV || 'development';
-      const configPath = env === 'production' ? './config/config.prod.json' : './config/config.dev.json';
-      res.sendFile(configPath, { root: __dirname });
-  });
-
   }
 
   public setRoutes(router: Router) {
