@@ -5,3 +5,4 @@ export * from './ticket.service';
 export * from './wss.services';
 export * from './email.service';
 export * from './incidencias.service';
+export * from './atp.service';

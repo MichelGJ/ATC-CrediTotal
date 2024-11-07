@@ -20,6 +20,7 @@ export class AppRoutes {
     router.use('/api/ticket',  TicketRoutes.routes  );
     router.use('/api/auth', AuthRoutes.routes);
     router.use('/api/incidencia', IncidenciaRoute.routes);
+    router.use('/api/atp', IncidenciaRoute.routes);
 
     return router;
   }

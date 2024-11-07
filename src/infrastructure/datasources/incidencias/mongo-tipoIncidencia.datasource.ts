@@ -42,52 +42,52 @@ export class MongoTipoIncidenciaDatasource implements TipoIncidenciaDatasource {
 
   async getTipoIncidenciaById(id: string): Promise<TipoIncidenciaEntity> {
     const tipoIncidencia = await TipoIncidenciaModel.findById(id);
-  
-      if (!tipoIncidencia) throw CustomError.badRequest('TipoIncidencia no existe');
 
-      return tipoIncidencia;
+    if (!tipoIncidencia) throw CustomError.badRequest('TipoIncidencia no existe');
+
+    return tipoIncidencia;
   }
 
   async getAllTipoIncidencia(
-  page: number = 1,
-  limit: number | null = null,
-  searchQuery: string
-): Promise<{ listaTipos: TipoIncidenciaEntity[]; currentPage: number; totalPages: number }> {
-  
-  const skip = (page - 1) * (limit ?? 0);
+    page: number = 1,
+    limit: number | null = null,
+    searchQuery: string
+  ): Promise<{ listaTipos: TipoIncidenciaEntity[]; currentPage: number; totalPages: number }> {
 
-  const searchCondition = searchQuery
-    ? { $or: [{ name: { $regex: searchQuery, $options: 'i' } }] }
-    : {};
+    const skip = (page - 1) * (limit ?? 0);
 
-  const totalTiposIncidencia = await TipoIncidenciaModel.countDocuments(searchCondition);
+    const searchCondition = searchQuery
+      ? { $or: [{ name: { $regex: searchQuery, $options: 'i' } }] }
+      : {};
 
-  const totalPages = limit ? Math.ceil(totalTiposIncidencia / limit) : 1;
+    const totalTiposIncidencia = await TipoIncidenciaModel.countDocuments(searchCondition);
 
-  // Construct aggregation pipeline
-  const aggregationPipeline: any[] = [
-    { $match: searchCondition },
-    { $skip: skip }
-  ];
+    const totalPages = limit ? Math.ceil(totalTiposIncidencia / limit) : 1;
 
-  // Conditionally add $limit if limit is provided
-  if (limit || limit) {
-    aggregationPipeline.push({ $limit: limit });
+    // Construct aggregation pipeline
+    const aggregationPipeline: any[] = [
+      { $match: searchCondition },
+      { $skip: skip }
+    ];
+
+    // Conditionally add $limit if limit is provided
+    if (limit || limit) {
+      aggregationPipeline.push({ $limit: limit });
+    }
+
+    // Execute the aggregation
+    const tiposIncidencias = await TipoIncidenciaModel.aggregate(aggregationPipeline);
+
+    const listaTipos = tiposIncidencias.map(tipo => TipoIncidenciaEntity.fromObject(tipo));
+
+    return {
+      listaTipos,
+      currentPage: page,
+      totalPages
+    };
   }
 
-  // Execute the aggregation
-  const tiposIncidencias = await TipoIncidenciaModel.aggregate(aggregationPipeline);
 
-  const listaTipos = tiposIncidencias.map(tipo => TipoIncidenciaEntity.fromObject(tipo));
-
-  return {
-    listaTipos,
-    currentPage: page,
-    totalPages
-  };
-}
-
-  
   async deleteTipoIncidenciaById(id: string): Promise<boolean> {
     const user = await TipoIncidenciaModel.deleteOne({ _id: id });
     return user.acknowledged;

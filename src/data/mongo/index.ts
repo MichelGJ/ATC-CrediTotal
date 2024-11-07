@@ -6,3 +6,4 @@ export * from './models/auth/role.model';
 export * from './models/incidencias/tipoIncidencia.model';
 export * from './models/incidencias/subTipoIncidencia.model';
 export * from './models/incidencias/ticketSoporte.model';
+export * from './models/atp/ticketPresencial.model';
