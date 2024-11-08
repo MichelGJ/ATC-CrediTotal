@@ -478,6 +478,7 @@ table {
     justify-content: space-around;
     padding: 20px;
     flex-wrap: wrap;
+    margin-top:-30px;
     /* Allow buttons to wrap on smaller screens */
 }
 

@@ -19,9 +19,8 @@ const ticketPresencialSchema = new mongoose.Schema({
   fechaFin: {
     type: Date
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+  user: {
+    type: String,
   },
 });
 

@@ -46,7 +46,7 @@ async function loadEnvs() {
 
 async function getTicket() {
     await finishTicket();
-   
+
 
     const { status, ticket, message } = await fetch(`/api/ticket/draw/${deskNumber}`)
         .then(resp => resp.json());
@@ -57,7 +57,7 @@ async function getTicket() {
 
     await registerTicket(ticket.cedula);
     response = await getClient(ticket.cedula);
-    
+
     if (!response.ok) {
         personInfoBox.style.display = 'block';
         personInfoBox.innerHTML = 'Error obteniendo informacion del cliente';
@@ -127,12 +127,12 @@ async function getClient(cedula) {
 async function registerTicket(cedula) {
     const cedulaCliente = cedula.trim();
     const decodedToken = jwt_decode(token);
-    const userId = decodedToken.id || [];
+    const userId = decodedToken.name || [];
 
     // Prepare user data to be sent
     const ticketData = {
         cedulaCliente: cedulaCliente,
-        userId: userId,
+        user: userId,
     };
 
     try {
@@ -147,9 +147,6 @@ async function registerTicket(cedula) {
 
         // Parse the response from the server
         const result = await response.json();
-
-        // Log the result to inspect its structure
-        console.log('Server response:', result);
 
         if (response.ok) {
             // Handle successful registration
@@ -196,8 +193,80 @@ function connectToWebSockets() {
 
 }
 
-btnDraw.addEventListener('click', getTicket);
-btnDone.addEventListener('click', finishTicket);
+// Fetch and populate the dropdowns with tipo and subtipo data
+async function populateDropdowns() {
+    try {
+        // Fetch tipo data
+        const tipoResponse = await fetch('api/incidencia/getAllTipoIncidencia');
+        const { listaTipos, currentPage, totalPages } = await tipoResponse.json();
+        // Populate tipo dropdown
+        const tipoDropdown = document.getElementById('dynamic-dropdown-tipo1');
+        listaTipos.forEach(tipo => {
+            const option = document.createElement('option');
+            option.value = tipo.id;
+            option.textContent = tipo.name;
+            tipoDropdown.appendChild(option);
+        });
+
+        // Fetch subtipo data based on selected tipo
+        tipoDropdown.addEventListener('change', async (event) => {
+            const idTipo = event.target.value;
+
+            // Fetch subtipo data
+            const subtipoResponse = await fetch(`api/incidencia/getAllSubTipoIncidenciaByTipoIncidencia?idTipo=${idTipo}`);
+            const { listaSubTipos, currentPage, totalPages } = await subtipoResponse.json();
+            console.log(listaSubTipos);
+            // Populate subtipo dropdown
+            const subtipoDropdown = document.getElementById('dynamic-dropdown-tipo2');
+            listaSubTipos.forEach(subtipo => {
+                const option = document.createElement('option');
+                option.value = subtipo.id;
+                option.textContent = subtipo.name;
+                subtipoDropdown.appendChild(option);
+            });
+
+        });
+    } catch (error) {
+        console.error('Error fetching dropdown data:', error);
+    }
+}
+
+function populateFixedDropdown() {
+    const fixedDropdown = document.getElementById('dynamic-dropdown-tipo3');
+    const fixedValues = [
+        { value: 'value1', text: 'Resuelto' },
+        { value: 'value2', text: 'Se fue' },
+        { value: 'value3', text: 'No Resuelto' }
+    ];
+
+    fixedValues.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.value;
+        option.textContent = item.text;
+        fixedDropdown.appendChild(option);
+    });
+}
+
+function clearDropdowns() {
+    const tipoDropdown = document.getElementById('dynamic-dropdown-tipo1');
+    const subtipoDropdown = document.getElementById('dynamic-dropdown-tipo2');
+    const fixedDropdown = document.getElementById('dynamic-dropdown-tipo3');
+
+    tipoDropdown.innerHTML = '<option value="" disabled selected>Seleccione un tipo</option>';
+    subtipoDropdown.innerHTML = '<option value="" disabled selected>Seleccione un subtipo</option>';
+    fixedDropdown.innerHTML = '<option value="" disabled selected>Seleccione un estatus</option>';
+}
+
+
+btnDraw.addEventListener('click', () => {
+    getTicket();
+    populateDropdowns();
+    populateFixedDropdown(); 
+});
+btnDone.addEventListener('click', () => {
+    finishTicket();
+    clearDropdowns();
+});
 
 loadInitialCount();
 loadEnvs();

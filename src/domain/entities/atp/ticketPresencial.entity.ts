@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import { CustomError } from '../../errors/custom.error';
 
 
@@ -11,12 +10,12 @@ export class TicketPresencialEntity {
         public resultado?: string,
         public fechaInicio?: Date,
         public fechaFin?: Date,
-        public userId?: Types.ObjectId,
+        public user?: string,
         public id?: string
     ) { }
 
     static fromObject(object: { [key: string]: any; }) {
-        const { id, _id, descripcion, cedulaCliente, resultado, fechaInicio, fechaFin, userId} = object;
+        const { id, _id, descripcion, cedulaCliente, resultado, fechaInicio, fechaFin, user} = object;
 
         if (!_id && !id) {
             throw CustomError.badRequest('Missing id');
@@ -30,6 +29,6 @@ export class TicketPresencialEntity {
         // if (!userId) throw CustomError.badRequest('Missing userId');
 
         return new TicketPresencialEntity(descripcion, cedulaCliente, resultado,
-             fechaInicio.toLocaleString("es-VE", {timeZone: "America/Caracas"}), fechaFin.toLocaleString("es-VE", {timeZone: "America/Caracas"}), userId, _id || id);
+             fechaInicio.toLocaleString("es-VE", {timeZone: "America/Caracas"}), fechaFin.toLocaleString("es-VE", {timeZone: "America/Caracas"}), user, _id || id);
     }
 }
