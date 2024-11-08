@@ -6,6 +6,7 @@ const btnDraw = document.querySelector('#btn-draw');
 const btnDone = document.querySelector('#btn-done');
 const lblCurrentTicket = document.querySelector('#ticketNumber');
 const personInfoBox = document.getElementById('person-info');
+const token = localStorage.getItem('token');
 
 const searchParams = new URLSearchParams(window.location.search);
 
@@ -45,6 +46,7 @@ async function loadEnvs() {
 
 async function getTicket() {
     await finishTicket();
+   
 
     const { status, ticket, message } = await fetch(`/api/ticket/draw/${deskNumber}`)
         .then(resp => resp.json());
@@ -53,6 +55,7 @@ async function getTicket() {
         cedulaCliente.innerText = '....';
     }
 
+    await registerTicket(ticket.cedula);
     response = await getClient(ticket.cedula);
     
     if (!response.ok) {
@@ -126,7 +129,6 @@ async function registerTicket(cedula) {
     const decodedToken = jwt_decode(token);
     const userId = decodedToken.id || [];
 
-
     // Prepare user data to be sent
     const ticketData = {
         cedulaCliente: cedulaCliente,
@@ -146,19 +148,18 @@ async function registerTicket(cedula) {
         // Parse the response from the server
         const result = await response.json();
 
+        // Log the result to inspect its structure
+        console.log('Server response:', result);
+
         if (response.ok) {
-            // Registration successful, redirect user or show success message
-            dropdownTipo.value = '';
-            dropdownSubTipo.value = '';
-            cedulaField.value = '';
-            descripcionField.value = '';
-            alert('Ticket Abierto!');
+            // Handle successful registration
+            console.log('Registro exitoso:', result);
         } else {
             // Handle server-side validation errors
-            alert(`Error en el registro: ${result.error || 'Error desconocido'}`);
+            console.error('Error en el registro:', result);
         }
     } catch (error) {
-        // Handle network or other errors\
+        // Handle network or other errors
         console.error('Error en el registro:', error);
         alert('Hubo un error en el registro. Intente nuevamente más tarde.');
     }

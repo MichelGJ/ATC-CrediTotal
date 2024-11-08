@@ -4,29 +4,23 @@ import mongoose from 'mongoose';
 const ticketPresencialSchema = new mongoose.Schema({
 
   descripcion: {
-    type: String,
-    required: [true, 'descripcion is required']
+    type: String
   },
   cedulaCliente: {
     type: String,
-    required: [true, 'cedulaCliente is required']
   },
   resultado: {
     type: String,
-    required: [true, 'resultado is required'],
     enum: ['Resuelto','No Resuelto','Se fue']
   },
   fechaInicio: {
-    type: Date,
-    required: [true, 'fechaInicio is required']
+    type: Date
   },
   fechaFin: {
-    type: Date,
-    required: [true, 'fechaFin is required']
+    type: Date
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: [true, 'userId is required'],
     ref: 'User'
   },
 });

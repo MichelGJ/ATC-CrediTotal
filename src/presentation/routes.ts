@@ -3,6 +3,7 @@ import { TicketRoutes } from './tickets/routes';
 import { AuthRoutes } from './auth/routes';
 import { IncidenciaRoute } from './incidencias/routes';
 import { envs } from '../config/envs';
+import { AtpRoute } from './atp/route';
 
 
 
@@ -21,7 +22,7 @@ export class AppRoutes {
     router.use('/api/ticket',  TicketRoutes.routes  );
     router.use('/api/auth', AuthRoutes.routes);
     router.use('/api/incidencia', IncidenciaRoute.routes);
-    router.use('/api/atp', IncidenciaRoute.routes);
+    router.use('/api/atp', AtpRoute.routes);
     router.get('/api/envs', (req, res) => {
       res.json(envs); // Send envs as JSON response
     });

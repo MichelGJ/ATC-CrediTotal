@@ -7,19 +7,52 @@ const cedulaField = document.getElementById('cedulaCliente');
 const token = localStorage.getItem('token');
 
 
+// Send ticket data to the server
+async function sendTicketData(ticketData) {
+    try {
+        const response = await fetch(`api/incidencia/registerTicketSoporte`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ticketData),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            return result;
+        } else {
+            throw new Error(result.error || 'Error desconocido');
+        }
+    } catch (error) {
+        throw new Error('Hubo un error en el registro. Intente nuevamente más tarde.');
+    }
+}
+
 // Registration submission
 async function registerTicket(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
 
     const descripcion = descripcionField.value.trim();
     const cedulaCliente = cedulaField.value.trim();
     const tipo = dropdownTipo.value;
     const subtipo = dropdownSubTipo.value;
-    const decodedToken = jwt_decode(token);
-    const userId = decodedToken.id || [];
 
+    if (!token) {
+        alert('Token no encontrado. Por favor, inicie sesión.');
+        return;
+    }
 
-    // Prepare user data to be sent
+    let decodedToken;
+    try {
+        decodedToken = jwt_decode(token);
+    } catch (error) {
+        alert('Token inválido. Por favor, inicie sesión nuevamente.');
+        return;
+    }
+
+    const userId = decodedToken.id;
+
     const ticketData = {
         tipoIncidenciaId: tipo,
         subTipoIncidenciaId: subtipo,
@@ -30,33 +63,15 @@ async function registerTicket(event) {
     };
 
     try {
-        // Send a POST request to your registration API
-        const response = await fetch(`api/incidencia/registerTicketSoporte`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(ticketData), // Convert user data to JSON string
-        });
-
-        // Parse the response from the server
-        const result = await response.json();
-        console.log(result);
-        if (response.ok) {
-            // Registration successful, redirect user or show success message
-            dropdownTipo.value = '';
-            dropdownSubTipo.value = '';
-            cedulaField.value = '';
-            descripcionField.value = '';
-            alert('Ticket Abierto!');
-        } else {
-            // Handle server-side validation errors
-            alert(`Error en el registro: ${result.error || 'Error desconocido'}`);
-        }
+        await sendTicketData(ticketData);
+        dropdownTipo.value = '';
+        dropdownSubTipo.value = '';
+        cedulaField.value = '';
+        descripcionField.value = '';
+        alert('Ticket Abierto!');
     } catch (error) {
-        // Handle network or other errors\
         console.error('Error en el registro:', error);
-        alert('Hubo un error en el registro. Intente nuevamente más tarde.');
+        alert(error.message);
     }
 }
 

@@ -9,7 +9,7 @@ const ticketPresencialRepository = new TicketPresencialRepositoryImpl(
 );
 
 
-export class IncidenciaRoute {
+export class AtpRoute {
 
 
     static get routes(): Router {

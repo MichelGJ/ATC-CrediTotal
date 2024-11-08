@@ -8,7 +8,7 @@ export class MongoTicketPresencialDatasource implements TicketPresencialDatasour
 
     async insertTicketPresencial(registerTicketPresencialDto: RegisterTicketPresencialDto): Promise<TicketPresencialEntity> {
         const ticketPresencial = new TicketPresencialModel(registerTicketPresencialDto);
-        ticketPresencial.fechaFin = new Date();
+        ticketPresencial.fechaInicio = new Date();
 
         const ticketPresencialInserted = await ticketPresencial.save();
 
