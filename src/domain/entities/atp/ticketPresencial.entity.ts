@@ -29,6 +29,6 @@ export class TicketPresencialEntity {
         // if (!userId) throw CustomError.badRequest('Missing userId');
 
         return new TicketPresencialEntity(descripcion, cedulaCliente, resultado,
-             fechaInicio.toLocaleString("es-VE", {timeZone: "America/Caracas"}), fechaFin.toLocaleString("es-VE", {timeZone: "America/Caracas"}), user, _id || id);
+             fechaInicio, fechaFin, user, _id || id);
     }
 }

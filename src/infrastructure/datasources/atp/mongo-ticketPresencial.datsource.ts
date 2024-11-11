@@ -1,5 +1,5 @@
 import { TicketPresencialModel } from "../../../data/mongo";
-import { CustomError, RegisterTicketPresencialDto, UpdateTicketPresencialDto,TicketPresencialDatasource, TicketPresencialEntity } from "../../../domain";
+import { CustomError, RegisterTicketPresencialDto, UpdateTicketPresencialDto, TicketPresencialDatasource, TicketPresencialEntity } from "../../../domain";
 import { envs } from '../../../config/envs';
 
 
@@ -9,6 +9,7 @@ export class MongoTicketPresencialDatasource implements TicketPresencialDatasour
     async insertTicketPresencial(registerTicketPresencialDto: RegisterTicketPresencialDto): Promise<TicketPresencialEntity> {
         const ticketPresencial = new TicketPresencialModel(registerTicketPresencialDto);
         ticketPresencial.fechaInicio = new Date();
+        ticketPresencial.resultado = 'Incompleto';
 
         const ticketPresencialInserted = await ticketPresencial.save();
 
@@ -20,13 +21,15 @@ export class MongoTicketPresencialDatasource implements TicketPresencialDatasour
     async updateTicketPresencial(updateTicketPresencialDto: UpdateTicketPresencialDto): Promise<TicketPresencialEntity> {
         const { ...ticketPresencialData } = updateTicketPresencialDto;
 
+
         let ticketPresencial;
 
         ticketPresencial = await TicketPresencialModel.findById(ticketPresencialData.id);
+
         if (!ticketPresencial) throw CustomError.badRequest('ticketPresencial no existe');
 
-        ticketPresencial.set(ticketPresencialData);
         ticketPresencial.fechaFin = new Date();
+        ticketPresencial.set(ticketPresencialData);
 
         await ticketPresencial.save();
 
@@ -66,7 +69,7 @@ export class MongoTicketPresencialDatasource implements TicketPresencialDatasour
         ]);
 
         const totalTicketsPresencial = await TicketPresencialModel.countDocuments(searchCondition);
-        
+
         const totalPages = limit ? Math.ceil(totalTicketsPresencial / limit) : 1;
         const listaTickets = ticketsPresencial.map(ticket => TicketPresencialEntity.fromObject(ticket));
 

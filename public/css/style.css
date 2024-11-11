@@ -147,10 +147,10 @@ table {
     height: 200px;
     text-align: center;
     background-color: #fafafa;
-    max-width: 600px;
+  
     /* Set the maximum width of the input */
     /* Center the input horizontally */
-    width: 100%;
+    width: 550px;
 
 }
 
@@ -478,7 +478,7 @@ table {
     justify-content: space-around;
     padding: 20px;
     flex-wrap: wrap;
-    margin-top:-30px;
+    margin-top:5px;
     /* Allow buttons to wrap on smaller screens */
 }
 
@@ -645,4 +645,10 @@ table {
     overflow-x: hidden; /* Hides horizontal overflow */
     white-space: normal; /* Allows text wrapping */
     word-wrap: break-word; /* Breaks long words onto the next line */
+}
+
+#dynamic-dropdown-tipo3,
+#dynamic-dropdown-tipo2,
+#dynamic-dropdown-tipo1{
+    margin-top: 20px;
 }

@@ -7,6 +7,9 @@ const btnDone = document.querySelector('#btn-done');
 const lblCurrentTicket = document.querySelector('#ticketNumber');
 const personInfoBox = document.getElementById('person-info');
 const descripcionField = document.getElementById('descripcion');
+const tipoDropdown = document.getElementById('dynamic-dropdown-tipo1');
+const resultadoField = document.getElementById('dynamic-dropdown-tipo3');
+const idField = document.getElementById('ticket-id');
 const token = localStorage.getItem('token');
 
 const searchParams = new URLSearchParams(window.location.search);
@@ -46,8 +49,6 @@ async function loadEnvs() {
 }
 
 async function getTicket() {
-    await finishTicket();
-
 
     const { status, ticket, message } = await fetch(`/api/ticket/draw/${deskNumber}`)
         .then(resp => resp.json());
@@ -91,6 +92,10 @@ async function getTicket() {
 
     workingTicket = ticket;
     lblCurrentTicket.innerText = `ticket ${ticket.number}`;
+    btnDone.disabled = false;
+    descripcionField.disabled = false;
+    populateTipoDropdowns();
+    populateFixedDropdown();
     // cedulaCliente.innerText = ticket.cedula;
 }
 
@@ -103,12 +108,18 @@ async function finishTicket() {
         lblCurrentTicket.innerText = message;
     }
 
+    await updateTicket();
+
     if (status === 'ok') {
         workingTicket == null;
         lblCurrentTicket.innerText = '....';
         // cedulaCliente.innerText = '....';
         personInfoBox.style.display = 'none';
+        descripcionField.value = '';
+        descripcionField.disabled = true;
     }
+    clearDropdowns();
+
 }
 
 async function getClient(cedula) {
@@ -148,10 +159,11 @@ async function registerTicket(cedula) {
 
         // Parse the response from the server
         const result = await response.json();
+        console.log(result);
+        idField.value = result.user.id;
 
         if (response.ok) {
-            // Handle successful registration
-            console.log('Registro exitoso:', result);
+            console.log('Registro exitoso');
         } else {
             // Handle server-side validation errors
             console.error('Error en el registro:', result);
@@ -163,6 +175,48 @@ async function registerTicket(cedula) {
     }
 }
 
+
+async function updateTicket() {
+    let descripcion = ' ';
+    if (descripcionField.value !== '') {
+        descripcion = descripcionField.value;
+    }
+    const resultado = resultadoField.value;
+    const id = idField.value;
+
+    // Prepare user data to be sent
+    const ticketData = {
+        id: id,
+        resultado: resultado,
+        descripcion: descripcion,
+    };
+
+    try {
+        // Send a POST request to your registration API
+        const response = await fetch(`api/atp/updateTicketPresencial`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ticketData), // Convert user data to JSON string
+        });
+
+        // Parse the response from the server
+        const result = await response.json();
+
+        if (response.ok) {
+            // Handle successful registration
+            console.log('Actualización exitoso:', result);
+        } else {
+            // Handle server-side validation errors
+            console.error('Error en la actualización:', result);
+        }
+    } catch (error) {
+        // Handle network or other errors
+        console.error('Error en la actualización:', error);
+        alert('Hubo un error en la actualización. Intente nuevamente más tarde.');
+    }
+}
 
 function connectToWebSockets() {
 
@@ -195,13 +249,13 @@ function connectToWebSockets() {
 }
 
 // Fetch and populate the dropdowns with tipo and subtipo data
-async function populateDropdowns() {
+async function populateTipoDropdowns() {
     try {
         // Fetch tipo data
         const tipoResponse = await fetch('api/incidencia/getAllTipoIncidencia');
         const { listaTipos, currentPage, totalPages } = await tipoResponse.json();
         // Populate tipo dropdown
-        const tipoDropdown = document.getElementById('dynamic-dropdown-tipo1');
+
         listaTipos.forEach(tipo => {
             const option = document.createElement('option');
             option.value = tipo.id;
@@ -209,42 +263,24 @@ async function populateDropdowns() {
             tipoDropdown.appendChild(option);
         });
 
-        // Fetch subtipo data based on selected tipo
-        tipoDropdown.addEventListener('change', async (event) => {
-            const idTipo = event.target.value;
 
-            // Fetch subtipo data
-            const subtipoResponse = await fetch(`api/incidencia/getAllSubTipoIncidenciaByTipoIncidencia?idTipo=${idTipo}`);
-            const { listaSubTipos, currentPage, totalPages } = await subtipoResponse.json();
-            console.log(listaSubTipos);
-            // Populate subtipo dropdown
-            const subtipoDropdown = document.getElementById('dynamic-dropdown-tipo2');
-            listaSubTipos.forEach(subtipo => {
-                const option = document.createElement('option');
-                option.value = subtipo.id;
-                option.textContent = subtipo.name;
-                subtipoDropdown.appendChild(option);
-            });
-
-        });
     } catch (error) {
         console.error('Error fetching dropdown data:', error);
     }
 }
 
 function populateFixedDropdown() {
-    const fixedDropdown = document.getElementById('dynamic-dropdown-tipo3');
     const fixedValues = [
-        { value: 'value1', text: 'Resuelto' },
-        { value: 'value2', text: 'Se fue' },
-        { value: 'value3', text: 'No Resuelto' }
+        { value: 'Resuelto', text: 'Resuelto' },
+        { value: 'Se fue', text: 'Se fue' },
+        { value: 'No Resuelto', text: 'No Resuelto' }
     ];
 
     fixedValues.forEach(item => {
         const option = document.createElement('option');
         option.value = item.value;
         option.textContent = item.text;
-        fixedDropdown.appendChild(option);
+        resultadoField.appendChild(option);
     });
 }
 
@@ -260,19 +296,56 @@ function clearDropdowns() {
 
 
 btnDraw.addEventListener('click', () => {
-    descripcionField.disabled = false;
-    clearDropdowns();
-    getTicket();
-    populateDropdowns();
-    populateFixedDropdown(); 
-});
-btnDone.addEventListener('click', () => {
-    descripcionField.disabled = true;
-    finishTicket();
-    clearDropdowns();
+    if (personInfoBox.style.display !== 'none') {
+        if (validateForm()) {
+            finishTicket();
+            getTicket();
+        }
+    } else {
+        getTicket();
+    }
 });
 
+btnDone.addEventListener('click', () => {
+    if (validateForm()) {
+        finishTicket();
+    }
+});
+
+tipoDropdown.addEventListener('change', async (event) => {
+    const idTipo = event.target.value;
+
+    const subtipoDropdown = document.getElementById('dynamic-dropdown-tipo2');
+
+    subtipoDropdown.innerHTML = '<option value="" disabled selected>Seleccione un subtipo</option>';
+
+    const subtipoResponse = await fetch(`api/incidencia/getAllSubTipoIncidenciaByTipoIncidencia?idTipo=${idTipo}`);
+    const { listaSubTipos, currentPage, totalPages } = await subtipoResponse.json();
+    listaSubTipos.forEach(subtipo => {
+        const option = document.createElement('option');
+        option.value = subtipo.id;
+        option.textContent = subtipo.name;
+        subtipoDropdown.appendChild(option);
+    });
+});
+
+function validateForm() {
+    const tipo1 = document.getElementById('dynamic-dropdown-tipo1').value;
+    const tipo2 = document.getElementById('dynamic-dropdown-tipo2').value;
+    const tipo3 = document.getElementById('dynamic-dropdown-tipo3').value;
+    const descripcion = document.getElementById('descripcion').value;
+
+    if (!tipo1 || !tipo2 || !tipo3 || !descripcion) {
+        alert('Todos los campos son obligatorios.');
+        return false;
+    } else {
+        console.log('Form is valid. Proceeding with action...');
+    }
+    return true;
+}
+
 descripcionField.disabled = true;
+btnDone.disabled = true;
 loadInitialCount();
 loadEnvs();
 connectToWebSockets();

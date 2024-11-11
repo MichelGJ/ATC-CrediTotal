@@ -11,7 +11,7 @@ const ticketPresencialSchema = new mongoose.Schema({
   },
   resultado: {
     type: String,
-    enum: ['Resuelto','No Resuelto','Se fue']
+    enum: ['Resuelto','No Resuelto','Se fue', 'Incompleto']
   },
   fechaInicio: {
     type: Date
