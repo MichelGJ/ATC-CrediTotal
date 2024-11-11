@@ -12,7 +12,7 @@ export class ValidateMiddleware {
             const cedula = req.body.cedula;
 
             // Regular expression for a cedula format (adjust based on your requirements)
-            const cedulaRegex = /^\d+$/;
+            const cedulaRegex = /^[A-Za-z]?\d+$/;
 
             if (!cedulaRegex.test(cedula)) {
                 return res.status(400).json({ error: 'Cédula incorrecta' });

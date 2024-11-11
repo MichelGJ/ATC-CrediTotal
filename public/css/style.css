@@ -155,7 +155,7 @@ table {
 }
 
 .generarButton {
-    margin-top: 40px;
+    margin-top: 30px;
     margin-bottom: 50px;
     background-color: #1ea51e;
     width: 100%;
@@ -481,6 +481,7 @@ table {
     margin-top:-30px;
     /* Allow buttons to wrap on smaller screens */
 }
+
 
 .option-button {
     max-width: 500px;

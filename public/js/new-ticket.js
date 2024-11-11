@@ -2,7 +2,8 @@ const currentTicketLbl = document.querySelector('#lbl-new-ticket');
 const currentCedulaLbl = document.querySelector('#lbl-new-cedula');
 const createTicketBtn = document.querySelector('#generateTicketBtn');
 const cedulaCliente = document.querySelector('#userId');
-const result = document.querySelector("#result-ticket")
+const prefixDropdown = document.querySelector('#prefixDropdown');
+const result = document.querySelector("#result-ticket");
 let timeoutId;
 
 async function getLastTicket() {
@@ -10,7 +11,9 @@ async function getLastTicket() {
 }
 
 async function createTicket() {
+    const prefix = prefixDropdown.value;
     const userId = cedulaCliente.value;
+    const fullId = prefix + userId;
 
     if (!userId) {
         alert('Por favor, ingrese su cédula de identidad.'); // Alert if userId is empty
@@ -24,7 +27,7 @@ async function createTicket() {
             headers: {
                 'Content-Type': 'application/json', // Set the content type to application/json
             },
-            body: JSON.stringify({ cedula: userId })
+            body: JSON.stringify({ cedula: fullId })
         });
 
         const result = await response.json();
@@ -56,10 +59,14 @@ async function createTicket() {
 }
 
 
-
 // createTicketBtn.addEventListener('click', createTicket);
 createTicketBtn.addEventListener('click', function (event) {
     event.preventDefault(); // Prevent form from submitting
+    const prefix = document.getElementById('prefixDropdown').value;
+    const userId = document.getElementById('userId').value;
+    const fullId = prefix + userId;
+
+    document.getElementById('result-ticket').style.display = 'block';
     createTicket(); // Call your custom function
 });
 

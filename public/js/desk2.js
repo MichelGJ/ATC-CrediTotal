@@ -6,6 +6,7 @@ const btnDraw = document.querySelector('#btn-draw');
 const btnDone = document.querySelector('#btn-done');
 const lblCurrentTicket = document.querySelector('#ticketNumber');
 const personInfoBox = document.getElementById('person-info');
+const descripcionField = document.getElementById('descripcion');
 const token = localStorage.getItem('token');
 
 const searchParams = new URLSearchParams(window.location.search);
@@ -259,15 +260,19 @@ function clearDropdowns() {
 
 
 btnDraw.addEventListener('click', () => {
+    descripcionField.disabled = false;
+    clearDropdowns();
     getTicket();
     populateDropdowns();
     populateFixedDropdown(); 
 });
 btnDone.addEventListener('click', () => {
+    descripcionField.disabled = true;
     finishTicket();
     clearDropdowns();
 });
 
+descripcionField.disabled = true;
 loadInitialCount();
 loadEnvs();
 connectToWebSockets();
