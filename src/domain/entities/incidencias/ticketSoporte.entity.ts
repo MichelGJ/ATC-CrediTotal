@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import { CustomError } from '../../errors/custom.error';
 import { TipoIncidenciaEntity } from './tipoIncidencia.entity';
 import { SubTipoIncidenciaEntity } from './subTipoIncidencia.entity';
@@ -8,11 +7,11 @@ import { UserEntity } from '../../';
 export class TicketSoporteEntity {
 
     constructor(
-        public tipoIncidenciaId: Types.ObjectId,
-        public subTipoIncidenciaId: Types.ObjectId,
+        public tipoIncidenciaId: string,
+        public subTipoIncidenciaId: string,
         public descripcion: string,
         public cedulaCliente: string,
-        public userId: Types.ObjectId,
+        public userId: string,
         public estatus: string,
         public fecha: Date,
         public tipoDetails?: TipoIncidenciaEntity,
@@ -37,6 +36,6 @@ export class TicketSoporteEntity {
         if (!fecha) throw CustomError.badRequest('Missing fecha');
 
         return new TicketSoporteEntity(tipoIncidenciaId, subTipoIncidenciaId, descripcion, cedulaCliente, userId, estatus,
-             fecha.toLocaleString("es-VE", {timeZone: "America/Caracas"}), tipoDetails, subTipoDetails, userDetails, _id || id);
+            fecha.toLocaleString("es-VE", { timeZone: "America/Caracas" }), tipoDetails, subTipoDetails, userDetails, _id || id);
     }
 }

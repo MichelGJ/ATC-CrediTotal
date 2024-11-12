@@ -35,8 +35,8 @@ async function registerTicket(event) {
 
     const descripcion = descripcionField.value.trim();
     const cedulaCliente = cedulaField.value.trim();
-    const tipo = dropdownTipo.value;
-    const subtipo = dropdownSubTipo.value;
+    const tipo = dropdownTipo.selectedOptions[0].textContent;
+    const subtipo = dropdownSubTipo.selectedOptions[0].textContent.trim();
 
     if (!token) {
         alert('Token no encontrado. Por favor, inicie sesión.');
@@ -51,7 +51,7 @@ async function registerTicket(event) {
         return;
     }
 
-    const userId = decodedToken.id;
+    const userId = decodedToken.name;
 
     const ticketData = {
         tipoIncidenciaId: tipo,

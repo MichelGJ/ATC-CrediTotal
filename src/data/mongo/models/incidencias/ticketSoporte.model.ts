@@ -4,14 +4,12 @@ import mongoose from 'mongoose';
 const ticketSoporteSchema = new mongoose.Schema({
 
   tipoIncidenciaId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: [true, 'tipoIncidenciaId is required'],
-    ref: 'Tipo_Incidencia'
   },
   subTipoIncidenciaId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: [true, 'subTipoIncidenciaId is required'],
-    ref: 'SubTipo_Incidencia'
   },
   descripcion: {
     type: String,
@@ -22,9 +20,8 @@ const ticketSoporteSchema = new mongoose.Schema({
     required: [true, 'cedulaCliente is required']
   },
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: [true, 'userId is required'],
-    ref: 'User'
   },
   estatus: {
     type: String,

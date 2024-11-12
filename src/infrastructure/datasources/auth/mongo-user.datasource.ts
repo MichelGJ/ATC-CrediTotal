@@ -31,7 +31,7 @@ export class MongoUserDatasource implements UserDatasource {
     user.set(userData);
 
     if (password) {
-      user.password = bcryptAdapter.hash(user.password);
+      user.password = bcryptAdapter.hash(password);
     }
 
     await user.save();
