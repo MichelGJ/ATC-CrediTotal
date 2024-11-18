@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 import path from 'path';
 import cors from 'cors';
+import { setupSwagger } from '../config/swagger.adapter';
 
 interface Options {
   port: number;
@@ -51,6 +52,7 @@ export class Server {
       res.sendFile(indexPath);
     });
 
+    setupSwagger(this.app); 
   }
 
   public setRoutes(router: Router) {
