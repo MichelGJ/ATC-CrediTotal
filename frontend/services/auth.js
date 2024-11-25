@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/router';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 const AuthContext = createContext();
 
@@ -16,6 +16,12 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const router = useRouter();
 
+    const logout = useCallback(() => {
+        localStorage.removeItem('token');
+        setUser(null);
+        router.push('/');
+    }, [router]);
+    
     useEffect(() => {
         const decodedToken = getTokenAndDecode();
         if (decodedToken) {
@@ -26,13 +32,9 @@ export const AuthProvider = ({ children }) => {
                 logout();
             }
         }
-    }, []);
+    }, [logout]);
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        setUser(null);
-        router.push('/');
-    };
+    
 
     const loginUser = async (email, password) => {
         const apiUrl = `http://localhost:3000/api/auth/login`;
@@ -104,3 +106,4 @@ const getUserById = async (id) => {
         throw new Error('Error fetching user data:', error);
     }
 };
+
