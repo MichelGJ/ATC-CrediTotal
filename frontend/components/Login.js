@@ -19,7 +19,7 @@ const Login = () => {
         if (isLoggedIn()) {
             router.push('/main-menu');
         }
-    }, []);
+    }, [isLoggedIn, router]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();

@@ -12,7 +12,7 @@ const MainMenu = () => {
 
     useEffect(() => {
         protectPage();
-    }, []);
+    }, [protectPage]);
 
     useEffect(() => {
         const enableOptionButton = async () => {
