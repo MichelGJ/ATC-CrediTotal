@@ -1,0 +1,654 @@
+html,
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #3aadca;
+    color: white;
+    margin: 0;
+    
+}
+
+.top-bar {
+    width: 100%;
+    background-color: #fafafa;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 2px -2px gray;
+    height: 80px;
+    justify-content: space-between;
+}
+
+#top-bar-desk {
+    margin-bottom: 20px;
+}
+
+
+
+.icon-small {
+    height: 20px;
+    /* Adjust the size of the icon */
+    width: auto;
+    /* Keep the aspect ratio intact */
+    margin-right: 5px;
+    /* Space between the icon and the text */
+}
+
+.body-index {
+    background-color: #3aadca;
+}
+
+.logo {
+    height: 100%;
+    /* Adjust the height to fit your design */
+    width: auto;
+    /* Keep the aspect ratio intact */
+}
+
+/* Style for the anchor tag wrapping the logo */
+.logo-link {
+    display: inline-block;
+    max-width: 150px;
+    /* Set a max width for the logo */
+    max-height: 50px;
+    /* Set a max height for the logo */
+}
+
+/* Ensure the image inside the anchor tag scales correctly */
+.logo-link img {
+    width: 100%;
+    height: auto;
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.ticket-current {
+    background-color: #f5a302;
+}
+
+.ticket-current-desk {
+    font-size: 80px;
+}
+
+
+.cedula-current-number {
+    font-size: 50px;
+}
+
+
+.ticket-current-number {
+    font-size: 50px;
+}
+
+.ticket-secondary-desk {
+    font-size: 40px;
+}
+
+.cedula-secondary {
+    font-size: 30px;
+}
+
+.ticket-secondary {
+    font-size: 25px;
+}
+
+#lbl-new-ticket {
+    font-size: auto;
+    color: #3aadca;
+}
+
+#lbl-new-cedula {
+    font-size: auto;
+    color: #3aadca;
+}
+
+#lbl-new-ticket-title {
+    color: #3aadca;
+    font-family: 'Pacifico';
+    /* Fun font */
+    font-size: 200%;
+    /* Bigger text */
+}
+
+.cedula-input {
+    max-width: 300px;
+    /* Set the maximum width of the input */
+    margin: 0 auto;
+    /* Center the input horizontally */
+    margin-top: 90px;
+    width: 100%;
+    margin-top: 10%;
+}
+
+#new-ticket-container {
+    border: 1px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    /* Set the maximum width of the input */
+    /* Center the input horizontally */
+    width: 100%;
+    height: 350px;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+#result-ticket {
+    border: 1px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 200px;
+    text-align: center;
+    background-color: #fafafa;
+  
+    /* Set the maximum width of the input */
+    /* Center the input horizontally */
+    width: 550px;
+
+}
+
+.generarButton {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    background-color: #1ea51e;
+    width: 100%;
+}
+
+
+#btn-draw {
+    background-color: #1ea51e;
+}
+
+#btn-done {
+    background-color: #a51e1e;
+}
+
+#separador,
+#cola,
+#ticket,
+#cedula,
+#cedulaCliente,
+#ticketNumber,
+#mesa,
+#lbl-pending,
+#mesaNumber {
+    color: #3aadca;
+}
+
+#desk-container {
+    border: 1px solid #ccc;
+    padding: 30px;
+    padding-top: 0px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    min-height: 100px;
+    background-color: #fafafa;
+}
+
+#person-info {
+    border: 1px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    height: 250px;
+    text-align: center;
+    background-color: #fafafa;
+    max-width: 800px;
+
+    width: 100%;
+    margin-top: 10px;
+    color:#000000;
+}
+
+#atc {
+    color: #3aadca;
+}
+
+#lbl-new-desk-title {
+    color: #3aadca;
+    font-family: 'Pacifico';
+    /* Fun font */
+    font-size: 250%;
+    /* Bigger text */
+}
+
+
+#crearTicketButton {
+    margin-left: 25px;
+    background-color: #1ea51e;
+}
+
+.ticket-current-number,
+.ticket-current-desk,
+.cedula-current-number {
+    position: relative;
+    /* Set relative positioning */
+    top: -90px;
+    /* Adjust this value to raise the spans */
+}
+
+.ticket-secondary,
+.ticket-secondary-desk,
+.cedula-secondary {
+    position: relative;
+    /* Set relative positioning */
+    top: -35px;
+    /* Adjust this value to raise the spans */
+}
+
+.secondary-table {
+    background-color: #3aadca;
+}
+
+.secondary-table td {
+    border-bottom: 1px solid #494949;
+    /* Light gray line */
+    padding: 10px;
+    /* Add padding for better spacing */
+}
+
+/* Optional: style for the entire table */
+table {
+    border-collapse: collapse;
+    /* Makes borders between cells appear as one line */
+    width: 100%;
+    /* Ensures the table spans the full width */
+}
+
+.body-login {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3aadca;
+    margin: 0;
+}
+
+.login-container {
+    border: 1px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: 550px;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+
+.logo-box-login {
+    text-align: center;
+    margin-bottom: 5%;
+    font-weight: bold;
+}
+
+.logo-login {
+    margin-top: 5%;
+    max-width: 100%;
+    /* Ensures the logo fits within the container */
+    height: auto;
+    /* Maintains the aspect ratio */
+    max-height: 100px;
+    /* Set a maximum height to avoid it being too large */
+}
+
+.form-control {
+    margin-bottom: 5%;
+    border-radius: 5px;
+}
+
+.btn-register,
+.btn-login {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.btn-register {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.btn-public {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-top: 10%;
+    background-color: #f5a302;
+    border-color: #f5a302;
+}
+
+.btn-new-ticket {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-top: 10%;
+    margin-left: 10%;
+    background-color: #3aadca;
+    border-color: #3aadca;
+}
+
+.extra-links {
+    display: flex;
+    justify-content: right;
+    font-size: 0.9rem;
+}
+
+.extra-links a {
+    margin-top: 0%;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.extra-links a:hover {
+    text-decoration: underline;
+}
+
+.registration-container {
+    max-width: 600px;
+    width: 100%;
+    margin: 50px auto;
+    /* Center the box */
+    padding: 20px;
+    background-color: #fafafa;
+    /* Light background color */
+    border: 1px solid #fafafa;
+    /* Border around the box */
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+
+/* Input field spacing and styling */
+.registration-container .form-control {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Aligning the form title */
+.registration-container h3 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #3aadca;
+}
+
+#dynamic-dropdown-tipo,
+#dynamic-dropdown-subtipo,
+#dynamic-dropdown {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+
+
+.user-container {
+    max-width: 1300px;
+    width: 100%;
+    margin: 50px auto;
+    /* Center the box */
+    padding: 20px;
+    background-color: #fafafa;
+    border: 1px solid #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+
+.user-table {
+    max-width: 1300px;
+    width: 100%;
+}
+
+.ticket-table {
+    width: 1300px;
+    width: 100%;
+}
+
+/* Apply word-wrap and overflow-wrap properties to the description column cells */
+.ticket-table td {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Set a specific max-width for the description column if needed */
+.ticket-table td:nth-child(3) {
+    /* Adjust 'nth-child(3)' if the description column position changes */
+    max-width: 300px;
+    /* Set to your preferred width */
+    white-space: normal;
+    /* Allow text to wrap onto new lines */
+}
+
+/* Set a specific max-width for the description column if needed */
+.ticket-table td:nth-child(4) {
+    /* Adjust 'nth-child(3)' if the description column position changes */
+    max-width: 100px;
+    /* Set to your preferred width */
+    white-space: normal;
+    /* Allow text to wrap onto new lines */
+}
+
+
+#acciones {
+    width: 10%;
+}
+
+#acciones-tiposIncidencia {
+    width: 33%;
+}
+
+.card-header {
+    height: 60px;
+}
+
+/* Table styles for better readability */
+.users-table th,
+.users-table td {
+    vertical-align: middle;
+    /* Center align text vertically */
+}
+
+#userSearchInput {
+    margin-top: 5%;
+}
+
+.btn-pagination {
+    background-color: #3aadca;
+    border-color: #3aadca;
+}
+
+.btn-pagination.active,
+.btn-pagination:hover {
+    background-color: #f5a302;
+    border-color: #f5a302;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    flex-wrap: wrap;
+    margin-top:5px;
+    /* Allow buttons to wrap on smaller screens */
+}
+
+
+.option-button {
+    max-width: 500px;
+    /* Set a max-width */
+    width: 100%;
+    /* Allow it to grow to fill space */
+    height: 250px;
+    /* Fixed height for all buttons */
+    position: relative;
+    /* Necessary for positioning the text overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid #000;
+    margin: 20px;
+    /* Margin for spacing */
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    background-color: #fafafa;
+    overflow: hidden;
+    /* Ensure content stays inside */
+    transition: transform 0.3s ease;
+    /* Smooth transition for hover effect */
+}
+
+.option-button:hover {
+    transform: scale(1.2);
+    /* Slightly enlarge on hover */
+}
+
+
+
+.atp-logo {
+    margin-bottom: 30px;
+    height: 90%;
+    /* Adjust the height to fit your design */
+    width: 99%;
+    /* Keep the aspect ratio intact */
+}
+
+.usuarios-logo {
+    margin-bottom: 30px;
+    height: 80%;
+    /* Adjust the height to fit your design */
+    width: 80%;
+    /* Keep the aspect ratio intact */
+}
+
+.reportar-logo {
+    margin-left: 30px;
+    margin-bottom: 30px;
+    height: 80%;
+    /* Adjust the height to fit your design */
+    width: 40%;
+    /* Keep the aspect ratio intact */
+}
+
+.gestionIncidencias-logo {
+    margin-left: 15px;
+    margin-bottom: 30px;
+    height: 80%;
+    /* Adjust the height to fit your design */
+    width: 40%;
+    /* Keep the aspect ratio intact */
+}
+
+.listaTicket-logo {
+    margin-left: 15px;
+    margin-bottom: 30px;
+    height: 80%;
+    /* Adjust the height to fit your design */
+    width: 65%;
+    /* Keep the aspect ratio intact */
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.text-overlay {
+    margin-top: 200px;
+    position: absolute;
+    color: #000000;
+    /* Text color */
+    width: 100%;
+    /* Ensure it takes the full width of the button */
+    height: 100%;
+    /* Ensure it takes the full height of the button */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    /* Ensure text is on top */
+}
+
+.logout-btn {
+    background-color: #f44336;
+    /* Red color for logout */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    position: absolute;
+    right: 20px;
+    /* Align to the right */
+    top: 20px;
+    border-radius: 5px;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+    /* Darker red on hover */
+}
+
+
+.back-btn {
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: absolute;
+    left: 180px;
+    /* Align to the right */
+    top: 15px;
+    display: inline-block;
+    background-color: transparent;
+    /* Modern blue button */
+    color: white;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn img {
+    width: 30px;
+    height: 100%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+#subtipos-button {
+    background-color: #3aadca;
+    border-color: #3aadca;
+}
+
+/* #goBack-button{
+    margin-right: 400px;
+} */
+
+#descripcion {
+    height:150px;
+    resize: none; /* Disables manual resizing */
+    overflow-x: hidden; /* Hides horizontal overflow */
+    white-space: normal; /* Allows text wrapping */
+    word-wrap: break-word; /* Breaks long words onto the next line */
+}
+
+#dynamic-dropdown-tipo3,
+#dynamic-dropdown-tipo2,
+#dynamic-dropdown-tipo1{
+    margin-top: 20px;
+}
