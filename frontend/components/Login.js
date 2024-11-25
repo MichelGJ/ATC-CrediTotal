@@ -6,12 +6,14 @@ import {useRouter} from 'next/router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import Script from 'next/script';
 import '../styles/style.css';
+import { useAuth } from '../services/auth';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const router = useRouter();
+    const { loginUser, isLoggedIn } = useAuth();
 
     useEffect(() => {
         if (isLoggedIn()) {
@@ -35,37 +37,37 @@ const Login = () => {
         }
     };
 
-    const loginUser = async (email, password) => {
-        const apiUrl = `http://localhost:3000/api/auth/login`;
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            });
+    // const loginUser = async (email, password) => {
+    //     const apiUrl = `http://localhost:3000/api/auth/login`;
+    //     try {
+    //         const response = await fetch(apiUrl, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 email: email,
+    //                 password: password
+    //             })
+    //         });
 
-            const data = await response.json();
+    //         const data = await response.json();
 
-            if (response.ok) {
-                localStorage.setItem('token', data.token);
-                router.push('/main-menu');
-            } else {
-                setError('Usuario o contraseña errada');
-            }
-        } catch (error) {
-            setError('Error de comunicacion');
-        }
-    };
+    //         if (response.ok) {
+    //             localStorage.setItem('token', data.token);
+    //             router.push('/main-menu');
+    //         } else {
+    //             setError('Usuario o contraseña errada');
+    //         }
+    //     } catch (error) {
+    //         setError('Error de comunicacion');
+    //     }
+    // };
 
-    const isLoggedIn = () => {
-        const token = localStorage.getItem('token');
-        return !!token;
-    };
+    // const isLoggedIn = () => {
+    //     const token = localStorage.getItem('token');
+    //     return !!token;
+    // };
     
     return (
         <div className="body-login">

@@ -1,19 +1,25 @@
-import {jwtDecode} from 'jwt-decode';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
 
+const getTokenAndDecode = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    return jwtDecode(token);
+};
+
 export const AuthProvider = ({ children }) => {
+
     const [user, setUser] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            const decodedToken = jwtDecode(token);
+        const decodedToken = getTokenAndDecode();
+        if (decodedToken) {
             const currentTime = Date.now() / 1000;
-
             if (decodedToken.exp > currentTime) {
                 getUserById(decodedToken.id).then(setUser);
             } else {
@@ -28,11 +34,42 @@ export const AuthProvider = ({ children }) => {
         router.push('/');
     };
 
-    const isLoggedIn = () => {
-        const token = localStorage.getItem('token');
-        if (!token) return false;
+    const loginUser = async (email, password) => {
+        const apiUrl = `http://localhost:3000/api/auth/login`;
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
 
-        const decodedToken = jwtDecode(token);
+            const data = await response.json();
+
+
+            if (response.ok) {
+                localStorage.setItem('token', data.token);
+                const decodedToken = getTokenAndDecode();
+                const userData = await getUserById(decodedToken.id); // Use a new variable
+                setUser(userData);
+                router.push('/main-menu');
+            } else {
+                throw new Error('Usuario o contraseña errada');
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error('Error de comunicacion');
+        }
+    };
+
+    const isLoggedIn = () => {
+        const decodedToken = getTokenAndDecode();
+        if (!decodedToken) return false;
+
         const currentTime = Date.now() / 1000;
 
         return decodedToken.exp > currentTime;
@@ -45,7 +82,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, logout, isLoggedIn, protectPage }}>
+        <AuthContext.Provider value={{ user, logout, isLoggedIn, protectPage, loginUser }}>
             {children}
         </AuthContext.Provider>
     );
@@ -66,49 +103,4 @@ const getUserById = async (id) => {
     } catch (error) {
         throw new Error('Error fetching user data:', error);
     }
-};
-
-export const useInjectLogoutButton = () => {
-    const { logout } = useAuth();
-    useEffect(() => {
-        const topBars = document.getElementsByClassName('top-bar');
-
-        if (topBars.length > 0) {
-            const logoutButton = document.createElement('button');
-            logoutButton.id = 'logout-button';
-            logoutButton.classList.add('logout-btn');
-            logoutButton.innerText = 'Cerrar Sesión';
-
-            const backButton = document.createElement('button');
-            const img = document.createElement('img');
-            img.src = '/images/goback.png';
-            backButton.id = 'back-button';
-            backButton.classList.add('back-btn');
-            backButton.prepend(img);
-
-            Array.from(topBars).forEach(topBar => {
-                topBar.appendChild(backButton);
-                topBar.appendChild(logoutButton);
-
-                const logo = topBar.querySelector('.logo');
-                if (logo) {
-                    const logoLink = document.createElement('a');
-                    logoLink.href = '/main-menu';
-                    logoLink.classList.add('logo-link');
-                    logoLink.appendChild(logo.cloneNode(true));
-                    logo.replaceWith(logoLink);
-                }
-            });
-
-            logoutButton.addEventListener('click', () => {
-                logout();
-            });
-
-            backButton.addEventListener('click', () => {
-                window.history.back();
-            });
-        } else {
-            console.error('No top bars found with the class "top-bar"');
-        }
-    }, []);
 };

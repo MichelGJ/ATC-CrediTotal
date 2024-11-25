@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import { useAuth, useInjectLogoutButton } from '../services/auth';
+import { useAuth } from '../services/auth';
+import { useInjectLogoutButton } from '../hooks/useInjectLogoutButton';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const MainMenu = () => {
     const router = useRouter();
@@ -10,7 +12,11 @@ const MainMenu = () => {
 
     useEffect(() => {
         protectPage();
+    }, []);
+
+    useEffect(() => {
         const enableOptionButton = async () => {
+
             if (user) {
                 const userPermisos = user.roleDetails.permisos || [];
                 const buttonsContainer = document.querySelector(".buttons-container");
@@ -56,21 +62,21 @@ const MainMenu = () => {
             </Head>
 
             <div className="top-bar">
-                <Image src="/images/banner.png" alt="Company Logo" className="logo" width={500} height={150} />
+                <img src="/images/banner.png" alt="Company Logo" className="logo" />
             </div>
 
             <div className="buttons-container">
-                <div className="option-button atp-option hidden" id="atp-button" onClick={() => handleButtonClick('desk1.html')}>
+                <div className="option-button atp-option hidden" id="atp-button" onClick={() => handleButtonClick('desk1')}>
                     <div className="text-overlay">Atención presencial</div>
-                    <Image src="/images/atp.png" className="atp-logo" alt="Atención presencial" width={100} height={100} />
+                    <img src="/images/atp.png" className="atp-logo" alt="Atención presencial" />
                 </div>
-                <div className="option-button reportar-option hidden" id="incidencias-button" onClick={() => handleButtonClick('menu-incidencias.html')}>
+                <div className="option-button reportar-option hidden" id="incidencias-button" onClick={() => handleButtonClick('menu-incidencias')}>
                     <div className="text-overlay">Incidencias</div>
-                    <Image src="/images/incident.png" className="reportar-logo" alt="Incidencias" width={100} height={100} />
+                    <img src="/images/incident.png" className="reportar-logo" alt="Incidencias" />
                 </div>
-                <div className="option-button usuarios-option hidden" id="usuarios-button" onClick={() => handleButtonClick('list-users.html')}>
+                <div className="option-button usuarios-option hidden" id="usuarios-button" onClick={() => handleButtonClick('list-users')}>
                     <div className="text-overlay">Gestión de usuarios</div>
-                    <Image src="/images/users.png" className="usuarios-logo" alt="Gestión de usuarios" width={100} height={100} />
+                    <img src="/images/users.png" className="usuarios-logo" alt="Gestión de usuarios" />
                 </div>
             </div>
         </div>
