@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error);
-            throw new Error('Error de comunicacion');
+            throw new Error('Error de comunicación');
         }
     };
 

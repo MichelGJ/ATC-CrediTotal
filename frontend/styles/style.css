@@ -280,7 +280,7 @@ table {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 500px;
-    height: 550px;
+    height: 500px;
     text-align: center;
     background-color: #fafafa;
 }
@@ -307,15 +307,15 @@ table {
     border-radius: 5px;
 }
 
-.btn-register,
 .btn-login {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
 }
 
 .btn-register {
     margin-top: 20px;
     width: 100%;
+    margin-bottom: 15px;
 }
 
 .btn-public {

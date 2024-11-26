@@ -24,16 +24,15 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Perform login logic here
-        console.log('Email:', email);
-        console.log('Password:', password);
-
-        // Example: Set error message if login fails
         if (email === '' || password === '') {
             setError('Por favor introducir correo y contraseña.');
         } else {
             setError('');
-            await loginUser(email, password);
+            try {
+                await loginUser(email, password);
+            } catch (error) {
+                setError(error.message);
+            }
         }
     };
     
@@ -72,9 +71,6 @@ const Login = () => {
                         <small id="invalidLoginHelp" className="form-text text-danger">{error}</small>
                     </div>
                     <button type="submit" className="btn btn-primary btn-login">Acceder</button>
-                    <div className="extra-links">
-                        <a href="#">Olvide contraseña</a>
-                    </div>
                     <div className="d-flex justify-content-between mt-3">
                         <a className="btn btn-primary btn-public" href="public.html">Pantalla pública</a>
                         <a className="btn btn-primary btn-new-ticket" href="new-ticket.html">Crear Tickets</a>
