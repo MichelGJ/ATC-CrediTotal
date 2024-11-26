@@ -72,13 +72,13 @@ const Login = () => {
                     </div>
                     <button type="submit" className="btn btn-primary btn-login">Acceder</button>
                     <div className="d-flex justify-content-between mt-3">
-                        <a className="btn btn-primary btn-public" href="public.html">Pantalla pública</a>
+                        <a className="btn btn-primary btn-public" href="public">Pantalla pública</a>
                         <a className="btn btn-primary btn-new-ticket" href="new-ticket.html">Crear Tickets</a>
                     </div>
                 </form>
             </div>
 
-            {/* <Script src="/js/login.js" strategy="lazyOnload"></Script> */}
+
         </div>
     );
 };
