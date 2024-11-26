@@ -36,45 +36,12 @@ const Login = () => {
             await loginUser(email, password);
         }
     };
-
-    // const loginUser = async (email, password) => {
-    //     const apiUrl = `http://localhost:3000/api/auth/login`;
-    //     try {
-    //         const response = await fetch(apiUrl, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 email: email,
-    //                 password: password
-    //             })
-    //         });
-
-    //         const data = await response.json();
-
-    //         if (response.ok) {
-    //             localStorage.setItem('token', data.token);
-    //             router.push('/main-menu');
-    //         } else {
-    //             setError('Usuario o contraseña errada');
-    //         }
-    //     } catch (error) {
-    //         setError('Error de comunicacion');
-    //     }
-    // };
-
-    // const isLoggedIn = () => {
-    //     const token = localStorage.getItem('token');
-    //     return !!token;
-    // };
     
     return (
         <div className="body-login">
             <Head>
                 <title>Login</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
             </Head>
 
             <div className="login-container">

@@ -159,7 +159,7 @@ async function registerTicket(cedula) {
 
         // Parse the response from the server
         const result = await response.json();
-        console.log(result);
+        
         idField.value = result.user.id;
 
         if (response.ok) {
