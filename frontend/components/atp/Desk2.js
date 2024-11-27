@@ -47,7 +47,7 @@ const Desk2 = () => {
         };
 
         socket.onopen = () => {
-            console.log('Connected');
+            
         };
     }, []);
 

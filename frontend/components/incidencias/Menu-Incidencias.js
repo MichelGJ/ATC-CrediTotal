@@ -43,7 +43,7 @@ const MenuIncidencias = () => {
 
         const handleGestionIncidenciasClick = () => {
             if (isLoggedIn()) {
-                window.location.href = 'list-tipoIncidencia.html';
+                window.location.href = '/incidencias/list-tipoIncidencia';
             } else {
                 logout(); // Logout if token is expired
             }
@@ -51,7 +51,7 @@ const MenuIncidencias = () => {
 
         const handleReportarClick = () => {
             if (isLoggedIn()) {
-                window.location.href = 'add-ticketSoporte.html';
+                window.location.href = '/incidencias/add-ticketSoporte';
             } else {
                 logout(); // Logout if token is expired
             }
@@ -59,7 +59,7 @@ const MenuIncidencias = () => {
 
         const handleListaTicketsClick = () => {
             if (isLoggedIn()) {
-                window.location.href = 'list-ticketSoporte.html';
+                window.location.href = '/incidencias/list-ticketSoporte';
             } else {
                 logout(); // Logout if token is expired
             }
