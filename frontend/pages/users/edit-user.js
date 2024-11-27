@@ -1,4 +1,4 @@
-import EditUser from '../components/Edit-User';
+import EditUser from '../../components/users/Edit-User';
 
 const EditUserPage = ({ query }) => {
     const { id } = query;

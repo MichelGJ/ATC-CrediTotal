@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Import Bootstrap Icons
-import { useAuth } from '../services/auth';
-import { useInjectLogoutButton } from '../hooks/useInjectLogoutButton';
+import { useAuth } from '../../services/auth';
+import { useInjectLogoutButton } from '../../hooks/useInjectLogoutButton';
 
 const ListUsers = () => {
     const [users, setUsers] = useState([]);
@@ -11,7 +11,7 @@ const ListUsers = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const limit = 10; // Default users per page
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, protectPage } = useAuth();
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     const populateUserTable = useCallback(async (page = 1, searchQuery = '') => {
@@ -70,9 +70,10 @@ const ListUsers = () => {
     }, [populateUserTable]);
 
     useEffect(() => {
+        protectPage();
         populateUserTable();
         connectToWebSockets();
-    }, [connectToWebSockets, populateUserTable]);
+    }, [connectToWebSockets, populateUserTable, protectPage]);
 
    
 
@@ -99,7 +100,7 @@ const ListUsers = () => {
     };
 
     const handleEdit = (userId) => {
-        window.location.href = `/edit-user?id=${userId}`;
+        window.location.href = `/users/edit-user?id=${userId}`;
     };
 
     const deleteUserById = async (id) => {

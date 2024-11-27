@@ -74,7 +74,7 @@ const MainMenu = () => {
                     <div className="text-overlay">Incidencias</div>
                     <img src="/images/incident.png" className="reportar-logo" alt="Incidencias" />
                 </div>
-                <div className="option-button usuarios-option hidden" id="usuarios-button" onClick={() => handleButtonClick('list-users')}>
+                <div className="option-button usuarios-option hidden" id="usuarios-button" onClick={() => handleButtonClick('users/list-users')}>
                     <div className="text-overlay">Gestión de usuarios</div>
                     <img src="/images/users.png" className="usuarios-logo" alt="Gestión de usuarios" />
                 </div>

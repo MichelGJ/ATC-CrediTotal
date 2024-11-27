@@ -2,10 +2,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/style.css';
-import { useInjectLogoutButton } from '../hooks/useInjectLogoutButton';
+import { useAuth } from '../../services/auth';
+import { useInjectLogoutButton } from '../../hooks/useInjectLogoutButton';
 
-const EditUser = ({ userId }) => {
+const AddUsers = () => {
     const [fullName, setFullName] = useState('');
     const [cedulaUsuario, setCedulaUsuario] = useState('');
     const [role, setRole] = useState('');
@@ -14,13 +14,22 @@ const EditUser = ({ userId }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [roles, setRoles] = useState([]);
     const [passwordHelp, setPasswordHelp] = useState('');
+    const [cedulaHelp, setCedulaHelp] = useState('');
     const [emailHelp, setEmailHelp] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
-    const [cedulaHelp, setCedulaHelp] = useState('');
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     const allowedDomains = ['totalmundo.com', 'creditotal.com'];
+    const { protectPage } = useAuth();
+
+
+    const validateForm = useCallback(() => {
+        const isValid = fullName && cedulaUsuario && role && email && password && confirmPassword && !passwordHelp && !emailHelp && !cedulaHelp;
+        setIsFormValid(isValid);
+    }, [fullName, cedulaUsuario, role, email, password, confirmPassword, passwordHelp, emailHelp, cedulaHelp]);
+
 
     useEffect(() => {
+        protectPage();
         // Fetch roles from the backend and populate the dropdown
         const fetchRoles = async () => {
             try {
@@ -32,32 +41,13 @@ const EditUser = ({ userId }) => {
             }
         };
 
-        // Fetch user data from the backend
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch(`${backendUrl}/api/auth/getUserById/${userId}`);
-                const data = await response.json();
-                setFullName(data.name);
-                setCedulaUsuario(data.cedula);
-                setRole(data.role);
-                setEmail(data.email);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-
         fetchRoles();
-        fetchUserData();
-    }, [backendUrl, userId]);
-
-    const validateForm = useCallback(() => {
-        const isValid = fullName && cedulaUsuario && role && email && (!password || password === confirmPassword) && !passwordHelp && !emailHelp && !cedulaHelp;
-        setIsFormValid(isValid);
-    }, [fullName, cedulaUsuario, role, email, password, confirmPassword, passwordHelp, emailHelp, cedulaHelp]);
+    }, [backendUrl,protectPage]);
 
     useEffect(() => {
         validateForm();
     }, [fullName, cedulaUsuario, role, email, password, confirmPassword, validateForm]);
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -68,7 +58,6 @@ const EditUser = ({ userId }) => {
         }
 
         const userData = {
-            id: userId,
             name: fullName,
             cedula: cedulaUsuario,
             email: email,
@@ -77,8 +66,8 @@ const EditUser = ({ userId }) => {
         };
 
         try {
-            const response = await fetch(`${backendUrl}/api/auth/updateUser/${userId}`, {
-                method: 'PUT',
+            const response = await fetch(`${backendUrl}/api/auth/register`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -88,18 +77,29 @@ const EditUser = ({ userId }) => {
             const result = await response.json();
 
             if (response.ok) {
-                alert('Usuario actualizado con éxito');
+                // Registration successful, clear form fields
+                setFullName('');
+                setCedulaUsuario('');
+                setRole('');
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+                setPasswordHelp('');
+                setEmailHelp('');
+                alert('Registro exitoso!');
                 window.location.href = '/list-users';
             } else {
-                alert(`Error actualizando el usuario: ${result.error || 'Error desconocido'}`);
+                // Handle server-side validation errors
+                alert(`Error en el registro: ${result.error || 'Error desconocido'}`);
                 setPassword('');
                 setConfirmPassword('');
                 setPasswordHelp('');
                 setEmailHelp('');
             }
         } catch (error) {
-            console.error('Error actualizando el usuario:', error);
-            alert('Hubo un error actualizando el usuario. Intente nuevamente más tarde.');
+            // Handle network or other errors
+            console.error('Error en el registro:', error);
+            alert('Hubo un error en el registro. Intente nuevamente más tarde.');
             setPassword('');
             setConfirmPassword('');
             setPasswordHelp('');
@@ -158,11 +158,11 @@ const EditUser = ({ userId }) => {
     };
 
     useInjectLogoutButton();
-
+    
     return (
         <div>
             <Head>
-                <title>Editar Usuario</title>
+                <title>Registro de Usuario</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             </Head>
 
@@ -172,7 +172,7 @@ const EditUser = ({ userId }) => {
 
             <div className="registration-container">
                 <form id="register-form" onSubmit={handleSubmit}>
-                    <h3 className="mb-4 text-center">Editar Usuario</h3>
+                    <h3 className="mb-4 text-center">Registro de Usuario</h3>
                     <div className="mb-3">
                         <input
                             type="text"
@@ -231,6 +231,7 @@ const EditUser = ({ userId }) => {
                             placeholder="Contraseña"
                             value={password}
                             onChange={handlePasswordChange}
+                            required
                         />
                     </div>
                     <div className="mb-3">
@@ -241,11 +242,12 @@ const EditUser = ({ userId }) => {
                             placeholder="Confirmar contraseña"
                             value={confirmPassword}
                             onChange={handleConfirmPasswordChange}
+                            required
                         />
                         <small id="passwordHelp" className="form-text text-danger">{passwordHelp}</small>
                     </div>
                     <button type="submit" className="btn btn-primary btn-register w-100" disabled={!isFormValid}>
-                        Guardar
+                        Registrar
                     </button>
                 </form>
             </div>
@@ -253,4 +255,4 @@ const EditUser = ({ userId }) => {
     );
 };
 
-export default EditUser;
+export default AddUsers;

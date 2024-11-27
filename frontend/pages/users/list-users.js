@@ -1,5 +1,5 @@
 import React from 'react';
-import ListUsers from '../components/List-Users';
+import ListUsers from '../../components/users/List-Users';
 
 const   ListUsersPage = () => {
     return <ListUsers />;
