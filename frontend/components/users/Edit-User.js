@@ -79,7 +79,7 @@ const EditUser = ({ userId }) => {
         };
 
         try {
-            const response = await fetch(`${backendUrl}/api/auth/updateUser/${userId}`, {
+            const response = await fetch(`${backendUrl}/api/auth/updateUser/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const EditUser = ({ userId }) => {
 
             if (response.ok) {
                 alert('Usuario actualizado con éxito');
-                window.location.href = '/list-users';
+                window.location.href = '/users/list-users';
             } else {
                 alert(`Error actualizando el usuario: ${result.error || 'Error desconocido'}`);
                 setPassword('');

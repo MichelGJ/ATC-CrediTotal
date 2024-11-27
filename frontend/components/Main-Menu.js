@@ -70,7 +70,7 @@ const MainMenu = () => {
                     <div className="text-overlay">Atención presencial</div>
                     <img src="/images/atp.png" className="atp-logo" alt="Atención presencial" />
                 </div>
-                <div className="option-button reportar-option hidden" id="incidencias-button" onClick={() => handleButtonClick('menu-incidencias')}>
+                <div className="option-button reportar-option hidden" id="incidencias-button" onClick={() => handleButtonClick('incidencias/menu-incidencias')}>
                     <div className="text-overlay">Incidencias</div>
                     <img src="/images/incident.png" className="reportar-logo" alt="Incidencias" />
                 </div>

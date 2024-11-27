@@ -87,7 +87,7 @@ const AddUsers = () => {
                 setPasswordHelp('');
                 setEmailHelp('');
                 alert('Registro exitoso!');
-                window.location.href = '/list-users';
+                window.location.href = '/users/list-users';
             } else {
                 // Handle server-side validation errors
                 alert(`Error en el registro: ${result.error || 'Error desconocido'}`);
