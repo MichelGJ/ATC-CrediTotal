@@ -20,7 +20,7 @@ const Desk2 = () => {
     const [workingTicket, setWorkingTicket] = useState(null);
     const [personInfo, setPersonInfo] = useState('');
     const [envsData, setEnvsData] = useState({});
-    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [token, setToken] = useState();
     const [isDescripcionDisabled, setIsDescripcionDisabled] = useState(true);
     const router = useRouter();
     const { protectPage } = useAuth();
@@ -60,6 +60,7 @@ const Desk2 = () => {
             router.push('/');
             throw new Error('Mesa es requerida');
         }
+        setToken(localStorage.getItem('token'));
         const deskNumber = searchParams.get('mesa');
         setMesaNumber(deskNumber);
         loadInitialCount();

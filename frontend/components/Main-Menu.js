@@ -11,6 +11,7 @@ const MainMenu = () => {
     const { user, isLoggedIn, logout, protectPage } = useAuth();
 
     useEffect(() => {
+        console.log('Environment Variables:', process.env.NEXT_PUBLIC_BACKEND_URL);
         protectPage();
     }, [protectPage]);
 
