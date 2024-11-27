@@ -19,11 +19,11 @@ const Desk2 = () => {
     const [pendingTickets, setPendingTickets] = useState(0);
     const [workingTicket, setWorkingTicket] = useState(null);
     const [personInfo, setPersonInfo] = useState('');
-    const [envsData, setEnvsData] = useState({});
     const [token, setToken] = useState();
     const [isDescripcionDisabled, setIsDescripcionDisabled] = useState(true);
     const router = useRouter();
     const { protectPage } = useAuth();
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     const connectToWebSockets = useCallback(() => {
         const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
@@ -53,6 +53,7 @@ const Desk2 = () => {
         };
     }, []);
 
+
     useEffect(() => {
         protectPage();
         const searchParams = new URLSearchParams(window.location.search);
@@ -63,24 +64,19 @@ const Desk2 = () => {
         setToken(localStorage.getItem('token'));
         const deskNumber = searchParams.get('mesa');
         setMesaNumber(deskNumber);
+
+        const loadInitialCount = async () => {
+            const pendingTickets = await fetch(`${backendUrl}/api/ticket/pending`).then(resp => resp.json());
+            setPendingTickets(pendingTickets.length);
+        };
+
         loadInitialCount();
-        loadEnvs();
         connectToWebSockets();
-    }, [protectPage, router, connectToWebSockets]);
+    }, [protectPage, router, connectToWebSockets, backendUrl]);
 
-    const loadInitialCount = async () => {
-        const pendingTickets = await fetch('http://localhost:3000/api/ticket/pending').then(resp => resp.json());
-        setPendingTickets(pendingTickets.length);
-    };
-
-    const loadEnvs = async () => {
-        const envs = await fetch(`http://localhost:3000/api/envs/`);
-        const data = await envs.json();
-        setEnvsData(data);
-    };
 
     const getTicket = async () => {
-        const { status, ticket, message } = await fetch(`http://localhost:3000/api/ticket/draw/${mesaNumber}`).then(resp => resp.json());
+        const { status, ticket, message } = await fetch(`${backendUrl}/api/ticket/draw/${mesaNumber}`).then(resp => resp.json());
         if (status === 'error') {
             setTicketNumber(message);
             setPersonInfo('....');
@@ -104,7 +100,7 @@ const Desk2 = () => {
                         <h5>Banco: ${cliente.domiciled_bank.name || ''}</h5>`
                         : ''}
                     <h5>Link Backoffice: 
-                        <a href="${envsData.CONSOLA_URL}${cliente.person.code || ''}" target="_blank">
+                        <a href="${process.env.NEXT_PUBLIC_CONSOLA_URL}${cliente.person.code || ''}" target="_blank">
                             ${cliente.person.code ? 'Ver Perfil' : ''}
                         </a>
                     </h5>
@@ -125,7 +121,7 @@ const Desk2 = () => {
 
     const finishTicket = async () => {
         if (!workingTicket) return;
-        const { status, message } = await fetch(`http://localhost:3000/api/ticket/done/${workingTicket.id}`, {
+        const { status, message } = await fetch(`${backendUrl}/api/ticket/done/${workingTicket.id}`, {
             method: 'PUT'
         }).then(resp => resp.json());
         if (status === 'error') {
@@ -146,11 +142,11 @@ const Desk2 = () => {
     };
 
     const getClient = async (cedula) => {
-        const response = await fetch(envsData.API_URL + cedula, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + cedula, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': envsData.AUTH_API
+                'Authorization': process.env.NEXT_PUBLIC_AUTH_API
             },
         });
 
@@ -168,7 +164,7 @@ const Desk2 = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:3000/api/atp/registerTicketPresencial`, {
+            const response = await fetch(`${backendUrl}/api/atp/registerTicketPresencial`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -203,7 +199,7 @@ const Desk2 = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:3000/api/atp/updateTicketPresencial`, {
+            const response = await fetch(`${backendUrl}/api/atp/updateTicketPresencial`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -228,7 +224,7 @@ const Desk2 = () => {
 
     const populateTipoDropdowns = async () => {
         try {
-            const tipoResponse = await fetch('http://localhost:3000/api/incidencia/getAllTipoIncidencia');
+            const tipoResponse = await fetch(`${backendUrl}/api/incidencia/getAllTipoIncidencia`);
             const { listaTipos } = await tipoResponse.json();
             setDynamicOptions1(listaTipos.map(tipo => ({ value: tipo.id, label: tipo.name })));
         } catch (error) {
@@ -241,7 +237,7 @@ const Desk2 = () => {
         setDynamicOptions2([]); // Clear the subtipo dropdown
 
         try {
-            const subtipoResponse = await fetch(`http://localhost:3000/api/incidencia/getAllSubTipoIncidenciaByTipoIncidencia?idTipo=${idTipo}`);
+            const subtipoResponse = await fetch(`${backendUrl}/api/incidencia/getAllSubTipoIncidenciaByTipoIncidencia?idTipo=${idTipo}`);
             const { listaSubTipos } = await subtipoResponse.json();
             setDynamicOptions2(listaSubTipos.map(subtipo => ({ value: subtipo.id, label: subtipo.name })));
         } catch (error) {

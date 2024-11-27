@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Import Bootstrap Icons
 import { useAuth } from '../services/auth';
 import { useInjectLogoutButton } from '../hooks/useInjectLogoutButton';
@@ -16,7 +15,6 @@ const ListUsers = () => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     const populateUserTable = useCallback(async (page = 1, searchQuery = '') => {
-        console.log(backendUrl);
         const fetchData = async (page = 1, search = '') => {
             try {
                 const response = await fetch(`${backendUrl}/api/auth/getUsers?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`);
@@ -213,7 +211,7 @@ const ListUsers = () => {
                                         id="goBack-button"
                                         onClick={() => {
                                             if (isLoggedIn()) {
-                                                window.location.href = 'main-menu.html';
+                                                window.location.href = 'main-menu';
                                             } else {
                                                 logout();
                                             }
@@ -227,7 +225,7 @@ const ListUsers = () => {
                                         id="add-user-button"
                                         onClick={() => {
                                             if (isLoggedIn()) {
-                                                window.location.href = 'registration.html';
+                                                window.location.href = 'add-users';
                                             } else {
                                                 logout();
                                             }
