@@ -2,10 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/style.css';
-import { useAuth } from '../services/auth';
-import { useInjectLogoutButton } from '../hooks/useInjectLogoutButton';
+import { useAuth } from '../../services/auth';
+import { useInjectLogoutButton } from '../../hooks/useInjectLogoutButton';
 
 const Desk1 = () => {
     const [mesa, setMesa] = useState('');
@@ -19,7 +17,7 @@ const Desk1 = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        router.push(`/desk2?mesa=${mesa}`);
+        router.push(`/atp/desk2?mesa=${mesa}`);
     }
 
     useInjectLogoutButton();

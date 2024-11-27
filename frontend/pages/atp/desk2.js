@@ -1,5 +1,5 @@
 import React from 'react';
-import Desk2 from '../components/Desk2';
+import Desk2 from '../../components/atp/Desk2';
 
 const Desk2Page = () => {
     return <Desk2 />;

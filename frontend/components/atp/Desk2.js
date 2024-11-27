@@ -3,10 +3,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/style.css';
-import { useAuth } from '../services/auth';
-import { useInjectLogoutButton } from '../hooks/useInjectLogoutButton';
+import { useAuth } from '../../services/auth';
+import { useInjectLogoutButton } from '../../hooks/useInjectLogoutButton';
 import {jwtDecode} from 'jwt-decode';
 
 const Desk2 = () => {
