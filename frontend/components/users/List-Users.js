@@ -240,7 +240,7 @@ const ListUsers = () => {
                                         className="form-control"
                                         id="userSearchInput"
                                         type="text"
-                                        placeholder="Buscar tipo de incidencia..."
+                                        placeholder="Buscar usuario..."
                                         value={searchTerm}
                                         onChange={handleSearch}
                                     />

@@ -16,7 +16,7 @@ const AddTicketSoporte = () => {
     const [tipoText, setTipoText] = useState('');
     const [subTipoText, setSubtipoText] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
-    const { user, isLoggedIn, logout, protectPage } = useAuth();
+    const { logout, protectPage } = useAuth();
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     useEffect(() => {
