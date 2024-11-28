@@ -11,7 +11,6 @@ const MenuIncidencias = () => {
     useEffect(() => {
         protectPage();
         const enableOptionButton = async () => {
-
             if (user) {
                 const userPermisos = user.roleDetails.permisos || [];
                 const buttonsContainer = document.querySelector(".buttons-container");
