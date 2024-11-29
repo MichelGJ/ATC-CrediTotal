@@ -58,7 +58,7 @@ const ListSubTipoIncidencia = ({ idTipo }) => {
     }, [backendUrl]);
 
     const handleEdit = (idSubTipo) => {
-        window.location.href = `/incidencias/edit-subTipoIncidencia?id=${idSubTipo}&idTipo=${idTipo}`;
+        window.location.href = `/incidencias/edit-subTipoIncidencia?idSubTipo=${idSubTipo}&idTipo=${idTipo}`;
     };
 
     const handleDelete = async (idSubTipo) => {
