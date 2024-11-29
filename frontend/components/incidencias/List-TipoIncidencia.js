@@ -11,7 +11,7 @@ const ListTipoIncidencia = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const limit = 10; // Default items per page
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, protectPage } = useAuth();
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     const fetchTiposIncidencia = useCallback(async (page = 1, search = '') => {
@@ -132,9 +132,10 @@ const ListTipoIncidencia = () => {
     }, [populateTiposIncidenciaTable]);
 
     useEffect(() => {
+        protectPage();
         populateTiposIncidenciaTable();
         connectToWebSockets();
-    }, [populateTiposIncidenciaTable, connectToWebSockets]);
+    }, [populateTiposIncidenciaTable, connectToWebSockets, protectPage]);
 
 
     const handleSearch = (event) => {

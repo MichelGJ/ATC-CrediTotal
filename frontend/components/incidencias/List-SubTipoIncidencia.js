@@ -11,12 +11,11 @@ const ListSubTipoIncidencia = ({ idTipo }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const limit = 10; // Default items per page
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, protectPage } = useAuth();
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     const fetchSubTiposIncidencia = useCallback(async (idTipo, page = 1, search = '') => {
         try {
-            console.log("Aaaa"+idTipo);
             const response = await fetch(`${backendUrl}/api/incidencia/getAllSubTipoIncidenciaByTipoIncidencia?idTipo=${idTipo}&page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`);
             if (!response.ok) {
                 throw new Error(`Fetch failed with status ${response.status}`);
@@ -42,7 +41,7 @@ const ListSubTipoIncidencia = ({ idTipo }) => {
 
     const deleteSubTipoIncidenciaById = useCallback(async (id) => {
         try {
-            const response = await fetch(`${backendUrl}/api/incidencia/deleteTipoIncidenciaById/${id}`, {
+            const response = await fetch(`${backendUrl}/api/incidencia/deleteSubTipoIncidenciaById/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +80,7 @@ const ListSubTipoIncidencia = ({ idTipo }) => {
 
     const connectToWebSockets = useCallback(() => {
         const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-        const host = window.location.host;
+        const host = 'localhost:3000';
         const wsUrl = `${protocol}${host}/ws`;
 
         const socket = new WebSocket(wsUrl);
@@ -109,9 +108,10 @@ const ListSubTipoIncidencia = ({ idTipo }) => {
     }, [populateSubTiposIncidenciaTable, idTipo]);
 
     useEffect(() => {
+        protectPage();
         populateSubTiposIncidenciaTable(idTipo);
         connectToWebSockets();
-    }, [populateSubTiposIncidenciaTable, connectToWebSockets, idTipo]);
+    }, [populateSubTiposIncidenciaTable, connectToWebSockets, idTipo, protectPage]);
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
