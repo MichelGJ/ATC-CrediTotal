@@ -212,7 +212,7 @@ const ListUsers = () => {
                                         id="goBack-button"
                                         onClick={() => {
                                             if (isLoggedIn()) {
-                                                window.location.href = 'main-menu';
+                                                window.location.href = '/main-menu';
                                             } else {
                                                 logout();
                                             }
@@ -277,6 +277,7 @@ const ListUsers = () => {
                                                             >
                                                                 <i className="bi bi-trash"></i>
                                                             </button>
+                                                            <a>   </a>
                                                             <button
                                                                 className="btn btn-warning btn-sm edit-user"
                                                                 onClick={() => handleEdit(user.id)}

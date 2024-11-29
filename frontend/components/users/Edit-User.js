@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useAuth } from '../../services/auth';
 import { useInjectLogoutButton } from '../../hooks/useInjectLogoutButton';
 

@@ -75,20 +75,20 @@ const ListTipoIncidencia = () => {
         }
     }, [backendUrl, currentPage, totalPages]);
 
-    const handleEdit = (tipoId) => {
-        window.location.href = `/incidencias/edit-tipoIncidencia?id=${tipoId}`;
+    const handleEdit = (idTipo) => {
+        window.location.href = `/incidencias/edit-tipoIncidencia?id=${idTipo}`;
     };
 
 
-    const handleSubTipo = (tipoId) => {
-        window.location.href = `list-subTipoIncidencia?idTipo=${tipoId}`;
+    const handleSubTipo = (idTipo) => {
+        window.location.href = `list-subTipoIncidencia?idTipo=${idTipo}`;
     };
 
-    const handleDelete = async (tipoId) => {
+    const handleDelete = async (idTipo) => {
         if (confirm('¿Está seguro de eliminar este tipo de incidencia?')) {
             try {
-                const deleted = await deleteTipoIncidenciaById(tipoId);
-                await deleteSubTiposIncidenciaByTipoIncidencia(tipoId);
+                const deleted = await deleteTipoIncidenciaById(idTipo);
+                await deleteSubTiposIncidenciaByTipoIncidencia(idTipo);
                 if (deleted) {
                     populateTiposIncidenciaTable();
                 } else {
@@ -144,7 +144,7 @@ const ListTipoIncidencia = () => {
 
     const handleGoBack = () => {
         if (isLoggedIn()) {
-            window.location.href = 'menu-incidencias.html';
+            window.location.href = 'menu-incidencias';
         } else {
             logout();
         }
@@ -152,7 +152,7 @@ const ListTipoIncidencia = () => {
 
     const handleAddTipoIncidencia = () => {
         if (isLoggedIn()) {
-            window.location.href = 'add-tipoIncidencia.html';
+            window.location.href = 'add-tipoIncidencia';
         } else {
             logout();
         }
@@ -282,9 +282,11 @@ const ListTipoIncidencia = () => {
                                                             <button className="btn btn-danger btn-sm delete-user" onClick={() => handleDelete(tipo.id)}>
                                                                 <i className="bi bi-trash"></i>
                                                             </button>
+                                                            <a>   </a>
                                                             <button className="btn btn-warning btn-sm edit-user"  onClick={() => handleEdit(tipo.id)}>
                                                                 <i className="bi bi-pencil"></i>
                                                             </button>
+                                                            <a>   </a>
                                                             <button className="btn btn-primary btn-sm subtipos-button"  onClick={() => handleSubTipo(tipo.id)}>
                                                                 <i className="bi bi-folder-plus"></i>
                                                             </button>
