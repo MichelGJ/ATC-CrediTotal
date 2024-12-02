@@ -87,7 +87,7 @@ const ListTicketsSoporte = () => {
 
     const handleGoBack = () => {
         if (isLoggedIn()) {
-            window.location.href = 'menu-incidencias.html';
+            window.location.href = 'menu-incidencias';
         } else {
             logout();
         }
