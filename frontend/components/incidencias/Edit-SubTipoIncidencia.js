@@ -13,13 +13,11 @@ const EditSubTipoIncidencia = ({ idSubTipo, idTipo }) => {
 
     const fetchSubTipoIncidencia = useCallback(async () => {
         try {
-            console.log(idSubTipo);
             const response = await fetch(`${backendUrl}/api/incidencia/getSubTipoIncidenciaById/${idSubTipo}`);
             if (!response.ok) {
                 throw new Error(`Fetch failed with status ${response.status}`);
             }
             const data = await response.json();
-            
             setNombre(data.name);
         } catch (error) {
             console.error('Error fetching data:', error);

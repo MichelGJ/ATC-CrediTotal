@@ -76,7 +76,7 @@ const ListTipoIncidencia = () => {
     }, [backendUrl, currentPage, totalPages]);
 
     const handleEdit = (idTipo) => {
-        window.location.href = `/incidencias/edit-tipoIncidencia?id=${idTipo}`;
+        window.location.href = `/incidencias/edit-tipoIncidencia?idTipo=${idTipo}`;
     };
 
 
