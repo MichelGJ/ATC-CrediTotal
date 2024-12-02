@@ -76,7 +76,6 @@ function attachDeleteHandlers() {
                 try {
                     const deleted = await deleteTipoIncidenciaById(tipoId);
                     await deleteSubTiposIncidenciaByTipoIncidencia(tipoId);
-                    console.log(deleted)
                     if (deleted) {
                         populateTipoIncidenciaTable();
                     } else {
